@@ -2,9 +2,12 @@
 
 namespace App\Navbar;
 
+use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -50,13 +53,18 @@ final class NavbarBuilder
         foreach ($items as $item) {
             $navbarItem = new NavbarItem($item['title'], $item['path']);
 
+            // TODO credentials
+//            if (isset($item['credentials'])) {
+//                continue;
+//            }
+
             if (isset($item['icon'])) {
                 $navbarItem->setIcon($item['icon']);
             }
 
             try {
                 $path = $this->urlGenerator->generate($item['path']);
-                $is_active = substr($path, 0, strlen($path)) === $this->requestStack->getCurrentRequest()->getRequestUri();
+                $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
                 $navbarItem->setIsActive($is_active);
                 $navbar->add($navbarItem);
 
@@ -77,14 +85,9 @@ final class NavbarBuilder
         // TODO store into a config file
         $items = [
             [
-                'title' => 'navbar.home',
-                'path' => 'home',
-                'credentials' => 'ROLE_USER',
-            ],
-            [
                 'title' => 'navbar.admin',
                 'path' => 'admin',
-                'credentials' => 'ROLE_ADMIN',
+                'credentials' => User::ROLE_ADMIN,
             ],
         ];
 
@@ -99,13 +102,13 @@ final class NavbarBuilder
                 'title' => 'sidebar.admin-user',
                 'path' => 'admin_user',
                 'icon' => 'oi oi-person',
-                'credentials' => 'ROLE_ADMIN',
+                'credentials' => User::ROLE_ADMIN,
             ],
             [
                 'title' => 'sidebar.admin-reports',
                 'path' => 'admin_reports',
                 'icon' => 'oi oi-graph',
-                'credentials' => 'ROLE_ADMIN',
+                'credentials' => User::ROLE_ADMIN,
             ],
         ];
 

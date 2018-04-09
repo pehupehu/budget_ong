@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/navbar-top-fixed.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link href="{{ asset('build/open-iconic/font/css/open-iconic-bootstrap.css') }}" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block navbar %}
+    {{ renderNavbarTop() }}
+{% endblock navbar %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    {% block sidebar %}
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a href="{{ path('user') }}" class="nav-link active">
+                                    <span class="oi oi-person" aria-hidden="true"></span>
+                                    Utilisateurs
+                                </a>
+                                <a href="#" class="nav-link">
+                                    <span class="oi oi-graph" aria-hidden="true"></span>
+                                    Reports
+                                </a>
+                            </li>
+                        </ul>
+                    {% endblock sidebar %}
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                {% block main %}{% endblock main %}
+            </main>
+        </div>
+    </div>
+{% endblock body %}

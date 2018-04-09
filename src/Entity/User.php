@@ -136,6 +136,24 @@ class User implements UserInterface, \Serializable
         return [$this->role];
     }
 
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     * @return User
+     */
+    public function setIsActive(bool $isActive): User
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
     public function getSalt()
     {
         // you *may* need a real salt depending on your encoder

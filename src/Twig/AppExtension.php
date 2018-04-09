@@ -40,15 +40,24 @@ final class AppExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('renderNavbarTop', array($this, 'renderNavbarTop'), ['is_safe' => ['html' => true]])
+            new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
+            new \Twig_SimpleFunction('renderSidebarAdmin', array($this, 'renderSidebarAdmin'), ['is_safe' => ['html' => true]]),
         );
     }
 
-    public function renderNavbarTop()
+    public function renderNavbar()
     {
         return $this->twigEnvironment->render(
             'navbar.html.twig',
-            ['navbar' => $this->navBuilder->createNavbarTop()]
+            ['navbar' => $this->navBuilder->createNavbar()]
+        );
+    }
+
+    public function renderSidebarAdmin()
+    {
+        return $this->twigEnvironment->render(
+            'sidebar_admin.html.twig',
+            ['navbar' => $this->navBuilder->createSidebarAdmin()]
         );
     }
 }

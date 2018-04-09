@@ -20,7 +20,14 @@ class NavbarItem
     /** @var boolean */
     private $is_active;
 
-    public function __construct($title, $path, $icon = null, $is_active = true)
+    /**
+     * NavbarItem constructor.
+     * @param $title
+     * @param $path
+     * @param null $icon
+     * @param bool $is_active
+     */
+    public function __construct($title, $path, $icon = '', $is_active = false)
     {
         $this->setTitle($title);
         $this->setPath($path);
@@ -98,5 +105,18 @@ class NavbarItem
     {
         $this->is_active = $is_active;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return json_encode([
+            'title' => $this->getTitle(),
+            'path' => $this->getPath(),
+            'icon' => $this->getIcon(),
+            'is_active' => $this->isActive()
+        ]);
     }
 }

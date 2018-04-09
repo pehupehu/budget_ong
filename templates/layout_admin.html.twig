@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/navbar-top-fixed.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar-admin.css') }}">
+{% endblock stylesheets %}
+
+{% block navbar %}
+    {{ renderNavbar() }}
+{% endblock navbar %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                {{ renderSidebarAdmin() }}
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                {% block main %}{% endblock main %}
+            </main>
+        </div>
+    </div>
+{% endblock body %}

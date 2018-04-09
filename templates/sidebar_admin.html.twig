@@ -1,0 +1,14 @@
+<div class="sidebar-sticky">
+    <ul class="nav flex-column">
+        {% for item in navbar %}
+            <li class="nav-item {% if item.isActive %}active{% endif %}">
+                <a class="nav-link" href="{{ path(item.path) }}">
+                {% if item.icon != '' %}
+                    <span class="{{ item.icon }}" aria-hidden="true"></span>
+                {% endif %}
+                    {{ item.title|trans }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

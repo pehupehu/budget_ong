@@ -1,2 +1,7 @@
 navbar:
     navbar-brand: Budget
+    admin: Administration
+
+sidebar:
+    admin-user: Utilisateurs
+    admin-reports: Rapports

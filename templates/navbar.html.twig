@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">{{ 'navbar.navbar-brand'|trans }}</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ path('index') }}">{{ 'navbar.navbar-brand'|trans }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,7 +7,7 @@
         <ul class="navbar-nav mr-auto">
         {% for item in navbar %}
             <li class="nav-item {% if item.isActive %}active{% endif %}">
-                <a class="nav-link" href="{{ path(item.path) }}">{{ item.title }}</a>
+                <a class="nav-link" href="{{ path(item.path) }}">{{ item.title|trans }}</a>
             </li>
         {% endfor %}
         </ul>

@@ -7,16 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class ProfileController
+ * Class ImportController
  * @package App\Controller
  */
-class ProfileController extends Controller
+class ImportController extends Controller
 {
     /**
-     * @Route("/profile", name="profile_index")
+     * @Route("/import", name="import_index")
      */
     public function index()
     {
-        return $this->render('profile.html.twig');
+        return $this->render('import.html.twig');
     }
 }

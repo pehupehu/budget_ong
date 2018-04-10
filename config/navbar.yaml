@@ -1,7 +1,11 @@
+navbar.import:
+    route: import_index
+    roles: ROLE_USER
+
 navbar.admin:
     route: admin_index
     roles: ROLE_ADMIN
 
 navbar.profile:
-    route: profile
+    route: profile_index
     roles: ROLE_USER

@@ -1,5 +1,6 @@
 navbar:
     navbar-brand: Budget
+    import: Importer de données
     admin: Administration
     profile: Mon profil
 

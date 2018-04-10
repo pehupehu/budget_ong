@@ -7,3 +7,25 @@ navbar:
 sidebar:
     admin-user: Utilisateurs
     admin-reports: Rapports
+
+admin:
+    title: Administration
+
+admin-user:
+    list:
+        title: Liste des utilisateurs
+        username: Identifiant
+        lastname: Nom
+        firstname: Prénom
+        email: Courriel
+        role: Rôle
+        isnotactive: Ce compte n'est pas actif
+        action: Actions
+        add: Créer un nouvel utilisateur
+
+generic:
+    list:
+        edit: Modifier
+        disable: Désactiver
+        enable: Activer
+        delete: Supprimer

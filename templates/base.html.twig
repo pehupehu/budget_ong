@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}Welcome!{% endblock %}</title>
 
         <link rel="stylesheet" href="{{ asset('build/bootstrap-4.0.0-dist/css/bootstrap.min.css') }}">
@@ -12,7 +13,8 @@
     <body>
         {% block navbar %}{% endblock navbar %}
         {% block body %}{% endblock %}
-        <script src="{{ asset('jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ asset('build/jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ asset('build/popper.min.js') }}"></script>
         <script src="{{ asset('build/bootstrap-4.0.0-dist/js/bootstrap.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>

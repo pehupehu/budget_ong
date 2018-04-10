@@ -2,11 +2,11 @@
     <ul class="nav flex-column">
         {% for item in navbar %}
             <li class="nav-item {% if item.isActive %}active{% endif %}">
-                <a class="nav-link" href="{{ path(item.path) }}">
+                <a class="nav-link" href="{{ path(item.route) }}">
                 {% if item.icon != '' %}
                     <span class="{{ item.icon }}" aria-hidden="true"></span>
                 {% endif %}
-                    {{ item.title|trans }}
+                    {{ item.translationKey|trans }}
                 </a>
             </li>
         {% endfor %}

@@ -1,0 +1,7 @@
+navbar.admin:
+    route: admin_index
+    roles: ROLE_ADMIN
+
+navbar.profile:
+    route: profile
+    roles: ROLE_USER

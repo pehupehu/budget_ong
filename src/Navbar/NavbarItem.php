@@ -9,10 +9,10 @@ namespace App\Navbar;
 class NavbarItem
 {
     /** @var string */
-    private $title;
+    private $translation_key;
 
     /** @var string */
-    private $path;
+    private $route;
 
     /** @var string */
     private $icon;
@@ -22,15 +22,15 @@ class NavbarItem
 
     /**
      * NavbarItem constructor.
-     * @param $title
-     * @param $path
-     * @param null $icon
+     * @param $translation_key
+     * @param $route
+     * @param string $icon
      * @param bool $is_active
      */
-    public function __construct($title, $path, $icon = '', $is_active = false)
+    public function __construct($translation_key, $route, $icon = '', $is_active = false)
     {
-        $this->setTitle($title);
-        $this->setPath($path);
+        $this->setTranslationKey($translation_key);
+        $this->setRoute($route);
         $this->setIcon($icon);
         $this->setIsActive($is_active);
     }
@@ -38,36 +38,36 @@ class NavbarItem
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTranslationKey(): string
     {
-        return $this->title;
+        return $this->translation_key;
     }
 
     /**
-     * @param string $title
+     * @param string $translation_key
      * @return NavbarItem
      */
-    public function setTitle(string $title): NavbarItem
+    public function setTranslationKey(string $translation_key): NavbarItem
     {
-        $this->title = $title;
+        $this->translation_key = $translation_key;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getPath(): string
+    public function getRoute(): string
     {
-        return $this->path;
+        return $this->route;
     }
 
     /**
-     * @param string $path
+     * @param string $route
      * @return NavbarItem
      */
-    public function setPath(string $path): NavbarItem
+    public function setRoute(string $route): NavbarItem
     {
-        $this->path = $path;
+        $this->route = $route;
         return $this;
     }
 
@@ -113,8 +113,8 @@ class NavbarItem
     public function __toString()
     {
         return json_encode([
-            'title' => $this->getTitle(),
-            'path' => $this->getPath(),
+            'translation_key' => $this->getTranslationKey(),
+            'route' => $this->getRoute(),
             'icon' => $this->getIcon(),
             'is_active' => $this->isActive()
         ]);

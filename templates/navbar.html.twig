@@ -4,10 +4,11 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
+        <div class=" mr-auto"></div>
+        <ul class="navbar-nav">
         {% for item in navbar %}
             <li class="nav-item {% if item.isActive %}active{% endif %}">
-                <a class="nav-link" href="{{ path(item.path) }}">{{ item.title|trans }}</a>
+                <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
             </li>
         {% endfor %}
         </ul>

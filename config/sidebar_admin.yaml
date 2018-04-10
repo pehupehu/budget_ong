@@ -1,0 +1,9 @@
+sidebar.admin-user:
+    route: admin_user
+    icon: oi oi-person
+    roles: ROLE_ADMIN
+
+sidebar.admin-reports:
+    route: admin_reports
+    icon: oi oi-graph
+    roles: ROLE_ADMIN

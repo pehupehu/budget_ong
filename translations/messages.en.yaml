@@ -1,6 +1,7 @@
 navbar:
     navbar-brand: Budget
     admin: Administration
+    profile: Mon profil
 
 sidebar:
     admin-user: Utilisateurs

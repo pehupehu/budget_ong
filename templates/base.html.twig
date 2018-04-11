@@ -17,16 +17,16 @@
         <script src="{{ asset('build/popper.min.js') }}"></script>
         <script src="{{ asset('build/bootstrap-4.0.0-dist/js/bootstrap.min.js') }}"></script>
         <script>
-/*
-TODO créer un objet qui permet :
-    ouvrir une popup
-    demander une confirmation
-    redirection
-            function go(path) {
-                window.location.href = path;
+            function bsuInit() {
+                var bsu = {};
+
+                bsu.go = function(url) {
+                    window.location.href = url;
+                };
+
+                return bsu;
             }
-            function confirm
-*/
+            var bsu = bsuInit();
         </script>
         {% block javascripts %}{% endblock %}
     </body>

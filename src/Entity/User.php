@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("username")
  */
 class User implements UserInterface, \Serializable
 {
@@ -23,7 +25,7 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @var string
      */
     private $username;
@@ -35,13 +37,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=254, unique=true)
-     * @var string
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=254)
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
     private $role;
@@ -57,6 +53,24 @@ class User implements UserInterface, \Serializable
         $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return User
+     */
+    public function setId(int $id): User
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -92,24 +106,6 @@ class User implements UserInterface, \Serializable
     public function setPassword(string $password): User
     {
         $this->password = $password;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return User
-     */
-    public function setEmail(string $email): User
-    {
-        $this->email = $email;
         return $this;
     }
 
@@ -195,7 +191,6 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->email,
             $this->isActive,
             // see section on salt below
             // $this->salt,
@@ -209,10 +204,17 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->email,
             $this->isActive,
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
+    }
+
+    public static function getRolesChoices()
+    {
+        return [
+            'role_admin' => self::ROLE_ADMIN,
+            'role_user' => self::ROLE_USER,
+        ];
     }
 }

@@ -17,11 +17,17 @@ admin-user:
         username: Identifiant
         lastname: Nom
         firstname: Prénom
-        email: Courriel
         role: Rôle
         isnotactive: Ce compte n'est pas actif
         action: Actions
-        add: Créer un nouvel utilisateur
+        new: Créer un nouvel utilisateur
+    new:
+        title: Créer un nouvel utilisateur
+    form:
+        username: Identifiant
+        password: Mot de passe
+        repeatedpassword: Répéter le mot de passe
+        role: Rôle
 
 generic:
     list:
@@ -29,3 +35,9 @@ generic:
         disable: Désactiver
         enable: Activer
         delete: Supprimer
+    form:
+        back: Retour au listing
+        save: Enregistrer
+
+role_admin: Administrateur
+role_user: Utilisateur

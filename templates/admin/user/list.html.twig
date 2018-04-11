@@ -6,8 +6,8 @@
 
 {% block main %}
     <h2>{{ 'admin-user.list.title'|trans }}
-        <button type="button" class="btn btn-sm btn-info">
-            <span class="oi oi-play-circle"></span> {{ 'admin-user.list.add'|trans }}
+        <button type="button" class="btn btn-sm btn-info" onclick="window.location.href='{{ path('admin_user_new') }}'">
+            <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
         </button>
     </h2>
     <div class="card">
@@ -19,7 +19,6 @@
                     <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.firstname'|trans }}</th>
-                    <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.email'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.role'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.action'|trans }}</th>
                 </tr>
@@ -41,9 +40,6 @@
                     <td class="text-center d-none d-sm-none d-md-table-cell">
                         {{ user.username }}
                     </td>
-                    <td class="text-center d-none d-sm-none d-md-table-cell">
-                        {{ user.email }}
-                    </td>
                     <td class="text-center">
                         {% if user.role == 'ROLE_ADMIN' %}
                             {% set class = 'dark' %}
@@ -55,7 +51,7 @@
                         <span class="badge badge-{{ class }}">{{ user.role }}</span>
                     </td>
                     <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
-                        <button type="button" class="btn btn-sm btn-outline-info">
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="window.location.href='{{ path('admin_user_edit', {'id': user.id}) }}'">
                             <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                         </button>
                         <button type="button" class="btn btn-sm btn-outline-secondary">
@@ -75,7 +71,7 @@
                                 {{ 'admin-user.list.action'|trans }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ path('admin_user_edit', {'id': user.id}) }}">
                                     <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                                 </a>
                                 <a class="dropdown-item" href="#">

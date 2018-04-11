@@ -40,6 +40,18 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255)
      * @var string
      */
+    private $firstname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @var string
+     */
     private $role;
 
     /**
@@ -48,6 +60,21 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", columnDefinition="DATETIME on update CURRENT_TIMESTAMP")
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->isActive = true;
@@ -106,6 +133,42 @@ class User implements UserInterface, \Serializable
     public function setPassword(string $password): User
     {
         $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param string $firstname
+     * @return User
+     */
+    public function setFirstname(string $firstname): User
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string $lastname
+     * @return User
+     */
+    public function setLastname(string $lastname): User
+    {
+        $this->lastname = $lastname;
         return $this;
     }
 
@@ -177,11 +240,6 @@ class User implements UserInterface, \Serializable
     public function isCredentialsNonExpired()
     {
         return true;
-    }
-
-    public function isEnabled()
-    {
-        return $this->isActive;
     }
 
     /** @see \Serializable::serialize() */

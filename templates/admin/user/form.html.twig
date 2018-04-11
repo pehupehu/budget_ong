@@ -9,9 +9,17 @@
     <div class="card">
         <div class="card-body">
             {{ form_start(form) }}
-                {{ form_row(form.username, {
-                    'label': 'admin-user.form.username'
+                {{ form_row(form.firstname, {
+                    'label': 'admin-user.form.firstname'
                 }) }}
+                {{ form_row(form.lastname, {
+                    'label': 'admin-user.form.lastname'
+                }) }}
+                {% if (form.offsetExists('username')) %}
+                    {{ form_row(form.username, {
+                        'label': 'admin-user.form.username'
+                    }) }}
+                {% endif %}
                 {% if (form.offsetExists('password')) %}
                     {{ form_row(form.password) }}
                 {% endif %}
@@ -22,7 +30,7 @@
                     'label': 'generic.form.back',
                     'attr': {
                         'class': 'btn-secondary btn-sm',
-                        'onclick': 'bsu.go("' ~ path('admin_user') ~ '");'
+                        'onclick': bsLinkRedirect(path('admin_user'))
                     }
                 }) }}
                 {{ form_widget(form.save, {

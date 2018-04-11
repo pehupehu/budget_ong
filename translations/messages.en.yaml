@@ -14,9 +14,9 @@ admin:
 admin-user:
     list:
         title: Liste des utilisateurs
-        username: Identifiant
-        lastname: Nom
         firstname: Prénom
+        lastname: Nom
+        username: Identifiant
         role: Rôle
         isnotactive: Ce compte n'est pas actif
         action: Actions
@@ -24,6 +24,8 @@ admin-user:
     new:
         title: Créer un nouvel utilisateur
     form:
+        firstname: Prénom
+        lastname: Nom
         username: Identifiant
         password: Mot de passe
         repeatedpassword: Répéter le mot de passe

@@ -37,6 +37,8 @@ class UserController extends Controller
         $user->setId(0);
         $user->setUsername('');
         $user->setPassword('');
+        $user->setFirstname('');
+        $user->setLastname('');
         $user->setRole('');
 
         $form = $this->createForm(UserType::class, $user);
@@ -63,7 +65,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/admin/user/{id}", name="admin_user_edit")
+     * @Route("/admin/user/{id}/edit", name="admin_user_edit")
      */
     public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder)
     {
@@ -85,5 +87,45 @@ class UserController extends Controller
         return $this->render('admin/user/form.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/user/{id}/remove", name="admin_user_remove")
+     */
+    public function remove(Request $request, User $user)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_user');
+    }
+
+    /**
+     * @Route("/admin/user/{id}/disable", name="admin_user_disable")
+     */
+    public function disable(Request $request, User $user)
+    {
+        $user->setIsActive(false);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_user');
+    }
+
+    /**
+     * @Route("/admin/user/{id}/enable", name="admin_user_enable")
+     */
+    public function enable(Request $request, User $user)
+    {
+        $user->setIsActive(true);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_user');
     }
 }

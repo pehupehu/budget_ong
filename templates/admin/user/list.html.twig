@@ -6,7 +6,7 @@
 
 {% block main %}
     <h2>{{ 'admin-user.list.title'|trans }}
-        <button type="button" class="btn btn-sm btn-info" onclick="bsu.go('{{ path('admin_user_new') }}');">
+        <button type="button" class="btn btn-sm btn-info" onclick="{{ bsLinkRedirect(path('admin_user_new')) }}">
             <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
         </button>
     </h2>
@@ -16,9 +16,9 @@
                 <thead class="thead-dark">
                 <tr>
                     <th class="text-center" scope="col"></th>
-                    <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
-                    <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.firstname'|trans }}</th>
+                    <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
+                    <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.role'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.action'|trans }}</th>
                 </tr>
@@ -31,13 +31,13 @@
                             <span class="oi oi-warning" title="{{ 'admin-user.list.isnotactive'|trans }}" aria-hidden="true"></span>
                         {% endif %}
                     </td>
+                    <td class="text-center d-none d-sm-none d-md-table-cell">
+                        {{ user.firstname }}
+                    </td>
+                    <td class="text-center d-none d-sm-none d-md-table-cell">
+                        {{ user.lastname }}
+                    </td>
                     <td class="text-center">
-                        {{ user.username }}
-                    </td>
-                    <td class="text-center d-none d-sm-none d-md-table-cell">
-                        {{ user.username }}
-                    </td>
-                    <td class="text-center d-none d-sm-none d-md-table-cell">
                         {{ user.username }}
                     </td>
                     <td class="text-center">
@@ -51,17 +51,19 @@
                         <span class="badge badge-{{ class }}">{{ user.role }}</span>
                     </td>
                     <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
-                        <button type="button" class="btn btn-sm btn-outline-info" onclick="bsu.go('{{ path('admin_user_edit', {'id': user.id}) }}');">
+                        <button type="button" class="btn btn-sm btn-outline-info" onclick="{{ bsLinkRedirect(path('admin_user_edit', {'id': user.id})) }}">
                             <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                         </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                            {% if user.isActive == 0 %}
+                        {% if user.isActive == 0 %}
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{ bsLinkRedirect(path('admin_user_enable', {'id': user.id})) }}">
                                 <span class="oi oi-thumb-up"></span> {{ 'generic.list.enable'|trans }}
-                            {% else %}
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{ bsLinkRedirect(path('admin_user_disable', {'id': user.id})) }}">
                                 <span class="oi oi-thumb-down"></span> {{ 'generic.list.disable'|trans }}
-                            {% endif %}
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-danger">
+                            </button>
+                        {% endif %}
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{ bsLinkRedirect(path('admin_user_remove', {'id': user.id})) }}">
                             <span class="oi oi-trash"></span> {{ 'generic.list.delete'|trans }}
                         </button>
                     </td>
@@ -71,16 +73,18 @@
                                 {{ 'admin-user.list.action'|trans }}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="{{ path('admin_user_edit', {'id': user.id}) }}">
+                                <a class="dropdown-item" href="{{ bsLinkRedirect(path('admin_user_edit', {'id': user.id})) }}">
                                     <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    {% if user.isActive == 0 %}
+                                {% if user.isActive == 0 %}
+                                    <a class="dropdown-item" href="#">
                                         <span class="oi oi-thumb-up"></span> {{ 'generic.list.enable'|trans }}
-                                    {% else %}
+                                    </a>
+                                {% else %}
+                                    <a class="dropdown-item" href="#">
                                         <span class="oi oi-thumb-down"></span> {{ 'generic.list.disable'|trans }}
-                                    {% endif %}
-                                </a>
+                                    </a>
+                                {% endif %}
                                 <a class="dropdown-item" href="#">
                                     <span class="oi oi-trash"></span> {{ 'generic.list.delete'|trans }}
                                 </a>

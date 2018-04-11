@@ -42,6 +42,7 @@ final class AppExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('renderSidebarAdmin', array($this, 'renderSidebarAdmin'), ['is_safe' => ['html' => true]]),
+            new \Twig_SimpleFunction('bsLinkRedirect', array($this, 'bsLinkRedirect')),
         );
     }
 
@@ -59,5 +60,10 @@ final class AppExtension extends \Twig_Extension
             'sidebar_admin.html.twig',
             ['navbar' => $this->navBuilder->createSidebarAdmin()]
         );
+    }
+
+    public function bsLinkRedirect($url)
+    {
+        return 'bslink.redirect(\'' . $url . '\');';
     }
 }

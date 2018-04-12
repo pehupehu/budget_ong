@@ -42,7 +42,7 @@ final class AppExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('renderSidebarAdmin', array($this, 'renderSidebarAdmin'), ['is_safe' => ['html' => true]]),
-            new \Twig_SimpleFunction('bsLinkRedirect', array($this, 'bsLinkRedirect')),
+            new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
         );
     }
 
@@ -62,8 +62,8 @@ final class AppExtension extends \Twig_Extension
         );
     }
 
-    public function bsLinkRedirect($url)
+    public function ppboxRedirect($url)
     {
-        return 'bslink.redirect(\'' . $url . '\');';
+        return 'ppbox.redirect(\'' . $url . '\');';
     }
 }

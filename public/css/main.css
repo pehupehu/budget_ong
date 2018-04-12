@@ -31,3 +31,14 @@ body {
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.ui-dialog-titlebar {
+    font-size: 15px;
+    padding-top: 15px!important;
+    padding-bottom: 15px!important;
+}
+
+.ui-dialog-titlebar-dark {
+    background-color: #F5F5F5!important;
+    border-bottom: 1px solid #ccc;
+}

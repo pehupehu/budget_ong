@@ -43,6 +43,7 @@ final class AppExtension extends \Twig_Extension
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('renderSidebarAdmin', array($this, 'renderSidebarAdmin'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
+            new \Twig_SimpleFunction('ppboxConfirm', array($this, 'ppboxConfirm')),
         );
     }
 
@@ -64,6 +65,18 @@ final class AppExtension extends \Twig_Extension
 
     public function ppboxRedirect($url)
     {
-        return 'ppbox.redirect(\'' . $url . '\');';
+        return 'PPbox.redirect(\'' . $url . '\');';
+    }
+
+    public function ppboxConfirm($title, $text, $theme, $width, $buttons1, $buttons2 = [])
+    {
+        $title = json_encode($title);
+        $text = json_encode($text);
+        $theme = json_encode($theme);
+        $width = json_encode($width);
+        $buttons1 = json_encode($buttons1);
+        $buttons2 = json_encode($buttons2);
+
+        return 'PPbox.alert(' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
     }
 }

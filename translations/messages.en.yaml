@@ -40,6 +40,11 @@ generic:
     form:
         back: Retour au listing
         save: Enregistrer
+    diag-confirm:
+        title: Confirmation
+        message: Êtes vous sur ?
+        confirm: Oui
+        cancel: Non
 
 role_admin: Administrateur
 role_user: Utilisateur

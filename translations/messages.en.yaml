@@ -18,9 +18,9 @@ admin-user:
         lastname: Nom
         username: Identifiant
         role: Rôle
-        isnotactive: Ce compte n'est pas actif
         action: Actions
         new: Créer un nouvel utilisateur
+        count: "{1} %count% utilisateur|]1,Inf[ %count% utilisateurs"
     new:
         title: Créer un nouvel utilisateur
     form:

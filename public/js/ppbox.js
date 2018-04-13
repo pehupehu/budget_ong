@@ -70,7 +70,7 @@ class PPbox {
             if (buttons1.class !== undefined) {
                 button.class = buttons1.class;
             } else {
-                button.class = 'btn btn-sm btn-outline-secondary';
+                button.class = 'btn btn-sm btn-dark';
             }
 
             options.buttons[nb_buttons] = button;
@@ -93,7 +93,7 @@ class PPbox {
             if (buttons2.class !== undefined) {
                 button.class = buttons2.class;
             } else {
-                button.class = 'btn btn-sm btn-outline-secondary';
+                button.class = 'btn btn-sm btn-outline-dark';
             }
 
             options.buttons[nb_buttons] = button;

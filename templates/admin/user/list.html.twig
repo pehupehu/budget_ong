@@ -5,17 +5,19 @@
 {% endblock title %}
 
 {% block main %}
-    <h2>{{ 'admin-user.list.title'|trans }}
-        <button type="button" class="btn btn-sm btn-info" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
-            <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
-        </button>
-    </h2>
-    <div class="card">
+    <div class="card card-listing">
+        <div class="card-header">
+            <h2>{{ 'admin-user.list.title'|trans }}
+                <button type="button" class="btn btn-sm btn-info" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
+                    <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
+                </button>
+            </h2>
+        </div>
         <div class="card-body">
+            {% include 'pagination.html.twig' with {'pager': pager} %}
             <table class="table table-hover table-listing">
                 <thead class="thead-dark">
                 <tr>
-                    <th class="text-center" scope="col"></th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.firstname'|trans }}</th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
@@ -24,23 +26,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for user in users %}
+                {% for user in pager.iterator %}
                 <tr>
-                    <td class="text-center {% if user.isActive == 0 %}bg-warning{% endif %}" scope="row">
-                        {% if user.isActive == 0 %}
-                            <span class="oi oi-warning" title="{{ 'admin-user.list.isnotactive'|trans }}" aria-hidden="true"></span>
-                        {% endif %}
-                    </td>
-                    <td class="text-center d-none d-sm-none d-md-table-cell">
+                    <td class="text-center col-2 d-none d-sm-none d-md-table-cell">
                         {{ user.firstname }}
                     </td>
-                    <td class="text-center d-none d-sm-none d-md-table-cell">
+                    <td class="text-center col-2 d-none d-sm-none d-md-table-cell">
                         {{ user.lastname }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center col-3">
                         {{ user.username }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-center col-2">
                         {% if user.role == 'ROLE_ADMIN' %}
                             {% set class = 'dark' %}
                         {% elseif user.role == 'ROLE_USER' %}
@@ -50,7 +47,7 @@
                         {% endif %}
                         <span class="badge badge-{{ class }}">{{ user.role }}</span>
                     </td>
-                    <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
+                    <td class="text-center col-3 d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
                         <button type="button" class="btn btn-sm btn-outline-info" onclick="{{ ppboxRedirect(path('admin_user_edit', {'id': user.id})) }}">
                             <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                         </button>
@@ -58,7 +55,7 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
                                 ppboxConfirm('generic.diag-confirm.title'|trans,
                                     'generic.diag-confirm.message'|trans,
-                                    'secondary',
+                                    'info',
                                     'sm',
                                     {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
                                     {text: 'generic.diag-confirm.cancel'|trans })}}">
@@ -68,7 +65,7 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
                             ppboxConfirm('generic.diag-confirm.title'|trans,
                                 'generic.diag-confirm.message'|trans,
-                                'secondary',
+                                'info',
                                 'sm',
                                 {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
                                 {text: 'generic.diag-confirm.cancel'|trans })}}">

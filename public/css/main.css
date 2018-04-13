@@ -33,12 +33,73 @@ body {
 }
 
 .ui-dialog-titlebar {
-    font-size: 15px;
+    font-size: 16px;
+    padding-top: 12px!important;
+    padding-bottom: 12px!important;
+    border-bottom: 1px solid #ccc;
+}
+.ui-dialog-titlebar-dark {
+    background-color: #F5F5F5!important;
+    color: white;
+}
+.ui-dialog-titlebar-secondary {
+    background-color: #F5F5F5!important;
+}
+.ui-dialog-titlebar-info {
+    background-color: #17a2b8!important;
+    color: white;
+}
+.ui-dialog-titlebar-warning {
+    background-color: #ffc107!important;
+}
+.ui-dialog-titlebar-danger {
+    background-color: #dc3545!important;
+    color: white;
+}
+
+.ui-dialog-content, .ui-widget-content {
     padding-top: 15px!important;
     padding-bottom: 15px!important;
 }
 
-.ui-dialog-titlebar-dark {
-    background-color: #F5F5F5!important;
-    border-bottom: 1px solid #ccc;
+.ui-dialog-buttonset>.btn {
+    padding: 2px;
+}
+
+.card-listing .table-listing {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
+
+.card-listing ul.pagination li.page-item {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
+
+.card-listing {
+    border: none;
+}
+
+.card-listing .card-body {
+    padding: 1rem 0;
+}
+
+.card-listing .card-header {
+    background: none;
+    padding: 0 0 0.5rem;
+}
+
+.navbar-pagination a.page-link {
+    color: #17a2b8;
+}
+
+.navbar-pagination .count-pagination {
+    float: left;
+    position: relative;
+    display: block;
+    padding: .5rem 2rem;
+    margin: 0rem 0rem 1rem 0rem;
+    line-height: 1.25;
+    color: #17a2b8;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
 }

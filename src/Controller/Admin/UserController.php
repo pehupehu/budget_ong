@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
+use App\Tools\Pager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +24,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        /** @var UserRepository $usersRepo */
+        $usersRepo = $this->getDoctrine()->getRepository(User::class);
+        $pager = new Pager($usersRepo->loadUsers());
+        $pager->setRouteName('');
+        $pager->setRouteParams([]);
 
         return $this->render('admin/user/list.html.twig', [
-            'users' => $users,
+            'pager' => $pager,
         ]);
     }
 

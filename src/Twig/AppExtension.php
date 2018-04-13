@@ -20,6 +20,9 @@ final class AppExtension extends \Twig_Extension
     /** @var NavbarBuilder $navBuilder */
     private $navBuilder;
 
+    /** @var int */
+    private static $ppbox_dialog = 0;
+
     public function __construct(
         RequestStack $requestStack,
         Packages $packages,
@@ -70,6 +73,7 @@ final class AppExtension extends \Twig_Extension
 
     public function ppboxConfirm($title, $text, $theme, $width, $buttons1, $buttons2 = [])
     {
+        $id = json_encode(++self::$ppbox_dialog);
         $title = json_encode($title);
         $text = json_encode($text);
         $theme = json_encode($theme);
@@ -77,6 +81,6 @@ final class AppExtension extends \Twig_Extension
         $buttons1 = json_encode($buttons1);
         $buttons2 = json_encode($buttons2);
 
-        return 'PPbox.alert(' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
+        return 'PPbox.alert(' . $id . ', ' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
     }
 }

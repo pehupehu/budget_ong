@@ -58,7 +58,7 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
                                 ppboxConfirm('generic.diag-confirm.title'|trans,
                                     'generic.diag-confirm.message'|trans,
-                                    'default',
+                                    'secondary',
                                     'sm',
                                     {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
                                     {text: 'generic.diag-confirm.cancel'|trans })}}">
@@ -68,14 +68,20 @@
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
                             ppboxConfirm('generic.diag-confirm.title'|trans,
                                 'generic.diag-confirm.message'|trans,
-                                'default',
+                                'secondary',
                                 'sm',
                                 {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
                                 {text: 'generic.diag-confirm.cancel'|trans })}}">
                                 <span class="oi oi-thumb-down"></span> {{ 'generic.list.disable'|trans }}
                             </button>
                         {% endif %}
-                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{ ppboxRedirect(path('admin_user_remove', {'id': user.id})) }}">
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
+                        ppboxConfirm('generic.diag-confirm.title'|trans,
+                            'generic.diag-confirm.message'|trans,
+                            'danger',
+                            'sm',
+                            {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
+                            {text: 'generic.diag-confirm.cancel'|trans })}}">
                             <span class="oi oi-trash"></span> {{ 'generic.list.delete'|trans }}
                         </button>
                     </td>

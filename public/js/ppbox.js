@@ -6,19 +6,39 @@ class PPbox {
         window.location.href = url;
     }
 
-    static confirm(title, text, theme, width, buttons1, buttons2, buttons3) {
-        this.createDialog(title, text, theme, width, buttons1, buttons2, buttons3);
+    static confirm(num, title, text, theme, width, buttons1, buttons2, buttons3) {
+        if (this.dialog_inc === undefined) {
+            this.dialog_inc = 0;
+        }
+
+        if (num > this.dialog_inc) {
+            this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
+        } else {
+            this.openDialog(num);
+        }
     }
 
-    static alert(title, text, theme, width, buttons1, buttons2, buttons3) {
-        this.createDialog(title, text, theme, width, buttons1, buttons2, buttons3);
+    static alert(num, title, text, theme, width, buttons1, buttons2, buttons3) {
+        if (this.dialog_inc === undefined) {
+            this.dialog_inc = 0;
+        }
+
+        if (num > this.dialog_inc) {
+            this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
+        } else {
+            this.openDialog(num);
+        }
     }
 
-    static closeDialog() {
-        $('#ppboxdialog' + this.dialog_inc).dialog('close');
+    static openDialog(num) {
+        $('#ppboxdialog' + num).dialog('open');
     }
 
-    static createDialog(title, text, theme, width, buttons1, buttons2, buttons3) {
+    static closeDialog(num) {
+        $('#ppboxdialog' + num).dialog('close');
+    }
+
+    static createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3) {
         if (this.dialog_inc === undefined) {
             this.dialog_inc = 0;
         }
@@ -43,7 +63,7 @@ class PPbox {
                 };
             } else {
                 button.click = function() {
-                    PPbox.closeDialog();
+                    PPbox.closeDialog(num);
                 }
             }
 
@@ -66,7 +86,7 @@ class PPbox {
                 };
             } else {
                 button.click = function() {
-                    PPbox.closeDialog();
+                    PPbox.closeDialog(num);
                 }
             }
 
@@ -80,7 +100,7 @@ class PPbox {
             nb_buttons = nb_buttons+1;
         }
 
-        $(document.body).append('<div id="ppboxdialog' + this.dialog_inc + '" title="' + title + '">' + text + '</div>');
-        $('#ppboxdialog' + this.dialog_inc).dialog(options);
+        $(document.body).append('<div id="ppboxdialog' + num + '" title="' + title + '">' + text + '</div>');
+        $('#ppboxdialog' + num).dialog(options);
     }
 }

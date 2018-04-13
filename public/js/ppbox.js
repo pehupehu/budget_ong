@@ -1,6 +1,3 @@
-
-var ppbox_dialog_inc = 0;
-
 class PPbox {
     constructor() {
     }
@@ -18,11 +15,14 @@ class PPbox {
     }
 
     static closeDialog() {
-        $('#ppboxdialog' + ppbox_dialog_inc).dialog('close');
+        $('#ppboxdialog' + this.dialog_inc).dialog('close');
     }
 
     static createDialog(title, text, theme, width, buttons1, buttons2, buttons3) {
-        ppbox_dialog_inc = ppbox_dialog_inc + 1;
+        if (this.dialog_inc === undefined) {
+            this.dialog_inc = 0;
+        }
+        this.dialog_inc = this.dialog_inc + 1;
 
         let nb_buttons = 0;
         let options = {
@@ -80,7 +80,7 @@ class PPbox {
             nb_buttons = nb_buttons+1;
         }
 
-        $(document.body).append('<div id="ppboxdialog' + ppbox_dialog_inc + '" title="' + title + '">' + text + '</div>');
-        $('#ppboxdialog' + ppbox_dialog_inc).dialog(options);
+        $(document.body).append('<div id="ppboxdialog' + this.dialog_inc + '" title="' + title + '">' + text + '</div>');
+        $('#ppboxdialog' + this.dialog_inc).dialog(options);
     }
 }

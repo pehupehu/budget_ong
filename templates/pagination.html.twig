@@ -16,7 +16,7 @@
                 {% endif %}
                 {% for i_page in range(max(pager.page-4, 1), min(pager.page+4, pager.nbPages)) %}
                     <li class="page-item {% if i_page == pager.page %}class="active"{% endif %}">
-                        <a class="page-link" href="{{ path(pager.nomRoute, pager.paramsRoute|merge({'page': i_page})) }}">{{ i_page }}</a>
+                        <a class="page-link" href="{{ path(pager.routeName, pager.routeParams|merge({'page': i_page})) }}">{{ i_page }}</a>
                     </li>
                 {% endfor %}
                 {% if (pager.page < pager.nbPages) %}

@@ -7,27 +7,30 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Tools\Pager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserController
  * @package App\Controller\Admin
  */
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * @Route("/admin/user", name="admin_user")
      */
-    public function index()
+    public function index(RouterInterface $router, RequestStack $requestStack)
     {
         /** @var UserRepository $usersRepo */
         $usersRepo = $this->getDoctrine()->getRepository(User::class);
         $pager = new Pager($usersRepo->loadUsers());
-        $pager->setRouteName('');
+        $pager->setPage($requestStack->getCurrentRequest()->get('page', 1));
+        $pager->setRouteName('admin_user');
         $pager->setRouteParams([]);
 
         return $this->render('admin/user/list.html.twig', [

@@ -73,7 +73,7 @@ class Pager
     public function getIterator()
     {
         $this->query
-            ->setFirstResult($this->getPage() * $this->getNbByPages())
+            ->setFirstResult(($this->getPage() - 1) * $this->getNbByPages())
             ->setMaxResults($this->getNbByPages());
 
         return $this->paginator->getIterator();
@@ -88,11 +88,27 @@ class Pager
     }
 
     /**
+     * @param float|int $count
+     */
+    public function setCount($count): void
+    {
+        $this->count = $count;
+    }
+
+    /**
      * @return int
      */
     public function getNbByPages(): int
     {
         return $this->nb_by_pages;
+    }
+
+    /**
+     * @param int $nb_by_pages
+     */
+    public function setNbByPages(int $nb_by_pages): void
+    {
+        $this->nb_by_pages = $nb_by_pages;
     }
 
     /**
@@ -104,11 +120,27 @@ class Pager
     }
 
     /**
+     * @param int $page
+     */
+    public function setPage(int $page): void
+    {
+        $this->page = $page;
+    }
+
+    /**
      * @return int
      */
     public function getNbPages(): int
     {
         return $this->nb_pages;
+    }
+
+    /**
+     * @param int $nb_pages
+     */
+    public function setNbPages(int $nb_pages): void
+    {
+        $this->nb_pages = $nb_pages;
     }
 
     /**
@@ -121,12 +153,10 @@ class Pager
 
     /**
      * @param string $route_name
-     * @return Pager
      */
-    public function setRouteName(string $route_name): Pager
+    public function setRouteName(string $route_name): void
     {
         $this->route_name = $route_name;
-        return $this;
     }
 
     /**
@@ -139,11 +169,9 @@ class Pager
 
     /**
      * @param array $route_params
-     * @return Pager
      */
-    public function setRouteParams(array $route_params): Pager
+    public function setRouteParams(array $route_params): void
     {
         $this->route_params = $route_params;
-        return $this;
     }
 }

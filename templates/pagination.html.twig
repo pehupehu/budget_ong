@@ -8,20 +8,20 @@
             <ul class="pagination justify-content-end">
                 {% if (pager.page > 1) %}
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
+                    <a class="page-link" href="{{ path(pager.routeName, pager.routeParams|merge({'page': 1})) }}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
                 {% endif %}
                 {% for i_page in range(max(pager.page-4, 1), min(pager.page+4, pager.nbPages)) %}
-                    <li class="page-item {% if i_page == pager.page %}class="active"{% endif %}">
+                    <li class="page-item {% if i_page == pager.page %}active{% endif %}">
                         <a class="page-link" href="{{ path(pager.routeName, pager.routeParams|merge({'page': i_page})) }}">{{ i_page }}</a>
                     </li>
                 {% endfor %}
                 {% if (pager.page < pager.nbPages) %}
                 <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
+                    <a class="page-link" href="{{ path(pager.routeName, pager.routeParams|merge({'page': pager.nbPages})) }}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>

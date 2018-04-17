@@ -37,6 +37,8 @@ generic:
         disable: Désactiver
         enable: Activer
         delete: Supprimer
+        check_all: Tout
+        uncheck_all: Aucun
     form:
         back: Retour au listing
         save: Enregistrer

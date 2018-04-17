@@ -60,11 +60,6 @@ class Pager
         $this->nb_by_pages = $nb_by_pages;
         $this->page = $page;
         $this->nb_pages = ceil($this->count/$this->nb_by_pages);
-
-        dump($this->count);
-        dump($this->nb_by_pages);
-        dump($this->page);
-        dump($this->nb_pages);
     }
 
     /**

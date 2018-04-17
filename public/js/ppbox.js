@@ -8,10 +8,10 @@ class PPbox {
 
     static confirm(num, title, text, theme, width, buttons1, buttons2, buttons3) {
         if (this.dialog_inc === undefined) {
-            this.dialog_inc = 0;
+            this.dialog_inc = {};
         }
 
-        if (num > this.dialog_inc) {
+        if (this.dialog_inc[num] === undefined) {
             this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
         } else {
             this.openDialog(num);
@@ -20,10 +20,10 @@ class PPbox {
 
     static alert(num, title, text, theme, width, buttons1, buttons2, buttons3) {
         if (this.dialog_inc === undefined) {
-            this.dialog_inc = 0;
+            this.dialog_inc = {};
         }
 
-        if (num > this.dialog_inc) {
+        if (this.dialog_inc[num] === undefined) {
             this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
         } else {
             this.openDialog(num);
@@ -42,7 +42,7 @@ class PPbox {
         if (this.dialog_inc === undefined) {
             this.dialog_inc = 0;
         }
-        this.dialog_inc = this.dialog_inc + 1;
+        this.dialog_inc[num] = true;
 
         let nb_buttons = 0;
         let options = {

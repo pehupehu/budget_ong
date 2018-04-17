@@ -5,7 +5,7 @@ body {
 
 .table {
     font-size: 14px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .table thead th {
     padding: .60rem;
@@ -89,6 +89,11 @@ body {
 
 .navbar-pagination a.page-link {
     color: #17a2b8;
+}
+
+.navbar-pagination .page-item.active .page-link {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
 }
 
 .navbar-pagination .count-pagination {

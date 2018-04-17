@@ -18,6 +18,11 @@
             <table class="table table-hover table-listing">
                 <thead class="thead-dark">
                 <tr>
+                    <th class="text-center">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.list.check_all'|trans }}" data-uncheck="{{ 'generic.list.uncheck_all'|trans }}" title="">
+                        </div>
+                    </th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.firstname'|trans }}</th>
                     <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
                     <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
@@ -28,6 +33,11 @@
                 <tbody>
                 {% for user in pager.iterator %}
                 <tr>
+                    <td class="text-center check">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" class="form-check-input pp-check-uncheck-id" data-id="{{ user.id }}" title="">
+                        </div>
+                    </td>
                     <td class="text-center col-2 d-none d-sm-none d-md-table-cell">
                         {{ user.firstname }}
                     </td>

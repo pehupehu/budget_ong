@@ -20,7 +20,6 @@ admin-user:
         role: Rôle
         action: Actions
         new: Créer un nouvel utilisateur
-        count: "{1} %count% utilisateur|]1,Inf[ %count% utilisateurs"
     new:
         title: Créer un nouvel utilisateur
     form:
@@ -39,6 +38,7 @@ generic:
         delete: Supprimer
         check_all: Tout
         uncheck_all: Aucun
+        count: "{1} %count% enregistrement|]1,Inf[ %count% enregistrements"
     form:
         back: Retour au listing
         save: Enregistrer

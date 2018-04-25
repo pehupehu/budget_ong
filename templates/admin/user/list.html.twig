@@ -7,13 +7,10 @@
 {% block main %}
     <div class="card card-listing">
         <div class="card-header">
-            <h2>{{ 'admin-user.list.title'|trans }}
-                <button type="button" class="btn btn-sm btn-info" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
-                    <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
-                </button>
-            </h2>
+            <h2>{{ 'admin-user.list.title'|trans }}</h2>
         </div>
         <div class="card-body">
+            {% include 'admin/user/batch_actions.html.twig' %}
             {% include 'pagination.html.twig' with {'pager': pager} %}
             <table class="table table-hover table-listing">
                 <thead class="thead-dark">
@@ -33,21 +30,21 @@
                 <tbody>
                 {% for user in pager.iterator %}
                 <tr>
-                    <td class="text-center check">
+                    <td class="text-center">
                         <div class="form-check form-check-inline">
                             <input type="checkbox" class="form-check-input pp-check-uncheck-id" data-id="{{ user.id }}" title="">
                         </div>
                     </td>
-                    <td class="text-center col-2 d-none d-sm-none d-md-table-cell">
+                    <td class="text-center d-none d-sm-none d-md-table-cell">
                         {{ user.firstname }}
                     </td>
-                    <td class="text-center col-2 d-none d-sm-none d-md-table-cell">
+                    <td class="text-center d-none d-sm-none d-md-table-cell">
                         {{ user.lastname }}
                     </td>
-                    <td class="text-center col-3">
+                    <td class="text-center">
                         {{ user.username }}
                     </td>
-                    <td class="text-center col-2">
+                    <td class="text-center">
                         {% if user.role == 'ROLE_ADMIN' %}
                             {% set class = 'dark' %}
                         {% elseif user.role == 'ROLE_USER' %}
@@ -57,7 +54,7 @@
                         {% endif %}
                         <span class="badge badge-{{ class }}">{{ user.role }}</span>
                     </td>
-                    <td class="text-center col-3 d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
+                    <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
                         <button type="button" class="btn btn-sm btn-outline-info" onclick="{{ ppboxRedirect(path('admin_user_edit', {'id': user.id})) }}">
                             <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                         </button>
@@ -120,6 +117,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            <div class="table-responsive">
+            </div>
         </div>
     </div>
 {% endblock main %}

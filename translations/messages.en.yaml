@@ -18,7 +18,7 @@ admin-user:
         lastname: Nom
         username: Identifiant
         role: Rôle
-        action: Actions
+        action: Actions-
         new: Créer un nouvel utilisateur
     new:
         title: Créer un nouvel utilisateur
@@ -31,6 +31,9 @@ admin-user:
         role: Rôle
 
 generic:
+    batch-actions:
+        go: Valider
+        action: Actions
     list:
         edit: Modifier
         disable: Désactiver
@@ -47,6 +50,9 @@ generic:
         message: Êtes vous sur ?
         confirm: Oui
         cancel: Non
+    pagination:
+        previous: Précédent
+        next: Suivant
 
 role_admin: Administrateur
 role_user: Utilisateur

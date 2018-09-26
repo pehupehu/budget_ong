@@ -2,9 +2,11 @@
 
 namespace App\Twig;
 
+use App\Entity\User;
 use App\Navbar\NavbarBuilder;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class AppExtension extends \Twig_Extension
 {
@@ -20,6 +22,12 @@ final class AppExtension extends \Twig_Extension
     /** @var NavbarBuilder $navBuilder */
     private $navBuilder;
 
+    /** @var TokenStorageInterface tokenStorage */
+    private $tokenStorage;
+
+    /** @var User $user */
+    private $user;
+
     /** @var int */
     private static $ppbox_dialog = 0;
 
@@ -27,12 +35,19 @@ final class AppExtension extends \Twig_Extension
         RequestStack $requestStack,
         Packages $packages,
         \Twig_Environment $twigEnvironment,
-        NavbarBuilder $navBuilder
+        NavbarBuilder $navBuilder,
+        TokenStorageInterface $tokenStorage
     ) {
         $this->requestStack = $requestStack;
         $this->packages = $packages;
         $this->twigEnvironment = $twigEnvironment;
         $this->navBuilder = $navBuilder;
+        $this->tokenStorage = $tokenStorage;
+        $token = $this->tokenStorage->getToken();
+
+        if ($token && $token->getUser() instanceof User) {
+            $this->user = $token->getUser();
+        }
     }
 
     public function getName()
@@ -44,7 +59,7 @@ final class AppExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
-            new \Twig_SimpleFunction('renderSidebarAdmin', array($this, 'renderSidebarAdmin'), ['is_safe' => ['html' => true]]),
+            new \Twig_SimpleFunction('renderSidebar', array($this, 'renderSidebar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
             new \Twig_SimpleFunction('ppboxConfirm', array($this, 'ppboxConfirm')),
         );
@@ -54,15 +69,21 @@ final class AppExtension extends \Twig_Extension
     {
         return $this->twigEnvironment->render(
             'navbar.html.twig',
-            ['navbar' => $this->navBuilder->createNavbar()]
+            [
+                'navbar' => $this->navBuilder->createNavbar(),
+                'user' => $this->user,
+            ]
         );
     }
 
-    public function renderSidebarAdmin()
+    public function renderSidebar()
     {
         return $this->twigEnvironment->render(
-            'sidebar_admin.html.twig',
-            ['navbar' => $this->navBuilder->createSidebarAdmin()]
+            'sidebar.html.twig',
+            [
+                'navbar' => $this->navBuilder->createSidebar(),
+                'user' => $this->user,
+            ]
         );
     }
 

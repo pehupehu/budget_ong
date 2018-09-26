@@ -6,8 +6,6 @@ use App\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -47,6 +45,7 @@ final class NavbarBuilder
         TranslatorInterface $translator,
         LoggerInterface $logger,
         AuthorizationCheckerInterface $authorizationChecker
+
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->requestStack = $requestStack;
@@ -59,31 +58,39 @@ final class NavbarBuilder
      * @param $setup
      * @return Navbar
      */
-    private function _processNavbar($setup)
+    private function _processNavbar($setup, $translation_key_prefix)
     {
         $navbar = new Navbar();
-        foreach ($setup as $translation_key => $conf) {
-            $navbarItem = new NavbarItem($translation_key, $conf['route']);
+        
+        $current_module = $this->getCurrentModule();
+        
+        foreach ($setup as $module_name => $module) {
+            if ($module_name !== 'all' && $current_module !== null && $current_module !== $module_name) {
+                continue;
+            }
+            foreach ($module as $translation_key => $conf) {
+                $navbarItem = new NavbarItem($translation_key_prefix . '.' . $translation_key, $conf['route']);
 
-            if (isset($conf['roles'])) {
-                if (!$this->authorizationChecker->isGranted($conf['roles'])) {
-                    continue;
+                if (isset($conf['roles'])) {
+                    if (!$this->authorizationChecker->isGranted($conf['roles'])) {
+                        continue;
+                    }
                 }
-            }
 
-            if (isset($conf['icon'])) {
-                $navbarItem->setIcon($conf['icon']);
-            }
+                if (isset($conf['icon'])) {
+                    $navbarItem->setIcon($conf['icon']);
+                }
 
-            try {
-                $path = $this->urlGenerator->generate($conf['route']);
-                $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
-                $navbarItem->setIsActive($is_active);
-                $navbar->add($navbarItem);
+                try {
+                    $path = $this->urlGenerator->generate($conf['route']);
+                    $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
+                    $navbarItem->setIsActive($is_active);
+                    $navbar->add($navbarItem);
 
-                $this->logger->debug('Navbar item : ' . $navbarItem);
-            } catch (\Exception $e) {
-                $this->logger->error('Navbar item : ' . $navbarItem . ' : ' . $e->getMessage());
+                    $this->logger->debug('Navbar item : ' . $navbarItem);
+                } catch (\Exception $e) {
+                    $this->logger->error('Navbar item : ' . $navbarItem . ' : ' . $e->getMessage());
+                }
             }
         }
 
@@ -97,16 +104,26 @@ final class NavbarBuilder
     {
         $conf = Yaml::parseFile(__DIR__ . '/../../config/navbar.yaml');
 
-        return $this->_processNavbar($conf);
+        return $this->_processNavbar($conf, 'navbar');
     }
 
     /**
      * @return Navbar
      */
-    public function createSidebarAdmin()
+    public function createSidebar()
     {
-        $conf = Yaml::parseFile(__DIR__ . '/../../config/sidebar_admin.yaml');
+        $conf = Yaml::parseFile(__DIR__ . '/../../config/sidebar.yaml');
 
-        return $this->_processNavbar($conf);
+        return $this->_processNavbar($conf, 'sidebar');
+    }
+
+    private function getCurrentModule()
+    {
+        $uri = explode('/', $this->requestStack->getCurrentRequest()->getRequestUri());
+        $uri = array_filter($uri, function ($value) {
+            return strlen(trim($value, '/')) > 0;
+        });
+
+        return array_shift($uri);
     }
 }

@@ -2,6 +2,7 @@ all:
   import:
     route: import_index
     roles: ROLE_USER
+    disabled: true
 
   admin:
     route: admin_index

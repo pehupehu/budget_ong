@@ -111,6 +111,7 @@ body {
 
 .btn-info, .badge-info {
     background-color: #3c8dbc;
+    border-color: #3c8dbc;
 }
 .btn-outline-info {
     color: #3c8dbc;
@@ -119,4 +120,5 @@ body {
 .btn-info:hover, .btn-outline-info:hover {
     background-color: #367fa9;
     color: #FFF;
+    border-color: #3c8dbc;
 }

@@ -4,57 +4,42 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class=" mr-auto"></div>
-        <ul class="navbar-nav">
-        {% for item in navbar %}
-            <li class="nav-item {% if item.isActive %}active{% endif %}">
-                <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
-            </li>
-        {% endfor %}
-
-        {% if user %}
-            <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                    <span class="hidden-xs">{{ user.getFirstname }} {{ user.getLastname }}</span>
-                </a>
-                <ul class="dropdown-menu">
-                    <!-- User image -->
-                    <li class="user-header">
-                        <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                        <p>
-                            {{ user.getFirstname }} {{ user.getLastname }}
-                            <small>Member since Nov. 2012</small>
-                        </p>
-                    </li>
-                    <!-- Menu Body -->
-                    <li class="user-body">
-                        <div class="row">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
+        <div class="mr-auto"></div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+            {% for item in navbar %}
+                <li class="nav-item {% if item.isActive %}active{% endif %}">
+                    <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
+                </li>
+            {% endfor %}
+    
+            {% if user %}
+                <li class="nav-item dropdown user user-menu">
+                    <a href="#" class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="" class="user-image" alt="">
+                        <span class="hidden-xs">{{ user.getFirstname }} {{ user.getLastname }}</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li class="user-header">
+                            <img src="" class="img-circle" alt="">
+                            <p>
+                                {{ user.getFirstname }} {{ user.getLastname }}
+                            </p>
+                        </li>
+                        {#<li class="user-body">#}
+                        {#</li>#}
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-info">Profile</a>
                             </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
+                            <div class="pull-right">
+                                <a href="{{ path('logout') }}" class="btn btn-sm btn-outline-secondary">Sign out</a>
                             </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
-                        </div>
-                        <!-- /.row -->
-                    </li>
-                    <!-- Menu Footer-->
-                    <li class="user-footer">
-                        <div class="pull-left">
-                            <a href="#" class="btn btn-default btn-flat">Profile</a>
-                        </div>
-                        <div class="pull-right">
-                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        {% endif %}
-        </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
     </div>
 </nav>

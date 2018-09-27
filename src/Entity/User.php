@@ -67,7 +67,7 @@ class User implements UserInterface, \Serializable
     private $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="datetime", columnDefinition="DATETIME on update CURRENT_TIMESTAMP")
+     * @ORM\Column(name="updated_at", type="datetime", options={"columnDefinition": "DATETIME DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"})
      * @var \DateTime
      */
     private $updatedAt;
@@ -82,10 +82,7 @@ class User implements UserInterface, \Serializable
         // $this->salt = md5(uniqid('', true));
     }
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -100,93 +97,63 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     * @return User
-     */
-    public function setUsername(string $username): User
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     * @return User
-     */
-    public function setPassword(string $password): User
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getFirstname(): string
+    public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string $firstname
-     * @return User
-     */
-    public function setFirstname(string $firstname): User
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLastname(): string
+    public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param string $lastname
-     * @return User
-     */
-    public function setLastname(string $lastname): User
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRole(): string
+    public function getRole(): ?string
     {
         return $this->role;
     }
 
-    /**
-     * @param string $role
-     * @return User
-     */
-    public function setRole(string $role): User
+    public function setRole(string $role): self
     {
         $this->role = $role;
+
         return $this;
     }
 
@@ -206,13 +173,10 @@ class User implements UserInterface, \Serializable
         return $this->isActive;
     }
 
-    /**
-     * @param bool $isActive
-     * @return User
-     */
-    public function setIsActive(bool $isActive): User
+    public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
         return $this;
     }
 
@@ -274,5 +238,34 @@ class User implements UserInterface, \Serializable
             'role_admin' => self::ROLE_ADMIN,
             'role_user' => self::ROLE_USER,
         ];
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

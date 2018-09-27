@@ -22,6 +22,8 @@ admin-user:
         new: Créer un nouvel utilisateur
     new:
         title: Créer un nouvel utilisateur
+    edit:
+        title: Modifier un nouvel utilisateur
     form:
         firstname: Prénom
         lastname: Nom

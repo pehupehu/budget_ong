@@ -8,3 +8,4 @@ admin:
       route: admin_reports
       icon: oi oi-graph
       roles: ROLE_ADMIN
+      disabled: true

@@ -1,11 +1,12 @@
-{% extends 'layout_admin.html.twig' %}
+{% extends 'layout_admin_small.html.twig' %}
 
 {% block title %}
-    {{ 'admin-user.new.title'|trans }}
+    {% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}
 {% endblock title %}
 
-{% block main %}
-    <h2>{{ 'admin-user.new.title'|trans }}</h2>
+{% block container %}
+
+    <h2>{% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}</h2>
     <div class="card">
         <div class="card-body">
             {{ form_start(form) }}
@@ -42,4 +43,4 @@
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock main %}
+{% endblock container %}

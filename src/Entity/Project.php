@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="projects")
+ * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  */
 class Project
 {

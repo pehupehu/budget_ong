@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="delegations")
+ * @ORM\Entity(repositoryClass="App\Repository\DelegationRepository")
  */
 class Delegation
 {

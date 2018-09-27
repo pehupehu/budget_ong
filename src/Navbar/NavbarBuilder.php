@@ -69,6 +69,10 @@ final class NavbarBuilder
                 continue;
             }
             foreach ($module as $translation_key => $conf) {
+                if (isset($conf['disabled']) && $conf['disabled']) {
+                    continue;
+                }
+
                 $navbarItem = new NavbarItem($translation_key_prefix . '.' . $translation_key, $conf['route']);
 
                 if (isset($conf['roles'])) {

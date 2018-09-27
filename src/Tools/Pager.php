@@ -52,7 +52,7 @@ class Pager
      * @param Query|QueryBuilder $query
      * @param bool $fetchJoinCollection
      */
-    public function __construct($query, $fetchJoinCollection = true, $nb_by_pages = 2, $page = 1)
+    public function __construct($query, $fetchJoinCollection = true, $nb_by_pages = 15, $page = 1)
     {
         $this->query = $query;
         $this->paginator = new Paginator($query, $fetchJoinCollection);

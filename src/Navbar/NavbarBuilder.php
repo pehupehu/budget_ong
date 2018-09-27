@@ -73,27 +73,65 @@ final class NavbarBuilder
                     continue;
                 }
 
-                $navbarItem = new NavbarItem($translation_key_prefix . '.' . $translation_key, $conf['route']);
+                if (isset($conf['children']) && $conf['children']) {
+                    $dropdownMenu = new DropdownMenu($translation_key_prefix . '.' . $translation_key);
 
-                if (isset($conf['roles'])) {
-                    if (!$this->authorizationChecker->isGranted($conf['roles'])) {
-                        continue;
+                    if (isset($conf['icon'])) {
+                        $dropdownMenu->setIcon($conf['icon']);
                     }
-                }
 
-                if (isset($conf['icon'])) {
-                    $navbarItem->setIcon($conf['icon']);
-                }
+                    $this->logger->debug('Dropdown menu : ' . $dropdownMenu);
 
-                try {
-                    $path = $this->urlGenerator->generate($conf['route']);
-                    $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
-                    $navbarItem->setIsActive($is_active);
-                    $navbar->add($navbarItem);
+                    // Iterator children
+                    foreach ($conf['children'] as $children_translation_key => $conf_children) {
+                        $dropdownItem = new DropdownItem($translation_key_prefix . '.' . $children_translation_key, $conf_children['route']);
 
-                    $this->logger->debug('Navbar item : ' . $navbarItem);
-                } catch (\Exception $e) {
-                    $this->logger->error('Navbar item : ' . $navbarItem . ' : ' . $e->getMessage());
+                        if (isset($conf_children['role'])) {
+                            if (!$this->authorizationChecker->isGranted($conf_children['role'])) {
+                                continue;
+                            }
+                        }
+
+                        if (isset($conf_children['icon'])) {
+                            $dropdownItem->setIcon($conf_children['icon']);
+                        }
+
+                        try {
+                            $path = $this->urlGenerator->generate($conf_children['route']);
+                            $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
+                            $dropdownItem->setIsActive($is_active);
+                            $dropdownMenu->add($dropdownItem);
+
+                            $this->logger->debug('Dropdown item : ' . $dropdownItem);
+                        } catch (\Exception $e) {
+                            $this->logger->error('Dropdown item : ' . $dropdownItem . ' : ' . $e->getMessage());
+                        }
+                    }
+
+                    $navbar->add($dropdownMenu);
+                } else {
+                    $navbarItem = new NavbarItem($translation_key_prefix . '.' . $translation_key, $conf['route']);
+
+                    if (isset($conf['role'])) {
+                        if (!$this->authorizationChecker->isGranted($conf['role'])) {
+                            continue;
+                        }
+                    }
+    
+                    if (isset($conf['icon'])) {
+                        $navbarItem->setIcon($conf['icon']);
+                    }
+    
+                    try {
+                        $path = $this->urlGenerator->generate($conf['route']);
+                        $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
+                        $navbarItem->setIsActive($is_active);
+                        $navbar->add($navbarItem);
+    
+                        $this->logger->debug('Navbar item : ' . $navbarItem);
+                    } catch (\Exception $e) {
+                        $this->logger->error('Navbar item : ' . $navbarItem . ' : ' . $e->getMessage());
+                    }
                 }
             }
         }
@@ -109,16 +147,6 @@ final class NavbarBuilder
         $conf = Yaml::parseFile(__DIR__ . '/../../config/navbar.yaml');
 
         return $this->_processNavbar($conf, 'navbar');
-    }
-
-    /**
-     * @return Navbar
-     */
-    public function createSidebar()
-    {
-        $conf = Yaml::parseFile(__DIR__ . '/../../config/sidebar.yaml');
-
-        return $this->_processNavbar($conf, 'sidebar');
     }
 
     private function getCurrentModule()

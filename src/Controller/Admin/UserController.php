@@ -6,13 +6,10 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Tools\Pager;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -24,11 +21,11 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/user", name="admin_user")
      */
-    public function index(RouterInterface $router, RequestStack $requestStack)
+    public function index(RequestStack $requestStack)
     {
-        /** @var UserRepository $usersRepo */
-        $usersRepo = $this->getDoctrine()->getRepository(User::class);
-        $pager = new Pager($usersRepo->loadUsers());
+        /** @var UserRepository $userRepo */
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
+        $pager = new Pager($userRepo->loadUsers());
         $pager->setPage($requestStack->getCurrentRequest()->get('page', 1));
         $pager->setRouteName('admin_user');
         $pager->setRouteParams([]);

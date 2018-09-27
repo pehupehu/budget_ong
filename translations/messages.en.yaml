@@ -3,8 +3,6 @@ navbar:
     import: Importer de données
     admin: Administration
     profile: Mon profil
-
-sidebar:
     admin-user: Utilisateurs
     admin-reports: Rapports
 

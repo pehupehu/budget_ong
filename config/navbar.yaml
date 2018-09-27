@@ -1,9 +1,22 @@
 all:
+  delegation:
+    route: delegation
+    role: ROLE_USER
+
   import:
     route: import_index
-    roles: ROLE_USER
+    role: ROLE_USER
     disabled: true
 
   admin:
-    route: admin_index
-    roles: ROLE_ADMIN
+    children:
+      admin-user:
+        route: admin_user
+        icon: oi oi-person
+        roles: ROLE_ADMIN
+    
+      admin-reports:
+        route: admin_reports
+        icon: oi oi-graph
+        role: ROLE_ADMIN
+        disabled: true

@@ -1,0 +1,35 @@
+{% extends 'layout_admin_small.html.twig' %}
+
+{% block title %}
+    {% if (form.vars.data.id) %}{{ 'delegation.edit.title'|trans }}{% else %}{{ 'delegation.new.title'|trans }}{% endif %}
+{% endblock title %}
+
+{% block container %}
+
+    <h2>{% if (form.vars.data.id) %}{{ 'delegation.edit.title'|trans }}{% else %}{{ 'delegation.new.title'|trans }}{% endif %}</h2>
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.name, {
+                    'label': 'delegation.form.name'
+                }) }}
+                {{ form_row(form.code, {
+                    'label': 'delegation.form.code'
+                }) }}
+                {{ form_widget(form.back, {
+                    'label': 'generic.form.back',
+                    'attr': {
+                        'class': 'btn-secondary btn-sm',
+                        'onclick': ppboxRedirect(path('delegation'))
+                    }
+                }) }}
+                {{ form_widget(form.save, {
+                    'label': 'generic.form.save',
+                    'attr': {
+                        'class': 'btn-info btn-sm'
+                    }
+                }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock container %}

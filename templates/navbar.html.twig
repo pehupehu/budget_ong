@@ -8,9 +8,12 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
             {% for item in navbar %}
-                <li class="nav-item {% if item.isActive %}active{% endif %}">
-                    <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
-                </li>
+                {% if (item.hasChildren) %}
+                {% else %}
+                    <li class="nav-item {% if item.isActive %}active{% endif %}">
+                        <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
+                    </li>
+                {% endif %}
             {% endfor %}
     
             {% if user %}

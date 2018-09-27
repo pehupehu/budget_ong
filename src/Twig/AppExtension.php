@@ -59,7 +59,6 @@ final class AppExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
-            new \Twig_SimpleFunction('renderSidebar', array($this, 'renderSidebar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
             new \Twig_SimpleFunction('ppboxConfirm', array($this, 'ppboxConfirm')),
         );
@@ -71,17 +70,6 @@ final class AppExtension extends \Twig_Extension
             'navbar.html.twig',
             [
                 'navbar' => $this->navBuilder->createNavbar(),
-                'user' => $this->user,
-            ]
-        );
-    }
-
-    public function renderSidebar()
-    {
-        return $this->twigEnvironment->render(
-            'sidebar.html.twig',
-            [
-                'navbar' => $this->navBuilder->createSidebar(),
                 'user' => $this->user,
             ]
         );

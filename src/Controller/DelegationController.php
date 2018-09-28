@@ -35,6 +35,14 @@ class DelegationController extends Controller
     }
 
     /**
+     * @Route("/delegation/import", name="delegation_import")
+     */
+    public function import(Request $request)
+    {
+
+    }
+
+    /**
      * @Route("/delegation/new", name="delegation_new")
      */
     public function new(Request $request)

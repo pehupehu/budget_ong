@@ -5,6 +5,7 @@ navbar:
     profile: Mon profil
     admin-user: Utilisateurs
     admin-reports: Rapports
+    delegation: Délégations
 
 admin:
     title: Administration
@@ -16,12 +17,11 @@ admin-user:
         lastname: Nom
         username: Identifiant
         role: Rôle
-        action: Actions-
         new: Créer un nouvel utilisateur
     new:
         title: Créer un nouvel utilisateur
     edit:
-        title: Modifier un nouvel utilisateur
+        title: Modifier un utilisateur
     form:
         firstname: Prénom
         lastname: Nom
@@ -30,11 +30,27 @@ admin-user:
         repeatedpassword: Répéter le mot de passe
         role: Rôle
 
+delegation:
+    list:
+        title: Liste des délégations
+        name: Libellé
+        code: Code
+        new: Créer une nouvelle délégation
+        import: Importer les délégations
+    new:
+        title: Créer une nouvelle délégation
+    edit:
+        title: Modifier une délégation
+    form:
+        name: Libellé
+        code: Code
+
 generic:
     batch-actions:
         go: Valider
         action: Actions
     list:
+        action: Actions
         edit: Modifier
         disable: Désactiver
         enable: Activer
@@ -42,6 +58,7 @@ generic:
         check_all: Tout
         uncheck_all: Aucun
         count: "{1} %count% enregistrement|]1,Inf[ %count% enregistrements"
+        no_result: Aucun résulat
     form:
         back: Retour au listing
         save: Enregistrer

@@ -9,16 +9,16 @@ namespace App\Navbar;
 class GenericItem
 {
     /** @var string */
-    private $translation_key;
+    protected $translation_key;
 
     /** @var string */
-    private $route;
+    protected $route;
 
     /** @var string */
-    private $icon;
+    protected $icon;
 
     /** @var boolean */
-    private $is_active;
+    protected $is_active;
 
     /**
      * GenericItem constructor.

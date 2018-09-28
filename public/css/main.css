@@ -14,7 +14,7 @@ body {
     padding: .40rem;
 }
 
-.table-listing .btn-group-sm>.btn, .btn-sm {
+.table-listing .btn-sm {
     font-size: .750rem;
     min-width: 100px;
     font-weight: bold;

@@ -26,7 +26,6 @@ body {
 }
 
 .navbar-nav .nav-item {
-    
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -56,6 +55,15 @@ body {
 
 .user-menu > a.nav-link {
     color: #FFF;
+}
+
+.navbar-custom-menu .dropdown-menu .dropdown-item {
+    font-size: small;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.navbar-custom-menu .dropdown-item.active {
+    background-color: #3c8dbc;
 }
 
 li.user-header {

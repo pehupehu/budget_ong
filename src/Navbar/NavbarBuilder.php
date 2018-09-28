@@ -80,8 +80,8 @@ final class NavbarBuilder
                         $dropdownMenu->setIcon($conf['icon']);
                     }
 
-                    $this->logger->debug('Dropdown menu : ' . $dropdownMenu);
-
+                    $this->logger->debug('Dropdown menu start');
+                    $menu_is_active = false; 
                     // Iterator children
                     foreach ($conf['children'] as $children_translation_key => $conf_children) {
                         $dropdownItem = new DropdownItem($translation_key_prefix . '.' . $children_translation_key, $conf_children['route']);
@@ -101,12 +101,18 @@ final class NavbarBuilder
                             $is_active = substr($this->requestStack->getCurrentRequest()->getRequestUri(), 0, strlen($path)) === $path;
                             $dropdownItem->setIsActive($is_active);
                             $dropdownMenu->add($dropdownItem);
+                            if ($is_active) {
+                                $menu_is_active = true;
+                            }
 
                             $this->logger->debug('Dropdown item : ' . $dropdownItem);
                         } catch (\Exception $e) {
                             $this->logger->error('Dropdown item : ' . $dropdownItem . ' : ' . $e->getMessage());
                         }
                     }
+
+                    $dropdownMenu->setIsActive($menu_is_active);
+                    $this->logger->debug('Dropdown menu end : ' . $dropdownMenu);
 
                     $navbar->add($dropdownMenu);
                 } else {

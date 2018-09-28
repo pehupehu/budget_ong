@@ -1,3 +1,4 @@
+{% set inc = 0 %}
 <nav class="navbar navbar-dark navbar-expand-md fixed-top">
     <a class="navbar-brand col-sm-1 mr-0" href="{{ path('index') }}">{{ 'navbar.navbar-brand'|trans }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +10,33 @@
             <ul class="nav navbar-nav">
             {% for item in navbar %}
                 {% if (item.hasChildren) %}
+                    {% set inc = inc + 1 %}
+                    <li class="nav-item {% if item.isActive %}active{% endif %} dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ inc }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if item.icon %}
+                                <span class="{{ item.icon }}" title="" aria-hidden="true"></span>
+                            {% endif %}
+                            {{ item.translationKey|trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown{{ inc }}">
+                            {% for dropdownItem in item %}
+                                <a class="dropdown-item {% if dropdownItem.isActive %}active{% endif %}" href="{{ path(dropdownItem.route) }}">
+                                    {% if dropdownItem.icon %}
+                                        <span class="{{ dropdownItem.icon }}" title="" aria-hidden="true"></span>
+                                    {% endif %}
+                                    {{ dropdownItem.translationKey|trans }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </li>
                 {% else %}
                     <li class="nav-item {% if item.isActive %}active{% endif %}">
-                        <a class="nav-link" href="{{ path(item.route) }}">{{ item.translationKey|trans }}</a>
+                        <a class="nav-link" href="{{ path(item.route) }}">
+                            {% if item.icon %}
+                                <span class="{{ item.icon }}" title="" aria-hidden="true"></span>
+                            {% endif %}
+                            {{ item.translationKey|trans }}
+                        </a>
                     </li>
                 {% endif %}
             {% endfor %}

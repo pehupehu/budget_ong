@@ -16,6 +16,7 @@ body {
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 300;
+    color: #FFFFFF
 }
 
 .navbar .form-control {
@@ -30,15 +31,15 @@ body {
     padding-right: 10px;
 }
 
-.navbar-dark .navbar-nav .nav-item.active,  .nav-item:hover {
+.navbar-blue .navbar-nav .nav-item.active,  .nav-item:hover {
     background-color: #367fa9;
 }
 
-.navbar-dark .navbar-nav .nav-link {
+.navbar-blue .navbar-nav .nav-link {
     color: #FFFFFF
 }
 
-.navbar-dark {
+.navbar-blue {
     background-color: #3c8dbc;
 }
 

@@ -58,6 +58,7 @@ final class AppExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('getSupportedLocales', array($this, 'getSupportedLocales')),
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
             new \Twig_SimpleFunction('ppboxConfirm', array($this, 'ppboxConfirm')),
@@ -91,5 +92,12 @@ final class AppExtension extends \Twig_Extension
         $buttons2 = json_encode($buttons2);
 
         return 'PPbox.alert(' . $id . ', ' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
+    }
+    
+    public static function getSupportedLocales()
+    {
+        return [
+            'fr' => 'Français',
+        ];
     }
 }

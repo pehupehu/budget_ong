@@ -18,19 +18,20 @@ class UserType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => User::class,
-        ));
+        ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname', null, [
-            'required' => true,
-        ]);
-        $builder->add('lastname', null, [
-            'required' => true,
-        ]);
+        $builder
+            ->add('firstname', null, [
+                'required' => true,
+            ])
+            ->add('lastname', null, [
+                'required' => true,
+            ]);
 
         if (!$options['data']->getId()) {
             $builder->add('username', EmailType::class);
@@ -42,12 +43,12 @@ class UserType extends AbstractType
             ]);
         }
 
-        $builder->add('role', ChoiceType::class, [
+        $builder
+            ->add('role', ChoiceType::class, [
                 'required' => true,
                 'choices' => User::getRolesChoices(),
             ])
             ->add('back', ButtonType::class)
-            ->add('save', SubmitType::class)
-        ;
+            ->add('save', SubmitType::class);
     }
 }

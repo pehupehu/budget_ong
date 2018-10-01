@@ -41,6 +41,8 @@ delegation:
         title: Créer une nouvelle délégation
     edit:
         title: Modifier une délégation
+    import:
+        title: Importer des délégations
     form:
         name: Libellé
         code: Code
@@ -62,6 +64,8 @@ generic:
     form:
         back: Retour au listing
         save: Enregistrer
+        import: Importer
+        file: Fichier
     diag-confirm:
         title: Confirmation
         message: Êtes vous sur ?

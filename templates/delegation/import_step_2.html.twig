@@ -1,0 +1,55 @@
+{% extends 'layout_admin_small.html.twig' %}
+
+{% block title %}
+    {{ 'delegation.import.title'|trans }}
+{% endblock title %}
+
+{% block container %}
+
+    <h2>{{ 'delegation.import.title'|trans }}</h2>
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        {{ form_widget(form.back, {
+                            'label': 'generic.form.back',
+                            'attr': {
+                                'class': 'btn-secondary btn-sm',
+                                'onclick': ppboxRedirect(path('delegation'))
+                            }
+                        }) }}
+                        {{ form_widget(form.save, {
+                            'label': 'generic.form.save',
+                            'attr': {
+                                'class': 'btn-primary btn-sm'
+                            }
+                        }) }}
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, object in form.vars.data.objects %}
+                <tr>
+                    <td>
+                        {% if (object.match) %}
+                            <span class="bg-warning">{{ object.match.name }}</span><br/>
+                        {% endif %}
+                        {{ object.import.name }}
+                    </td>
+                    <td>
+                        {{ object.import.code }}
+                    </td>
+                    <td>
+                        {{ form_widget(form.objects[key]) }}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock container %}

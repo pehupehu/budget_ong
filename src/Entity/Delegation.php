@@ -86,4 +86,28 @@ class Delegation
         $this->name = $name;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%s [%s]", $this->getName(), $this->getCode());
+    }
+    
+    public function equal(Delegation $copy) {
+        if ($this->getCode() !== $copy->getCode()) {
+            return false;
+        }
+        if ($this->getName() !== $copy->getName()) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public function copy(Delegation $copy) {
+        $this->setCode($copy->getCode());
+        $this->setName($copy->getName());
+    }
 }

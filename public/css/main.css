@@ -87,38 +87,14 @@ body {
     padding: 0 0 0.5rem;
 }
 
-.navbar-pagination a.page-link {
-    color: #3c8dbc;
-}
-
-.navbar-pagination .page-item.active .page-link {
-    background-color: #3c8dbc;
-    border-color: #3c8dbc;
-}
-
 .navbar-pagination .count-pagination {
     float: left;
     position: relative;
     display: block;
     padding: .5rem 2rem;
-    margin: 0rem 0rem 1rem 0rem;
+    margin: 0 0 1rem 0;
     line-height: 1.25;
-    color: #3c8dbc;
     background-color: #fff;
     border: 1px solid #dee2e6;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
-}
-
-.btn-info, .badge-info {
-    background-color: #3c8dbc;
-    border-color: #3c8dbc;
-}
-.btn-outline-info {
-    color: #3c8dbc;
-    border-color: #3c8dbc;
-}
-.btn-info:hover, .btn-outline-info:hover {
-    background-color: #367fa9;
-    color: #FFF;
-    border-color: #3c8dbc;
 }

@@ -11,17 +11,17 @@
                 <h2>
                     {{ 'delegation.list.title'|trans }}
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-sm btn-info" onclick="{{ ppboxRedirect(path('delegation_new')) }}">
+                        <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('delegation_new')) }}">
                             <span class="oi oi-play-circle"></span> {{ 'delegation.list.new'|trans }}
                         </button>
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <button id="btnGroupDropdown" type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button id="btnGroupDropdown" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupDropdown">
                                 <a class="dropdown-item" href="{{ path('delegation_new') }}">
                                     <span class="oi oi-play-circle"></span> {{ 'delegation.list.new'|trans }}
                                 </a>
-                                <a class="dropdown-item" href="{{ path('delegation_import') }}">
+                                <a class="dropdown-item" href="{{ path('delegation_import_step_1') }}">
                                     <span class="oi oi-play-circle"></span> {{ 'delegation.list.import'|trans }}
                                 </a>
                             </div>
@@ -32,7 +32,7 @@
             <div class="card-body">
                 {% include 'pagination.html.twig' with {'pager': pager} %}
                 {% if (pager.count == 0) %}
-                    <div class="alert alert-info">
+                    <div class="alert alert-primary">
                         {{ 'generic.list.no_result'|trans }}
                     </div>
                 {% else %}
@@ -64,7 +64,7 @@
                                 {{ delegation.code }}
                             </td>
                             <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
-                                <button type="button" class="btn btn-sm btn-outline-info" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
                                     <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{

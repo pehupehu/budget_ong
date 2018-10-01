@@ -1,6 +1,31 @@
 {% set inc = 0 %}
-<nav class="navbar navbar-blue navbar-expand-md fixed-top">
-    <a class="navbar-brand col-sm-1 mr-0" href="{{ path('index') }}">{{ 'navbar.navbar-brand'|trans }}</a>
+<nav class="navbar bg-secondary navbar-expand-md fixed-top">
+    <div class="navbar-brand bg-dark col-sm-1 mr-0">
+        <a class="" href="{{ path('index') }}">{{ 'navbar.navbar-brand'|trans }}</a>
+    </div>
+    <div class="navbar-locale">
+        <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+                {%  set locales = getSupportedLocales() %}
+                {% if (locales|length > 1) %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLocaleDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="flag flag-{{ app.request.locale }}"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarLocaleDropdown">
+                        {% for locale, locale_name in locales %}
+                            <a class="dropdown-item" href="{{ path('profile_switch_locale', {'_locale': locale}) }}">
+                                <span class="flag flag-{{ locale }}"></span> {{ locale_name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <a class="nav-link">
+                        <span class="flag flag-{{ app.request.locale }}"></span>
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -58,7 +83,7 @@
                         {#</li>#}
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-info">Profile</a>
+                                <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-primary">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{ path('logout') }}" class="btn btn-sm btn-outline-secondary">Sign out</a>

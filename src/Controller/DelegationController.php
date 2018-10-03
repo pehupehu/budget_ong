@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
-use App\Collection\DelegationCollection;
 use App\Collection\ImportCollection;
 use App\Collection\ImportObject;
 use App\Entity\Delegation;
-use App\Form\DelegationImportType;
 use App\Form\DelegationType;
 use App\Form\GenericImportResolveType;
-use App\Form\GenericImportType;
+use App\Form\GenericImportStep1Type;
+use App\Form\GenericImportStep2Type;
 use App\Repository\DelegationRepository;
 use App\Tools\Pager;
 use Doctrine\DBAL\Connection;
@@ -32,6 +31,10 @@ class DelegationController extends Controller
 {
     /**
      * @Route("/delegation", name="delegation")
+     * 
+     * @param RequestStack $requestStack
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(RequestStack $requestStack)
     {
@@ -49,16 +52,21 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/import/1", name="delegation_import_step_1")
+     * 
+     * @param Request $request
+     * @param SessionInterface $session
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function import_step_1(Request $request, SessionInterface $session)
     {
-        $form = $this->createForm(GenericImportType::class);
+        $file_headers_required = ['code', 'libelle'];
+        
+        $form = $this->createForm(GenericImportStep1Type::class, null, ['file_headers_required' => $file_headers_required]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
-            
             /** @var UploadedFile $file */
             $file = $form['file']->getData();
 
@@ -79,6 +87,14 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/import/2", name="delegation_import_step_2")
+
+     * @param Request $request
+     * @param SessionInterface $session
+     * @param LoggerInterface $logger
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @throws \Doctrine\DBAL\ConnectionException
      */
     public function import_step_2(Request $request, SessionInterface $session, LoggerInterface $logger)
     {
@@ -95,7 +111,7 @@ class DelegationController extends Controller
         foreach ($data as $row) {
             $import = new Delegation();
             $import->setCode($row['code']);
-            $import->setName($row['name']);
+            $import->setName($row['libelle']);
             
             $match = $delegations_by_code[$import->getCode()] ?? null;
             
@@ -106,7 +122,7 @@ class DelegationController extends Controller
             }
         }
 
-        $form = $this->createForm(DelegationImportType::class, $collection);
+        $form = $this->createForm(GenericImportStep2Type::class, $collection);
 
         $form->handleRequest($request);
 
@@ -131,11 +147,13 @@ class DelegationController extends Controller
                         $logger->debug('Add delegation : ' . $import);
                         $entityManager->persist($import);
                         $entityManager->flush();
-                    } else if ($resolve === GenericImportResolveType::RESOLVE_OVERWRITE) {
+                    } elseif ($resolve === GenericImportResolveType::RESOLVE_OVERWRITE) {
                         $logger->debug('Overwrite delegation : ' . $match . ' with ' . $import);
                         $match->copy($import);
                         $entityManager->persist($match);
                         $entityManager->flush();
+                    } elseif ($resolve === GenericImportResolveType::RESOLVE_SKIP) {
+                        $logger->debug('Skip delegation : ' . $import);
                     }
                 }
 
@@ -144,6 +162,10 @@ class DelegationController extends Controller
                 $conn->rollBack();
                 $logger->error($e->getMessage());
             }
+            
+            // TODO comptabiliser les ajouts/modifications/skip
+
+            return $this->redirectToRoute('delegation');
         }
 
         return $this->render('delegation/import_step_2.html.twig', [
@@ -154,6 +176,10 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/new", name="delegation_new")
+     * 
+     * @param Request $request
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function new(Request $request)
     {
@@ -183,6 +209,11 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/{id}/edit", name="delegation_edit")
+     * 
+     * @param Request $request
+     * @param Delegation $delegation
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function edit(Request $request, Delegation $delegation)
     {
@@ -208,8 +239,12 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/{id}/remove", name="delegation_remove")
+     * 
+     * @param Delegation $delegation
+     * 
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function remove(Request $request, Delegation $delegation)
+    public function remove(Delegation $delegation)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($delegation);

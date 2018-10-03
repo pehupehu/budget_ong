@@ -13,9 +13,9 @@ class DelegationType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Delegation::class,
-        ));
+        ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

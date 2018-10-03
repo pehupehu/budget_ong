@@ -9,10 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class DelegationImportType
+ * Class GenericImportStep2Type
  * @package App\Form
  */
-class DelegationImportType extends AbstractType
+class GenericImportStep2Type extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder

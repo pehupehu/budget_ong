@@ -43,6 +43,7 @@ delegation:
         title: Modifier une délégation
     import:
         title: Importer des délégations
+        up_to_date: Aucune modification n'a été trouvée.
     form:
         name: Libellé
         code: Code
@@ -66,6 +67,9 @@ generic:
         save: Enregistrer
         import: Importer
         file: Fichier
+        resolve_add: Ajouter
+        resolve_overwrite: Remplacer
+        resolve_skip: Passer
     diag-confirm:
         title: Confirmation
         message: Êtes vous sur ?

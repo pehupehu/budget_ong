@@ -13,9 +13,37 @@ class GenericImportResolveType extends AbstractType
 {
     const RESOLVE_ADD = 'add';
     const RESOLVE_OVERWRITE = 'overwrite';
+    const RESOLVE_SKIP = 'skip';
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function(FormEvent $event) {
+                $object = $event->getData();
+                $form    = $event->getForm();
+                
+                $choices = [];
+                if ($object->getResolve() === self::RESOLVE_ADD) {
+                    $choices['generic.form.resolve_add'] = self::RESOLVE_ADD;
+                } elseif ($object->getResolve() === self::RESOLVE_ADD) {
+                    $choices['generic.form.resolve_overwrite'] = self::RESOLVE_OVERWRITE;
+                }
+                $choices['generic.form.resolve_skip'] = self::RESOLVE_SKIP;
+
+                $form
+                    ->add('resolve', ChoiceType::class, [
+                        'expanded' => false,
+                        'multiple' => false,
+                        'required' => true,
+                        'choices' => $choices,
+                        'label' => false,
+                        'attr' => [
+                            'class' => 'form-control-sm'
+                        ],
+                    ]);
+            });
+        /*
         $builder
             ->add('resolve', ChoiceType::class, [
                 'expanded' => false,
@@ -30,5 +58,6 @@ class GenericImportResolveType extends AbstractType
                     'class' => 'form-control-sm'
                 ],
             ]);
+        */
     }
 }

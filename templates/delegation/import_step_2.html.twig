@@ -1,11 +1,10 @@
-{% extends 'layout_admin_small.html.twig' %}
+{% extends 'layout_small.html.twig' %}
 
 {% block title %}
     {{ 'delegation.import.title'|trans }}
 {% endblock title %}
 
 {% block container %}
-
     <h2>{{ 'delegation.import.title'|trans }}</h2>
     <div class="card">
         <div class="card-body">
@@ -16,7 +15,7 @@
                 <button class="btn-secondary btn-sm btn" onclick="{{ ppboxRedirect(path('delegation')) }}">{{ 'generic.form.back'|trans }}</button>
             {% else %}
                 {{ form_start(form) }}
-                <table class="table table-striped">
+                <table class="table">
                     <thead>
                     <tr>
                         <th colspan="3">
@@ -38,11 +37,8 @@
                     </thead>
                     <tbody>
                     {% for key, object in form.vars.data.objects %}
-                    <tr>
+                    <tr class="{% if (object.match) %}table-warning{% endif %}">
                         <td>
-                            {% if (object.match) %}
-                                <span class="bg-warning">{{ object.match.name }}</span><br/>
-                            {% endif %}
                             {{ object.import.name }}
                         </td>
                         <td>

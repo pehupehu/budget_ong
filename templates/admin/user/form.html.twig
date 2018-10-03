@@ -1,11 +1,10 @@
-{% extends 'layout_admin_small.html.twig' %}
+{% extends 'layout_small.html.twig' %}
 
 {% block title %}
     {% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}
 {% endblock title %}
 
 {% block container %}
-
     <h2>{% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}</h2>
     <div class="card">
         <div class="card-body">

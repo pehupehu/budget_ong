@@ -60,7 +60,7 @@ class DelegationController extends Controller
      */
     public function import_step_1(Request $request, SessionInterface $session)
     {
-        $file_headers_required = ['code', 'libelle'];
+        $file_headers_required = ['code', 'name'];
         
         $form = $this->createForm(GenericImportStep1Type::class, null, ['file_headers_required' => $file_headers_required]);
 
@@ -111,7 +111,7 @@ class DelegationController extends Controller
         foreach ($data as $row) {
             $import = new Delegation();
             $import->setCode($row['code']);
-            $import->setName($row['libelle']);
+            $import->setName($row['name']);
             
             $match = $delegations_by_code[$import->getCode()] ?? null;
             

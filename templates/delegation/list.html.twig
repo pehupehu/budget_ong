@@ -1,10 +1,10 @@
-{% extends 'layout_admin.html.twig' %}
+{% extends 'layout_small.html.twig' %}
 
 {% block title %}
     {{ 'delegation.list.title'|trans }}
 {% endblock title %}
 
-{% block main %}
+{% block container %}
     <form method="post">
         <div class="card card-listing">
             <div class="card-header">
@@ -51,7 +51,7 @@
                         </thead>
                         <tbody>
                         {% for delegation in pager.iterator %}
-                        <tr>
+                        <tr class="pp-check-uncheck-row">
                             <td class="text-center">
                                 <div class="form-check form-check-inline">
                                     <input type="checkbox" class="form-check-input pp-check-uncheck-id" data-id="{{ delegation.id }}" title="">
@@ -80,7 +80,7 @@
                             <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ 'delegation.list.action'|trans }}
+                                        {{ 'generic.list.action'|trans }}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                         <a class="dropdown-item" href="#" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
@@ -106,4 +106,4 @@
             </div>
         </div>
     </form>
-{% endblock main %}
+{% endblock container %}

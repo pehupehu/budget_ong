@@ -87,6 +87,15 @@ body {
     padding: 0 0 0.5rem;
 }
 
+.card-listing .card-batch-actions {
+    padding: 0.5rem 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.card-listing .card-batch-actions .col-form-label {
+    font-weight: bold;
+}
+
 .navbar-pagination .count-pagination {
     float: left;
     position: relative;

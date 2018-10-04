@@ -32,16 +32,16 @@ class DelegationController extends Controller
     /**
      * @Route("/delegation", name="delegation")
      * 
-     * @param RequestStack $requestStack
+     * @param Request $request
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(RequestStack $requestStack)
+    public function index(Request $request)
     {
         /** @var DelegationRepository $delegationRepo */
         $delegationRepo = $this->getDoctrine()->getRepository(Delegation::class);
         $pager = new Pager($delegationRepo->loadDelegations());
-        $pager->setPage($requestStack->getCurrentRequest()->get('page', 1));
+        $pager->setPage($request->get('page', 1));
         $pager->setRouteName('delegation');
         $pager->setRouteParams([]);
 

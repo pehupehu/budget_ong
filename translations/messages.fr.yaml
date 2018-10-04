@@ -55,6 +55,7 @@ generic:
     list:
         action: Actions
         edit: Modifier
+        choose: Choisissez
         disable: Désactiver
         enable: Activer
         delete: Supprimer

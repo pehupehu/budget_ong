@@ -5,15 +5,19 @@
 {% endblock title %}
 
 {% block container %}
-    <form method="post">
-        <div class="card card-listing">
-            <div class="card-header">
-                <h2>
-                    {{ 'admin-user.list.title'|trans }}
-                    <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
-                        <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
-                    </button>
-                </h2>
+    <div class="card card-listing">
+        <div class="card-header">
+            <h2>
+                {{ 'admin-user.list.title'|trans }}
+                <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
+                    <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
+                </button>
+            </h2>
+        </div>
+        {% include 'admin/user/filters.html.twig' %}
+        {{ form_start(formBatchActions) }}
+            <div class="card-batch-actions">
+                {% include 'admin/user/batch_actions.html.twig' %}
             </div>
             <div class="card-body">
                 {% include 'pagination.html.twig' with {'pager': pager} %}
@@ -147,6 +151,6 @@
                     </table>
                 {% endif %}
             </div>
-        </div>
-    </form>
+        {{ form_end(formBatchActions) }}
+    </div>
 {% endblock container %}

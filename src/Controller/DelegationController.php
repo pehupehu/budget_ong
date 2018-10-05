@@ -6,10 +6,12 @@ use App\Collection\ImportCollection;
 use App\Collection\ImportObject;
 use App\Entity\Delegation;
 use App\Form\DelegationType;
+use App\Form\Filters\DelegationFiltersType;
 use App\Form\GenericImportResolveType;
 use App\Form\GenericImportStep1Type;
 use App\Form\GenericImportStep2Type;
 use App\Repository\DelegationRepository;
+use App\Tools\Filters;
 use App\Tools\Pager;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
@@ -37,15 +39,27 @@ class DelegationController extends Controller
      */
     public function index(Request $request)
     {
+        $filters = $routeParams = [];
+
+        $formFilters = $this->createForm(DelegationFiltersType::class);
+        $formFilters->handleRequest($request);
+        if ($formFilters->isSubmitted() && $formFilters->isValid()) {
+            $filters = $formFilters->getData() ?? [];
+            $routeParams[$formFilters->getName()] = $filters;
+        }
+
         /** @var DelegationRepository $delegationRepo */
         $delegationRepo = $this->getDoctrine()->getRepository(Delegation::class);
-        $pager = new Pager($delegationRepo->loadDelegations());
+        $pager = new Pager($delegationRepo->loadDelegations($filters));
         $pager->setPage($request->get('page', 1));
         $pager->setRouteName('delegation');
-        $pager->setRouteParams([]);
+        $pager->setRouteParams($routeParams);
 
         return $this->render('delegation/list.html.twig', [
             'pager' => $pager,
+            'errorFilters' => $formFilters->isSubmitted() && !$formFilters->isValid(),
+            'formFilters' => $formFilters->createView(),
+            'nbActiveFilters' => Filters::getNbActiveFilters($filters),
         ]);
     }
 

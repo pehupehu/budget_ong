@@ -1,0 +1,39 @@
+<div class="card-filters">
+    {{ form_start(formFilters) }}
+        <div class="form-row">
+            <div class="col-md-3">
+                {{ form_row(formFilters.code, {
+                    'label': 'delegation.field.code',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(formFilters.name, {
+                    'label': 'delegation.field.name',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_widget(formFilters.reset, {
+                'label': 'generic.action.reset',
+                'attr': {
+                    'class': 'btn-sm btn-secondary',
+                    'onclick': ppboxRedirect(path('delegation'))
+                }
+            }) }}
+            {{ form_widget(formFilters.submit, {
+                'label': 'generic.action.filter',
+                'attr': {
+                    'class': 'btn-sm btn-primary'
+                }
+            }) }}
+        </div>
+    {{ form_end(formFilters) }}
+</div>

@@ -46,7 +46,9 @@
         </div>
 
         <div class="card-body">
+
             {% include 'pagination.html.twig' with {'pager': pager} %}
+
             {% if (pager.count) %}
                 <table class="table table-hover table-listing">
                     <thead class="thead-dark">

@@ -5,16 +5,38 @@ namespace App\Repository;
 use App\Entity\Delegation;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class DelegationRepository
+ * @package App\Repository
+ */
 class DelegationRepository extends EntityRepository
 {
-    private static $delegations_by_code = null;
+    private static $delegations_by_code;
 
-    public function loadDelegations()
+    /**
+     * @param array $filters
+     * @return \Doctrine\ORM\Query
+     */
+    public function loadDelegations($filters = [])
     {
-        return $this->createQueryBuilder('d')
-            ->getQuery();
+        $query = $this->createQueryBuilder('d');
+
+        if (!empty($filters['code'])) {
+            $query->where('d.code LIKE :code')
+                ->setParameter('code', '%' . $filters['code'] . '%');
+        }
+
+        if (!empty($filters['name'])) {
+            $query->where('d.name LIKE :name')
+                ->setParameter('name', '%' . $filters['name'] . '%');
+        }
+
+        return $query->getQuery();
     }
 
+    /**
+     * @return array
+     */
     public function getDelegationsByCode()
     {
         if (self::$delegations_by_code !== null) {

@@ -5,16 +5,15 @@ namespace App\Form\Filters;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class UserFiltersType
+ * Class DelegationFiltersType
  * @package App\Form\Filters
  */
-class UserFiltersType extends AbstractType
+class DelegationFiltersType extends AbstractType
 {
     /**
      * @param OptionsResolver $resolver
@@ -34,18 +33,11 @@ class UserFiltersType extends AbstractType
     {
         $builder
             ->setMethod('get')
-            ->add('firstname', null, [
+            ->add('code', null, [
                 'required' => false,
             ])
-            ->add('lastname', null, [
+            ->add('name', null, [
                 'required' => false,
-            ])
-            ->add('username', null, [
-                'required' => false,
-            ])
-            ->add('role', ChoiceType::class, [
-                'required' => false,
-                'choices' => UserRepository::getRoles()
             ])
             ->add('reset', ButtonType::class)
             ->add('submit', SubmitType::class);

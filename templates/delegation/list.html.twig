@@ -5,101 +5,132 @@
 {% endblock title %}
 
 {% block container %}
-    <form method="post">
-        <div class="card card-listing">
-            <div class="card-header">
-                <h2>
-                    {{ 'delegation.title.list'|trans }}
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('delegation_new')) }}">
-                            <span class="oi oi-play-circle"></span> {{ 'delegation.action.new'|trans }}
+    <div class="card card-listing">
+
+        {% include 'flashbag.html.twig' %}
+
+        <div class="card-header">
+            <h2>
+                {{ 'delegation.title.list'|trans }}
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('delegation_new')) }}">
+                        <span class="oi oi-play-circle"></span> {{ 'delegation.action.new'|trans }}
+                    </button>
+                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <button id="btnGroupDropdown" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                            <button id="btnGroupDropdown" type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDropdown">
-                                <a class="dropdown-item" href="{{ path('delegation_new') }}">
-                                    <span class="oi oi-play-circle"></span> {{ 'delegation.action.new'|trans }}
-                                </a>
-                                <a class="dropdown-item" href="{{ path('delegation_import_step_1') }}">
-                                    <span class="oi oi-play-circle"></span> {{ 'delegation.action.import'|trans }}
-                                </a>
-                            </div>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDropdown">
+                            <a class="dropdown-item" href="{{ path('delegation_new') }}">
+                                <span class="oi oi-play-circle"></span> {{ 'delegation.action.new'|trans }}
+                            </a>
+                            <a class="dropdown-item" href="{{ path('delegation_import_step_1') }}">
+                                <span class="oi oi-play-circle"></span> {{ 'delegation.action.import'|trans }}
+                            </a>
                         </div>
                     </div>
-                </h2>
-            </div>
-            <div class="card-body">
-                {% include 'pagination.html.twig' with {'pager': pager} %}
-                {% if (pager.count) %}
-                    <table class="table table-hover table-listing">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th class="text-center">
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.checkboxes.check_all'|trans }}" data-uncheck="{{ 'generic.checkboxes.uncheck_all'|trans }}" title="">
-                                </div>
-                            </th>
-                            <th class="text-center" scope="col">{{ 'delegation.field.code'|trans }}</th>
-                            <th class="text-center" scope="col">{{ 'delegation.field.name'|trans }}</th>
-                            <th class="text-center" scope="col">{{ 'generic.field.actions'|trans }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for delegation in pager.iterator %}
-                        <tr class="pp-check-uncheck-row">
-                            <td class="text-center">
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input pp-check-uncheck-id" data-id="{{ delegation.id }}" title="">
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                {{ delegation.code }}
-                            </td>
-                            <td class="text-center">
-                                {{ delegation.name }}
-                            </td>
-                            <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
-                                    <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
-                                </button>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
-                                ppboxConfirm('generic.diag-confirm.title'|trans,
-                                    'generic.diag-confirm.message'|trans,
-                                    'danger',
-                                    'sm',
-                                    {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                    {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                    <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
-                                </button>
-                            </td>
-                            <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
-                                <div class="btn-group" role="group">
-                                    <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {{ 'generic.field.actions'|trans }}
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item" href="#" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
-                                            <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
-                                        </a>
-                                        <a class="dropdown-item" href="#"  onclick="{{
-                                        ppboxConfirm('generic.diag-confirm.title'|trans,
-                                            'generic.diag-confirm.message'|trans,
-                                            'danger',
-                                            'sm',
-                                            {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                            {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                            <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% endif %}
+                </div>
+            </h2>
+        </div>
+
+        <div class="card-actions">
+            <ul class="nav nav-tabs">
+                <li class="nav-item" title="{{ 'generic.filters.count_active_filters'|transchoice(nbActiveFilters) }}">
+                    <a class="nav-link {% if errorFilters %}active text-danger{% endif %}" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        {% if errorFilters %}
+                            <span class="oi oi-warning"></span>
+                        {% endif %}
+                        {{ 'generic.filters.title'|trans }}
+                        {% if (nbActiveFilters) %}
+                            <span class="badge badge-primary">{{ nbActiveFilters }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'generic.field.actions'|trans }}</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">{{ 'generic.action.enable'|trans }}</a>
+                        <a class="dropdown-item" href="#">{{ 'generic.action.disable'|trans }}</a>
+                        <a class="dropdown-item" href="#">{{ 'generic.action.delete'|trans }}</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="collapse {% if errorFilters %}show{% endif %}" id="collapseExample">
+                {% include 'delegation/filters.html.twig' %}
             </div>
         </div>
-    </form>
+
+        <div class="card-body">
+
+            {% include 'pagination.html.twig' with {'pager': pager} %}
+
+            {% if (pager.count) %}
+                <table class="table table-hover table-listing">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th class="text-center">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.checkboxes.check_all'|trans }}" data-uncheck="{{ 'generic.checkboxes.uncheck_all'|trans }}" title="">
+                            </div>
+                        </th>
+                        <th class="text-center" scope="col">{{ 'delegation.field.code'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'delegation.field.name'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'generic.field.actions'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for delegation in pager.iterator %}
+                    <tr class="pp-check-uncheck-row">
+                        <td class="text-center">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" class="form-check-input pp-check-uncheck-id" data-id="{{ delegation.id }}" title="">
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            {{ delegation.code }}
+                        </td>
+                        <td class="text-center">
+                            {{ delegation.name }}
+                        </td>
+                        <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
+                                <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
+                            ppboxConfirm('generic.diag-confirm.title'|trans,
+                                'generic.diag-confirm.message'|trans,
+                                'danger',
+                                'sm',
+                                {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
+                                {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                            </button>
+                        </td>
+                        <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ 'generic.field.actions'|trans }}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
+                                        <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
+                                    </a>
+                                    <a class="dropdown-item" href="#"  onclick="{{
+                                    ppboxConfirm('generic.diag-confirm.title'|trans,
+                                        'generic.diag-confirm.message'|trans,
+                                        'danger',
+                                        'sm',
+                                        {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
+                                        {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                        <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
 {% endblock container %}

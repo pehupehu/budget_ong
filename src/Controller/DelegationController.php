@@ -20,6 +20,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
@@ -37,9 +38,9 @@ class DelegationController extends Controller
      * 
      * @param Request $request
      * 
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $filters = $routeParams = [];
 
@@ -78,9 +79,9 @@ class DelegationController extends Controller
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function action(Request $request, FlashBagTranslator $flashBagTranslator)
+    public function action(Request $request, FlashBagTranslator $flashBagTranslator): Response
     {
         $params = ['ids' => json_decode($request->get('ids'), true)];
         if (empty($params['ids'])) {
@@ -119,9 +120,9 @@ class DelegationController extends Controller
      * @param Request $request
      * @param SessionInterface $session
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function import_step_1(Request $request, SessionInterface $session)
+    public function import_step_1(Request $request, SessionInterface $session): Response
     {
         $file_headers_required = ['code', 'name'];
         
@@ -150,17 +151,15 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/import/2", name="delegation_import_step_2")
-
+     * 
      * @param Request $request
      * @param SessionInterface $session
      * @param FlashBagTranslator $flashBagTranslator
      * @param LoggerInterface $logger
      * 
-     * @return \Symfony\Component\HttpFoundation\Response
-     * 
-     * @throws \Doctrine\DBAL\ConnectionException
+     * @return Response
      */
-    public function import_step_2(Request $request, SessionInterface $session, FlashBagTranslator $flashBagTranslator, LoggerInterface $logger)
+    public function import_step_2(Request $request, SessionInterface $session, FlashBagTranslator $flashBagTranslator, LoggerInterface $logger): Response
     {
         // Get session data
         // Parse data
@@ -225,8 +224,12 @@ class DelegationController extends Controller
 
                 $conn->commit();
             } catch (\Exception $e) {
-                $conn->rollBack();
                 $logger->error($e->getMessage());
+                try {
+                    $conn->rollBack();
+                } catch (\Exception $e) {
+                    $logger->error($e->getMessage());
+                }
             }
 
             if ($nb_add) {
@@ -255,9 +258,9 @@ class DelegationController extends Controller
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function new(Request $request, FlashBagTranslator $flashBagTranslator)
+    public function new(Request $request, FlashBagTranslator $flashBagTranslator): Response
     {
         $delegation = new Delegation();
         $delegation->setId(0);
@@ -292,9 +295,9 @@ class DelegationController extends Controller
      * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, Delegation $delegation)
+    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, Delegation $delegation): Response
     {
         $form = $this->createForm(DelegationType::class, $delegation);
 
@@ -324,9 +327,9 @@ class DelegationController extends Controller
      * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function remove(FlashBagTranslator $flashBagTranslator, Delegation $delegation)
+    public function remove(FlashBagTranslator $flashBagTranslator, Delegation $delegation): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($delegation);

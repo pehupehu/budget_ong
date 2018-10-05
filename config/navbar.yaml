@@ -10,12 +10,12 @@ all:
 
   admin:
     children:
-      admin-user:
+      admin_user:
         route: admin_user
         icon: oi oi-person
         roles: ROLE_ADMIN
     
-      admin-reports:
+      admin_reports:
         route: admin_reports
         icon: oi oi-graph
         role: ROLE_ADMIN

@@ -21,6 +21,16 @@ class DelegationRepository extends EntityRepository
     {
         $query = $this->createQueryBuilder('d');
 
+        if (!empty($filters['id'])) {
+            $query->where('d.id = :id')
+                ->setParameter('id', $filters['id']);
+        }
+
+        if (!empty($filters['ids'])) {
+            $query->where('d.id IN (:ids)')
+                ->setParameter('ids', $filters['ids']);
+        }
+
         if (!empty($filters['code'])) {
             $query->where('d.code LIKE :code')
                 ->setParameter('code', '%' . $filters['code'] . '%');

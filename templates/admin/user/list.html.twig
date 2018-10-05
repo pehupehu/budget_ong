@@ -1,7 +1,7 @@
 {% extends 'layout_small.html.twig' %}
 
 {% block title %}
-    {{ 'admin-user.title.list'|trans }}
+    {{ 'admin_user.title.list'|trans }}
 {% endblock title %}
 
 {% block container %}
@@ -11,9 +11,9 @@
 
         <div class="card-header">
             <h2>
-                {{ 'admin-user.title.list'|trans }}
+                {{ 'admin_user.title.list'|trans }}
                 <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
-                    <span class="oi oi-play-circle"></span> {{ 'admin-user.action.new'|trans }}
+                    <span class="oi oi-play-circle"></span> {{ 'admin_user.action.new'|trans }}
                 </button>
             </h2>
         </div>
@@ -34,9 +34,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'generic.field.actions'|trans }}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">{{ 'generic.action.enable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.action.disable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.action.delete'|trans }}</a>
+                        <a class="dropdown-item pp-check-uncheck-action" href="#" data-target="{{ path('admin_user_action', {'action': 'enable'}) }}">{{ 'generic.action.enable'|trans }}</a>
+                        <a class="dropdown-item pp-check-uncheck-action" href="#" data-target="{{ path('admin_user_action', {'action': 'disable'}) }}">{{ 'generic.action.disable'|trans }}</a>
+                        <a class="dropdown-item pp-check-uncheck-action" href="#" data-target="{{ path('admin_user_action', {'action': 'remove'}) }}">{{ 'generic.action.remove'|trans }}</a>
                     </div>
                 </li>
             </ul>
@@ -58,10 +58,10 @@
                                 <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.checkboxes.check_all'|trans }}" data-uncheck="{{ 'generic.checkboxes.uncheck_all'|trans }}" title="">
                             </div>
                         </th>
-                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.field.firstname'|trans }}</th>
-                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.field.lastname'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'admin-user.field.username'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'admin-user.field.role'|trans }}</th>
+                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin_user.field.firstname'|trans }}</th>
+                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin_user.field.lastname'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'admin_user.field.username'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'admin_user.field.role'|trans }}</th>
                         <th class="text-center" scope="col">{{ 'generic.field.actions'|trans }}</th>
                     </tr>
                     </thead>
@@ -98,33 +98,33 @@
                             </button>
                             {% if user.isActive == 0 %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
-                                    ppboxConfirm('generic.diag-confirm.title'|trans,
-                                        'generic.diag-confirm.message'|trans,
+                                    ppboxConfirm('generic.diag_confirm.title'|trans,
+                                        'generic.diag_confirm.message'|trans,
                                         'info',
                                         'sm',
-                                        {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
-                                        {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                        {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
+                                        {text: 'generic.diag_confirm.cancel'|trans })}}">
                                     <span class="oi oi-thumb-up"></span> {{ 'generic.action.enable'|trans }}
                                 </button>
                             {% else %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
-                                ppboxConfirm('generic.diag-confirm.title'|trans,
-                                    'generic.diag-confirm.message'|trans,
+                                ppboxConfirm('generic.diag_confirm.title'|trans,
+                                    'generic.diag_confirm.message'|trans,
                                     'warning',
                                     'sm',
-                                    {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
-                                    {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                    {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
+                                    {text: 'generic.diag_confirm.cancel'|trans })}}">
                                     <span class="oi oi-thumb-down"></span> {{ 'generic.action.disable'|trans }}
                                 </button>
                             {% endif %}
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
-                            ppboxConfirm('generic.diag-confirm.title'|trans,
-                                'generic.diag-confirm.message'|trans,
+                            ppboxConfirm('generic.diag_confirm.title'|trans,
+                                'generic.diag_confirm.message'|trans,
                                 'danger',
                                 'sm',
-                                {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
-                                {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                                {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
+                                {text: 'generic.diag_confirm.cancel'|trans })}}">
+                                <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                             </button>
                         </td>
                         <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
@@ -138,33 +138,33 @@
                                     </a>
                                     {% if user.isActive == 0 %}
                                         <a class="dropdown-item" href="#" onclick="{{
-                                        ppboxConfirm('generic.diag-confirm.title'|trans,
-                                            'generic.diag-confirm.message'|trans,
+                                        ppboxConfirm('generic.diag_confirm.title'|trans,
+                                            'generic.diag_confirm.message'|trans,
                                             'info',
                                             'sm',
-                                            {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
-                                            {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                            {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
+                                            {text: 'generic.diag_confirm.cancel'|trans })}}">
                                             <span class="oi oi-thumb-up"></span> {{ 'generic.action.enable'|trans }}
                                         </a>
                                     {% else %}
                                         <a class="dropdown-item" href="#" onclick="{{
-                                        ppboxConfirm('generic.diag-confirm.title'|trans,
-                                            'generic.diag-confirm.message'|trans,
+                                        ppboxConfirm('generic.diag_confirm.title'|trans,
+                                            'generic.diag_confirm.message'|trans,
                                             'info',
                                             'sm',
-                                            {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
-                                            {text: 'generic.diag-confirm.cancel'|trans })}}">
+                                            {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
+                                            {text: 'generic.diag_confirm.cancel'|trans })}}">
                                             <span class="oi oi-thumb-down"></span> {{ 'generic.action.disable'|trans }}
                                         </a>
                                     {% endif %}
                                     <a class="dropdown-item" href="#"  onclick="{{
-                                    ppboxConfirm('generic.diag-confirm.title'|trans,
-                                        'generic.diag-confirm.message'|trans,
+                                    ppboxConfirm('generic.diag_confirm.title'|trans,
+                                        'generic.diag_confirm.message'|trans,
                                         'danger',
                                         'sm',
-                                        {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
-                                        {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                        <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                                        {text: 'generic.diag_confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
+                                        {text: 'generic.diag_confirm.cancel'|trans })}}">
+                                        <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                                     </a>
                                 </div>
                             </div>

@@ -48,9 +48,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'generic.field.actions'|trans }}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">{{ 'generic.action.enable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.action.disable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.action.delete'|trans }}</a>
+                        <a class="dropdown-item pp-check-uncheck-action" href="#" data-target="{{ path('delegation_action', {'action': 'remove'}) }}">{{ 'generic.action.remove'|trans }}</a>
                     </div>
                 </li>
             </ul>
@@ -96,13 +94,13 @@
                                 <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
-                            ppboxConfirm('generic.diag-confirm.title'|trans,
-                                'generic.diag-confirm.message'|trans,
+                            ppboxConfirm('generic.diag_confirm.title'|trans,
+                                'generic.diag_confirm.message'|trans,
                                 'danger',
                                 'sm',
-                                {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                                {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
+                                {text: 'generic.diag_confirm.cancel'|trans })}}">
+                                <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                             </button>
                         </td>
                         <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
@@ -115,13 +113,13 @@
                                         <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                                     </a>
                                     <a class="dropdown-item" href="#"  onclick="{{
-                                    ppboxConfirm('generic.diag-confirm.title'|trans,
-                                        'generic.diag-confirm.message'|trans,
+                                    ppboxConfirm('generic.diag_confirm.title'|trans,
+                                        'generic.diag_confirm.message'|trans,
                                         'danger',
                                         'sm',
-                                        {text: 'generic.diag-confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                        {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                        <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
+                                        {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
+                                        {text: 'generic.diag_confirm.cancel'|trans })}}">
+                                        <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                                     </a>
                                 </div>
                             </div>

@@ -268,4 +268,34 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function canBeEnable()
+    {
+        return !$this->isActive();
+    }
+
+    public function enable()
+    {
+        $this->setIsActive(true);
+    }
+
+    public function canBeDisable()
+    {
+        return $this->isActive();
+    }
+
+    public function disable()
+    {
+        $this->setIsActive(false);
+    }
+
+    public function canBeRemove()
+    {
+        return true;
+    }
+
+    public function remove()
+    {
+    }
+
 }

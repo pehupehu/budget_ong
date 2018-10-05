@@ -1,16 +1,16 @@
 navbar:
-    navbar-brand: Budget
+    navbar_brand: Budget
     import: Importer de données
     admin: Administration
     profile: Mon profil
-    admin-user: Utilisateurs
-    admin-reports: Rapports
+    admin_user: Utilisateurs
+    admin_reports: Rapports
     delegation: Délégations
 
 admin:
     title: Administration
 
-admin-user:
+admin_user:
     field:
         firstname: Prénom
         lastname: Nom
@@ -31,6 +31,9 @@ admin-user:
             remove: L'utilisateur a été supprimé avec succès
             enable: L'utilisateur a été activé avec succès
             disable: L'utilisateur a été désactivé avec succès
+        count_enable: "{1} %count% utilisateur a été activé|]1,Inf[ %count% utilisateurs ont été activés"
+        count_disable: "{1} %count% utilisateur a été désactivé|]1,Inf[ %count% utilisateurs ont été désactivés"
+        count_remove: "{1} %count% utilisateur a été supprimé|]1,Inf[ %count% utilisateurs ont été supprimés"
 
 delegation:
     field:
@@ -50,6 +53,10 @@ delegation:
             edit: La délégation a été modifiée avec succès
             remove: La délégation a été supprimée avec succès
         up_to_date: Aucune modification n'a été trouvée.
+        count_remove: "{1} %count% délégation a été supprimée|]1,Inf[ %count% délégations ont été supprimées"
+        count_add: "{1} %count% délégation a été ajoutée|]1,Inf[ %count% délégations ont été ajoutées"
+        count_overwrite: "{1} %count% délégation a été remplacée|]1,Inf[ %count% délégations ont été remplacées"
+        count_skip: "{1} %count% délégation a été ignorée|]1,Inf[ %count% délégations ont été ignorées"
 
 generic:
     field:
@@ -64,7 +71,7 @@ generic:
         choose: Choisissez
         disable: Désactiver
         enable: Activer
-        delete: Supprimer
+        remove: Supprimer
         back: Retour au listing
         save: Enregistrer
         import: Importer
@@ -81,7 +88,7 @@ generic:
     filters:
         title: Filtres
         count_active_filters: "{0} Aucun filtre activé|{1} %count% filtre activé|]1,Inf[ %count% filtres activés"
-    diag-confirm:
+    diag_confirm:
         title: Confirmation
         message: Êtes vous sur ?
         confirm: Oui

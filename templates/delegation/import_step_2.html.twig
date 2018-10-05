@@ -10,9 +10,9 @@
         <div class="card-body">
             {% if form.vars.data.objects|length == 0 %}
                 <div class="alert alert-primary">
-                    {{ 'delegation.import.up_to_date'|trans }}
+                    {{ 'delegation.message.up_to_date'|trans }}
                 </div>
-                <button class="btn-secondary btn-sm btn" onclick="{{ ppboxRedirect(path('delegation')) }}">{{ 'generic.form.back'|trans }}</button>
+                <button class="btn-secondary btn-sm btn" onclick="{{ ppboxRedirect(path('delegation')) }}">{{ 'generic.action.back'|trans }}</button>
             {% else %}
                 {{ form_start(form) }}
                 <table class="table">

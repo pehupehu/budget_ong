@@ -34,6 +34,16 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     {
         $query = $this->createQueryBuilder('u');
 
+        if (!empty($filters['id'])) {
+            $query->where('u.id = :id')
+                ->setParameter('id', $filters['id']);
+        }
+
+        if (!empty($filters['ids'])) {
+            $query->where('u.id IN (:ids)')
+                ->setParameter('ids', $filters['ids']);
+        }
+
         if (!empty($filters['firstname'])) {
             $query->where('u.firstname LIKE :firstname')
                 ->setParameter('firstname', '%' . $filters['firstname'] . '%');

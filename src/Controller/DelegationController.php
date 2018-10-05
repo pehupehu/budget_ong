@@ -12,13 +12,14 @@ use App\Form\GenericImportStep1Type;
 use App\Form\GenericImportStep2Type;
 use App\Repository\DelegationRepository;
 use App\Tools\Filters;
+use App\Tools\FlashBagTranslator;
 use App\Tools\Pager;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -64,14 +65,52 @@ class DelegationController extends Controller
     }
 
     /**
+     * @Route("/delegation/{action}", requirements={"action" = "remove"}, name="delegation_action")
+     *
+     * @param Request $request
+     * @param FlashBagTranslator $flashBagTranslator
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function action(Request $request, FlashBagTranslator $flashBagTranslator)
+    {
+        $params = ['ids' => json_decode($request->get('ids'), true)];
+        $action = $request->get('action');
+
+        /** @var DelegationRepository $delegationRepo */
+        $delegationRepo = $this->getDoctrine()->getRepository(Delegation::class);
+        $query = $delegationRepo->loadDelegations($params);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $nb_remove = 0;
+
+        /** @var Delegation $delegation */
+        foreach ($query->execute() as $delegation) {
+            if ($action === 'remove' && $delegation->canBeRemove()) {
+                $nb_remove++;
+                $entityManager->remove($delegation);
+            }
+        }
+
+        $entityManager->flush();
+
+        if ($nb_remove) {
+            $flashBagTranslator->add('info', 'delegation.message.count_remove', true, $nb_remove);
+        }
+
+        return $this->redirectToRoute('delegation');
+    }
+
+    /**
      * @Route("/delegation/import/1", name="delegation_import_step_1")
      * 
      * @param Request $request
-     * @param Session $session
+     * @param SessionInterface $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function import_step_1(Request $request, Session $session)
+    public function import_step_1(Request $request, SessionInterface $session)
     {
         $file_headers_required = ['code', 'name'];
         
@@ -102,14 +141,15 @@ class DelegationController extends Controller
      * @Route("/delegation/import/2", name="delegation_import_step_2")
 
      * @param Request $request
-     * @param Session $session
+     * @param SessionInterface $session
+     * @param FlashBagTranslator $flashBagTranslator
      * @param LoggerInterface $logger
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Doctrine\DBAL\ConnectionException
      */
-    public function import_step_2(Request $request, Session $session, LoggerInterface $logger)
+    public function import_step_2(Request $request, SessionInterface $session, FlashBagTranslator $flashBagTranslator, LoggerInterface $logger)
     {
         // Get session data
         // Parse data
@@ -136,14 +176,13 @@ class DelegationController extends Controller
         }
 
         $form = $this->createForm(GenericImportStep2Type::class, $collection);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             /** @var Connection $conn */
             $conn = $this->getDoctrine()->getConnection();
 
+            $nb_add = $nb_overwrite = $nb_skip = 0;
             try {
                 $conn->beginTransaction();
 
@@ -158,15 +197,18 @@ class DelegationController extends Controller
                     $resolve = $object->getResolve();
                     if ($resolve === GenericImportResolveType::RESOLVE_ADD) {
                         $logger->debug('Add delegation : ' . $import);
+                        $nb_add++;
                         $entityManager->persist($import);
                         $entityManager->flush();
                     } elseif ($resolve === GenericImportResolveType::RESOLVE_OVERWRITE) {
                         $logger->debug('Overwrite delegation : ' . $match . ' with ' . $import);
+                        $nb_overwrite++;
                         $match->copy($import);
                         $entityManager->persist($match);
                         $entityManager->flush();
                     } elseif ($resolve === GenericImportResolveType::RESOLVE_SKIP) {
                         $logger->debug('Skip delegation : ' . $import);
+                        $nb_skip++;
                     }
                 }
 
@@ -175,8 +217,17 @@ class DelegationController extends Controller
                 $conn->rollBack();
                 $logger->error($e->getMessage());
             }
-            
-            // TODO comptabiliser les ajouts/modifications/skip
+
+            if ($nb_add) {
+                $flashBagTranslator->addGroupMessage('info', 'delegation.message.count_add', true, $nb_add);
+            } elseif ($nb_overwrite) {
+                $flashBagTranslator->addGroupMessage('info', 'delegation.message.count_overwrite', true, $nb_overwrite);
+            } elseif ($nb_skip) {
+                $flashBagTranslator->addGroupMessage('info', 'delegation.message.count_skip', true, $nb_skip);
+            }
+            if ($nb_add + $nb_overwrite + $nb_skip) {
+                $flashBagTranslator->execute();
+            }
 
             return $this->redirectToRoute('delegation');
         }
@@ -191,11 +242,11 @@ class DelegationController extends Controller
      * @Route("/delegation/new", name="delegation_new")
      * 
      * @param Request $request
-     * @param Session $session
+     * @param FlashBagTranslator $flashBagTranslator
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function new(Request $request, Session $session)
+    public function new(Request $request, FlashBagTranslator $flashBagTranslator)
     {
         $delegation = new Delegation();
         $delegation->setId(0);
@@ -213,7 +264,7 @@ class DelegationController extends Controller
             $entityManager->persist($delegation);
             $entityManager->flush();
 
-            $session->getFlashBag()->add('success', 'delegation.message.success.new');
+            $flashBagTranslator->add('success', 'delegation.message.success.new');
 
             return $this->redirectToRoute('delegation');
         }
@@ -227,12 +278,12 @@ class DelegationController extends Controller
      * @Route("/delegation/{id}/edit", name="delegation_edit")
      * 
      * @param Request $request
-     * @param Session $session
+     * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, Session $session, Delegation $delegation)
+    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, Delegation $delegation)
     {
         $form = $this->createForm(DelegationType::class, $delegation);
 
@@ -246,7 +297,7 @@ class DelegationController extends Controller
             $entityManager->persist($delegation);
             $entityManager->flush();
 
-            $session->getFlashBag()->add('success', 'delegation.message.success.edit');
+            $flashBagTranslator->add('success', 'delegation.message.success.edit');
 
             return $this->redirectToRoute('delegation');
         }
@@ -259,18 +310,18 @@ class DelegationController extends Controller
     /**
      * @Route("/delegation/{id}/remove", name="delegation_remove")
      * 
-     * @param Session $session
+     * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function remove(Session $session, Delegation $delegation)
+    public function remove(FlashBagTranslator $flashBagTranslator, Delegation $delegation)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($delegation);
         $entityManager->flush();
 
-        $session->getFlashBag()->add('success', 'delegation.message.success.remove');
+        $flashBagTranslator->add('success', 'delegation.message.success.remove');
 
         return $this->redirectToRoute('delegation');
     }

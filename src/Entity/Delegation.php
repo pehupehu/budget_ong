@@ -110,4 +110,14 @@ class Delegation
         $this->setCode($copy->getCode());
         $this->setName($copy->getName());
     }
+
+    public function canBeRemove()
+    {
+        return true;
+    }
+
+    public function remove()
+    {
+    }
+
 }

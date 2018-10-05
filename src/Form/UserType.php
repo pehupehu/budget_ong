@@ -38,8 +38,8 @@ class UserType extends AbstractType
 
             $builder->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'first_options' => ['label' => 'admin-user.field.password'],
-                'second_options' => ['label' => 'admin-user.field.repeatedpassword'],
+                'first_options' => ['label' => 'admin_user.field.password'],
+                'second_options' => ['label' => 'admin_user.field.repeatedpassword'],
             ]);
         }
 

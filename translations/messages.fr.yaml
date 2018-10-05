@@ -71,6 +71,11 @@ generic:
         resolve_add: Ajouter
         resolve_overwrite: Remplacer
         resolve_skip: Passer
+    filters:
+        title: Filtres
+        reset: Réinitialiser
+        submit: Filtrer
+        count-active-filters: "{0} Aucun filtre activé|{1} %count% filtre activé|]1,Inf[ %count% filtres activés"
     diag-confirm:
         title: Confirmation
         message: Êtes vous sur ?

@@ -3,14 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\BatchActions\GenericBatchActionsType;
 use App\Form\Filters\UserFiltersType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Tools\Filters;
 use App\Tools\Pager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -22,37 +21,34 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/admin/user", name="admin_user")
-
+     * 
      * @param Request $request
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
+        $filters = $routeParams = [];
+
         $formFilters = $this->createForm(UserFiltersType::class);
         $formFilters->handleRequest($request);
         if ($formFilters->isSubmitted() && $formFilters->isValid()) {
-            
+            $filters = $formFilters->getData() ?? [];
+            $routeParams[$formFilters->getName()] = $filters;
         }
 
-        $options = ['choices' => ['disable', 'enable', 'delete']];
-        $formBatchActions = $this->createForm(GenericBatchActionsType::class, $options);
-        $formBatchActions->handleRequest($request);
-        if ($formBatchActions->isSubmitted() && $formBatchActions->isValid()) {
-
-        }
-        
         /** @var UserRepository $userRepo */
         $userRepo = $this->getDoctrine()->getRepository(User::class);
-        $pager = new Pager($userRepo->loadUsers());
+        $pager = new Pager($userRepo->loadUsers($filters));
         $pager->setPage($request->get('page', 1));
         $pager->setRouteName('admin_user');
-        $pager->setRouteParams([]);
-
+        $pager->setRouteParams($routeParams);
+        
         return $this->render('admin/user/list.html.twig', [
             'pager' => $pager,
+            'errorFilters' => $formFilters->isSubmitted() && !$formFilters->isValid(),
             'formFilters' => $formFilters->createView(),
-            'formBatchActions' => $formBatchActions->createView(),
+            'nbActiveFilters' => Filters::getNbActiveFilters($filters),
         ]);
     }
 

@@ -85,15 +85,17 @@ body {
 .card-listing .card-header {
     background: none;
     padding: 0 0 0.5rem;
+    border-bottom: 0;
 }
 
-.card-listing .card-batch-actions {
-    padding: 0.5rem 0.5rem;
+.card-listing .card-filters {
+    padding: 15px 5px 0 5px;
     border-bottom: 1px solid #dee2e6;
 }
 
-.card-listing .card-batch-actions .col-form-label {
-    font-weight: bold;
+.card-listing .card-header .dropdown-menu, .card-listing .card-actions .dropdown-menu {
+    padding: 0;
+    font-size: small;
 }
 
 .navbar-pagination .count-pagination {

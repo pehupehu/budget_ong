@@ -1,7 +1,57 @@
 <div class="card-filters">
     {{ form_start(formFilters) }}
-        {{ form_widget(formFilters.name) }}
-        {{ form_row(formFilters.code) }}
-        {{ form_row(formFilters.submit) }}
+        <div class="form-row">
+            <div class="col-md-3">
+                {{ form_row(formFilters.firstname, {
+                    'label': 'admin-user.list.firstname',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(formFilters.lastname, {
+                    'label': 'admin-user.list.lastname',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(formFilters.username, {
+                    'label': 'admin-user.list.username',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+            <div class="col-md-3">
+                {{ form_row(formFilters.role, {
+                    'label': 'admin-user.list.role',
+                    'attr': {
+                        'class': 'form-control-sm',
+                        'autocomplete': 'off'
+                    }
+                }) }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form_widget(formFilters.reset, {
+                'label': 'generic.filters.reset',
+                'attr': {
+                    'class': 'btn-sm btn-secondary',
+                    'onclick': ppboxRedirect(path('admin_user'))
+                }
+            }) }}
+            {{ form_widget(formFilters.submit, {
+                'label': 'generic.filters.submit',
+                'attr': {
+                    'class': 'btn-sm btn-primary'
+                }
+            }) }}
+        </div>
     {{ form_end(formFilters) }}
 </div>

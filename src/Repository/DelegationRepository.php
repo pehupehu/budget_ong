@@ -15,9 +15,11 @@ class DelegationRepository extends EntityRepository
 
     /**
      * @param array $filters
+     * @param null $sort
+     * @param string $order
      * @return \Doctrine\ORM\Query
      */
-    public function loadDelegations($filters = [])
+    public function loadDelegations(array $filters = [], $sort = null, string $order = 'asc')
     {
         $query = $this->createQueryBuilder('d');
 
@@ -41,13 +43,17 @@ class DelegationRepository extends EntityRepository
                 ->setParameter('name', '%' . $filters['name'] . '%');
         }
 
+        if ($sort) {
+            $query->orderBy("d.$sort", $order);
+        }
+
         return $query->getQuery();
     }
 
     /**
      * @return array
      */
-    public function getDelegationsByCode()
+    public function getDelegationsByCode(): array
     {
         if (self::$delegations_by_code !== null) {
             return self::$delegations_by_code;
@@ -62,5 +68,19 @@ class DelegationRepository extends EntityRepository
         }
 
         return self::$delegations_by_code;
+    }
+
+    /**
+     * @param string $sort
+     * @param string $default
+     * @return string
+     */
+    public static function checkSort(string $sort, string $default = 'code'): string
+    {
+        if (!in_array($sort, ['code', 'name'])) {
+            return $default;
+        }
+
+        return $sort;
     }
 }

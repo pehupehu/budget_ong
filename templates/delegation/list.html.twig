@@ -70,9 +70,19 @@
                                 <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.checkboxes.check_all'|trans }}" data-uncheck="{{ 'generic.checkboxes.uncheck_all'|trans }}" title="">
                             </div>
                         </th>
-                        <th class="text-center" scope="col">{{ 'delegation.field.code'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'delegation.field.name'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'generic.field.actions'|trans }}</th>
+                        <th class="text-center" scope="col">
+                            {{ 'delegation.field.code'|trans }}
+                            <span class="oi oi-caret-top order {% if pager.sort == 'code' and pager.order == 'asc' %}order-selected{% endif %}" onclick="{{ ppboxRedirect(path('delegation', pager.routeParams|merge({'page': pager.page, 'sort': 'code', 'order': 'asc'}))) }}"></span>
+                            <span class="oi oi-caret-bottom order {% if pager.sort == 'code' and pager.order == 'desc' %}order-selected{% endif %}" onclick="{{ ppboxRedirect(path('delegation', pager.routeParams|merge({'page': pager.page, 'sort': 'code', 'order': 'desc'}))) }}"></span>
+                        </th>
+                        <th class="text-center" scope="col">
+                            {{ 'delegation.field.name'|trans }}
+                            <span class="oi oi-caret-top order {% if pager.sort == 'name' and pager.order == 'asc' %}order-selected{% endif %}" onclick="{{ ppboxRedirect(path('delegation', pager.routeParams|merge({'page': pager.page, 'sort': 'name', 'order': 'asc'}))) }}"></span>
+                            <span class="oi oi-caret-bottom order {% if pager.sort == 'name' and pager.order == 'desc' %}order-selected{% endif %}" onclick="{{ ppboxRedirect(path('delegation', pager.routeParams|merge({'page': pager.page, 'sort': 'name', 'order': 'desc'}))) }}"></span>
+                        </th>
+                        <th class="text-center" scope="col">
+                            {{ 'generic.field.actions'|trans }}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>

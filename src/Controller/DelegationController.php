@@ -14,6 +14,7 @@ use App\Repository\DelegationRepository;
 use App\Tools\Filters;
 use App\Tools\FlashBagTranslator;
 use App\Tools\Pager;
+use App\Tools\Sort;
 use Doctrine\DBAL\Connection;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -49,12 +50,19 @@ class DelegationController extends Controller
             $routeParams[$formFilters->getName()] = $filters;
         }
 
+        $sort = DelegationRepository::checkSort($request->get('sort', 'code'));
+        $order = Sort::checkOrder($request->get('order', 'asc'));
+        $routeParams['sort'] = $sort;
+        $routeParams['order'] = $order;
+
         /** @var DelegationRepository $delegationRepo */
         $delegationRepo = $this->getDoctrine()->getRepository(Delegation::class);
-        $pager = new Pager($delegationRepo->loadDelegations($filters));
+        $pager = new Pager($delegationRepo->loadDelegations($filters, $sort, $order));
         $pager->setPage($request->get('page', 1));
         $pager->setRouteName('delegation');
         $pager->setRouteParams($routeParams);
+        $pager->setSort($sort);
+        $pager->setOrder($order);
 
         return $this->render('delegation/list.html.twig', [
             'pager' => $pager,

@@ -48,6 +48,16 @@ class Pager
     private $route_params;
 
     /**
+     * @var string
+     */
+    private $sort;
+
+    /**
+     * @var string
+     */
+    private $order;
+
+    /**
      * Pager constructor.
      * @param Query|QueryBuilder $query
      * @param bool $fetchJoinCollection
@@ -168,5 +178,41 @@ class Pager
     public function setRouteParams(array $route_params): void
     {
         $this->route_params = $route_params;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSort(): string
+    {
+        return $this->sort;
+    }
+
+    /**
+     * @param string $sort
+     * @return Pager
+     */
+    public function setSort(string $sort): Pager
+    {
+        $this->sort = $sort;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrder(): string
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param string $order
+     * @return Pager
+     */
+    public function setOrder(string $order): Pager
+    {
+        $this->order = $order;
+        return $this;
     }
 }

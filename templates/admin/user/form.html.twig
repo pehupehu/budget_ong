@@ -1,40 +1,40 @@
 {% extends 'layout_small.html.twig' %}
 
 {% block title %}
-    {% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}
+    {% if (form.vars.data.id) %}{{ 'admin-user.title.edit'|trans }}{% else %}{{ 'admin-user.title.new'|trans }}{% endif %}
 {% endblock title %}
 
 {% block container %}
-    <h2>{% if (form.vars.data.id) %}{{ 'admin-user.edit.title'|trans }}{% else %}{{ 'admin-user.new.title'|trans }}{% endif %}</h2>
+    <h2>{% if (form.vars.data.id) %}{{ 'admin-user.title.edit'|trans }}{% else %}{{ 'admin-user.title.new'|trans }}{% endif %}</h2>
     <div class="card">
         <div class="card-body">
             {{ form_start(form) }}
                 {{ form_row(form.firstname, {
-                    'label': 'admin-user.form.firstname'
+                    'label': 'admin-user.field.firstname'
                 }) }}
                 {{ form_row(form.lastname, {
-                    'label': 'admin-user.form.lastname'
+                    'label': 'admin-user.field.lastname'
                 }) }}
                 {% if (form.offsetExists('username')) %}
                     {{ form_row(form.username, {
-                        'label': 'admin-user.form.username'
+                        'label': 'admin-user.field.username'
                     }) }}
                 {% endif %}
                 {% if (form.offsetExists('password')) %}
                     {{ form_row(form.password) }}
                 {% endif %}
                 {{ form_row(form.role, {
-                    'label': 'admin-user.form.role'
+                    'label': 'admin-user.field.role'
                 }) }}
                 {{ form_widget(form.back, {
-                    'label': 'generic.form.back',
+                    'label': 'generic.action.back',
                     'attr': {
                         'class': 'btn-secondary btn-sm',
                         'onclick': ppboxRedirect(path('admin_user'))
                     }
                 }) }}
                 {{ form_widget(form.save, {
-                    'label': 'generic.form.save',
+                    'label': 'generic.action.save',
                     'attr': {
                         'class': 'btn-primary btn-sm'
                     }

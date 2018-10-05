@@ -1,23 +1,26 @@
 {% extends 'layout_small.html.twig' %}
 
 {% block title %}
-    {{ 'admin-user.list.title'|trans }}
+    {{ 'admin-user.title.list'|trans }}
 {% endblock title %}
 
 {% block container %}
     <div class="card card-listing">
+
+        {% include 'flashbag.html.twig' %}
+
         <div class="card-header">
             <h2>
-                {{ 'admin-user.list.title'|trans }}
+                {{ 'admin-user.title.list'|trans }}
                 <button type="button" class="btn btn-sm btn-primary" onclick="{{ ppboxRedirect(path('admin_user_new')) }}">
-                    <span class="oi oi-play-circle"></span> {{ 'admin-user.list.new'|trans }}
+                    <span class="oi oi-play-circle"></span> {{ 'admin-user.action.new'|trans }}
                 </button>
             </h2>
         </div>
 
         <div class="card-actions">
             <ul class="nav nav-tabs">
-                <li class="nav-item" title="{{ 'generic.filters.count-active-filters'|transchoice(nbActiveFilters) }}">
+                <li class="nav-item" title="{{ 'generic.filters.count_active_filters'|transchoice(nbActiveFilters) }}">
                     <a class="nav-link {% if errorFilters %}active text-danger{% endif %}" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                         {% if errorFilters %}
                             <span class="oi oi-warning"></span>
@@ -29,11 +32,11 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'generic.list.action'|trans }}</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ 'generic.field.actions'|trans }}</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">{{ 'generic.list.enable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.list.disable'|trans }}</a>
-                        <a class="dropdown-item" href="#">{{ 'generic.list.delete'|trans }}</a>
+                        <a class="dropdown-item" href="#">{{ 'generic.action.enable'|trans }}</a>
+                        <a class="dropdown-item" href="#">{{ 'generic.action.disable'|trans }}</a>
+                        <a class="dropdown-item" href="#">{{ 'generic.action.delete'|trans }}</a>
                     </div>
                 </li>
             </ul>
@@ -44,24 +47,20 @@
 
         <div class="card-body">
             {% include 'pagination.html.twig' with {'pager': pager} %}
-            {% if (pager.count == 0) %}
-            <div class="alert alert-primary">
-                {{ 'generic.list.no_result'|trans }}
-            </div>
-            {% else %}
+            {% if (pager.count) %}
                 <table class="table table-hover table-listing">
                     <thead class="thead-dark">
                     <tr>
                         <th class="text-center">
                             <div class="form-check form-check-inline">
-                                <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.list.check_all'|trans }}" data-uncheck="{{ 'generic.list.uncheck_all'|trans }}" title="">
+                                <input type="checkbox" class="form-check-input pp-check-uncheck-all" data-check="{{ 'generic.checkboxes.check_all'|trans }}" data-uncheck="{{ 'generic.checkboxes.uncheck_all'|trans }}" title="">
                             </div>
                         </th>
-                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.firstname'|trans }}</th>
-                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.list.lastname'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'admin-user.list.username'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'admin-user.list.role'|trans }}</th>
-                        <th class="text-center" scope="col">{{ 'generic.list.action'|trans }}</th>
+                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.field.firstname'|trans }}</th>
+                        <th class="text-center d-none d-sm-none d-md-table-cell" scope="col">{{ 'admin-user.field.lastname'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'admin-user.field.username'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'admin-user.field.role'|trans }}</th>
+                        <th class="text-center" scope="col">{{ 'generic.field.actions'|trans }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,7 +92,7 @@
                         </td>
                         <td class="text-center d-none d-sm-none d-md-none d-lg-none d-xl-table-cell">
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="{{ ppboxRedirect(path('admin_user_edit', {'id': user.id})) }}">
-                                <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
+                                <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                             </button>
                             {% if user.isActive == 0 %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
@@ -103,7 +102,7 @@
                                         'sm',
                                         {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
                                         {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                    <span class="oi oi-thumb-up"></span> {{ 'generic.list.enable'|trans }}
+                                    <span class="oi oi-thumb-up"></span> {{ 'generic.action.enable'|trans }}
                                 </button>
                             {% else %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
@@ -113,7 +112,7 @@
                                     'sm',
                                     {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
                                     {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                    <span class="oi oi-thumb-down"></span> {{ 'generic.list.disable'|trans }}
+                                    <span class="oi oi-thumb-down"></span> {{ 'generic.action.disable'|trans }}
                                 </button>
                             {% endif %}
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
@@ -123,17 +122,17 @@
                                 'sm',
                                 {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
                                 {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                <span class="oi oi-trash"></span> {{ 'generic.list.delete'|trans }}
+                                <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
                             </button>
                         </td>
                         <td class="text-center d-table-cell d-sm-table-cell d-md-table-cell d-lg-table-cell d-xl-none">
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ 'generic.list.action'|trans }}
+                                    {{ 'generic.field.actions'|trans }}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                     <a class="dropdown-item" href="#" onclick="{{ ppboxRedirect(path('admin_user_edit', {'id': user.id})) }}">
-                                        <span class="oi oi-pencil"></span> {{ 'generic.list.edit'|trans }}
+                                        <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                                     </a>
                                     {% if user.isActive == 0 %}
                                         <a class="dropdown-item" href="#" onclick="{{
@@ -143,7 +142,7 @@
                                             'sm',
                                             {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_enable', {'id': user.id}) },
                                             {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                            <span class="oi oi-thumb-up"></span> {{ 'generic.list.enable'|trans }}
+                                            <span class="oi oi-thumb-up"></span> {{ 'generic.action.enable'|trans }}
                                         </a>
                                     {% else %}
                                         <a class="dropdown-item" href="#" onclick="{{
@@ -153,7 +152,7 @@
                                             'sm',
                                             {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_disable', {'id': user.id}) },
                                             {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                            <span class="oi oi-thumb-down"></span> {{ 'generic.list.disable'|trans }}
+                                            <span class="oi oi-thumb-down"></span> {{ 'generic.action.disable'|trans }}
                                         </a>
                                     {% endif %}
                                     <a class="dropdown-item" href="#"  onclick="{{
@@ -163,7 +162,7 @@
                                         'sm',
                                         {text: 'generic.diag-confirm.confirm'|trans, redirect: path('admin_user_remove', {'id': user.id}) },
                                         {text: 'generic.diag-confirm.cancel'|trans })}}">
-                                        <span class="oi oi-trash"></span> {{ 'generic.list.delete'|trans }}
+                                        <span class="oi oi-trash"></span> {{ 'generic.action.delete'|trans }}
                                     </a>
                                 </div>
                             </div>

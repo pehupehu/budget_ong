@@ -1,7 +1,7 @@
 {% if (pager.nbPages > 0) %}
     <nav class="navbar-pagination">
         <div class="count-pagination">
-            {{ 'generic.list.count'|transchoice(pager.count) }}
+            {{ 'generic.pagination.count'|transchoice(pager.count) }}
         </div>
         <div>
             <div class="mr-auto"></div>
@@ -30,4 +30,9 @@
             </ul>
         </div>
     </nav>
+{% endif %}
+{% if (pager.count == 0) %}
+    <div class="alert alert-primary">
+        {{ 'generic.pagination.no_result'|trans }}
+    </div>
 {% endif %}

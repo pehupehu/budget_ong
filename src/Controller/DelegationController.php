@@ -16,8 +16,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -54,11 +53,11 @@ class DelegationController extends Controller
      * @Route("/delegation/import/1", name="delegation_import_step_1")
      * 
      * @param Request $request
-     * @param SessionInterface $session
+     * @param Session $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function import_step_1(Request $request, SessionInterface $session)
+    public function import_step_1(Request $request, Session $session)
     {
         $file_headers_required = ['code', 'name'];
         
@@ -89,14 +88,14 @@ class DelegationController extends Controller
      * @Route("/delegation/import/2", name="delegation_import_step_2")
 
      * @param Request $request
-     * @param SessionInterface $session
+     * @param Session $session
      * @param LoggerInterface $logger
      * 
      * @return \Symfony\Component\HttpFoundation\Response
      * 
      * @throws \Doctrine\DBAL\ConnectionException
      */
-    public function import_step_2(Request $request, SessionInterface $session, LoggerInterface $logger)
+    public function import_step_2(Request $request, Session $session, LoggerInterface $logger)
     {
         // Get session data
         // Parse data

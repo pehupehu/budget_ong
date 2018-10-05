@@ -92,7 +92,7 @@ class GenericImportStep1Type extends AbstractType
         sort($file_headers);
 
         if (count(array_diff($this->file_headers_required, $file_headers))) {
-            $context->addViolation($this->translator->trans('generic.form.violation_file_headers', ['file_headers_required' => implode(', ', $this->file_headers_required)]));
+            $context->addViolation($this->translator->trans('generic.message.violation.file_headers', ['file_headers_required' => implode(', ', $this->file_headers_required)]));
         }
     }
 }

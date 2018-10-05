@@ -10,6 +10,7 @@ use App\Tools\Filters;
 use App\Tools\Pager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -56,11 +57,12 @@ class UserController extends AbstractController
      * @Route("/admin/user/new", name="admin_user_new")
      * 
      * @param Request $request
+     * @param Session $session
      * @param UserPasswordEncoderInterface $encoder
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder)
+    public function new(Request $request, Session $session, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $user->setId(0);
@@ -83,6 +85,8 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $session->getFlashBag()->add('success', 'admin-user.message.success.new');
+
             return $this->redirectToRoute('admin_user');
         }
 
@@ -95,12 +99,13 @@ class UserController extends AbstractController
      * @Route("/admin/user/{id}/edit", name="admin_user_edit")
      * 
      * @param Request $request
+     * @param Session $session
      * @param User $user
      * @param UserPasswordEncoderInterface $encoder
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, User $user, UserPasswordEncoderInterface $encoder)
+    public function edit(Request $request, Session $session, User $user, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -111,6 +116,8 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $session->getFlashBag()->add('success', 'admin-user.message.success.edit');
 
             return $this->redirectToRoute('admin_user');
         }
@@ -124,14 +131,17 @@ class UserController extends AbstractController
      * @Route("/admin/user/{id}/remove", name="admin_user_remove")
      * 
      * @param User $user
+     * @param Session $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function remove(User $user)
+    public function remove(Session $session, User $user)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);
         $entityManager->flush();
+
+        $session->getFlashBag()->add('success', 'admin-user.message.success.remove');
 
         return $this->redirectToRoute('admin_user');
     }
@@ -140,16 +150,19 @@ class UserController extends AbstractController
      * @Route("/admin/user/{id}/disable", name="admin_user_disable")
      * 
      * @param User $user
+     * @param Session $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function disable(User $user)
+    public function disable(Session $session, User $user)
     {
         $user->setIsActive(false);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
+
+        $session->getFlashBag()->add('success', 'admin-user.message.success.disable');
 
         return $this->redirectToRoute('admin_user');
     }
@@ -158,16 +171,19 @@ class UserController extends AbstractController
      * @Route("/admin/user/{id}/enable", name="admin_user_enable")
      * 
      * @param User $user
+     * @param Session $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function enable(User $user)
+    public function enable(Session $session, User $user)
     {
         $user->setIsActive(true);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
+
+        $session->getFlashBag()->add('success', 'admin-user.message.success.enable');
 
         return $this->redirectToRoute('admin_user');
     }

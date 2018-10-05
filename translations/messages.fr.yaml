@@ -11,79 +11,86 @@ admin:
     title: Administration
 
 admin-user:
-    list:
-        title: Liste des utilisateurs
+    field:
         firstname: Prénom
         lastname: Nom
         username: Identifiant
         role: Rôle
-        new: Créer un nouvel utilisateur
-    new:
-        title: Créer un nouvel utilisateur
-    edit:
-        title: Modifier un utilisateur
-    form:
-        firstname: Prénom
-        lastname: Nom
-        username: Identifiant
         password: Mot de passe
         repeatedpassword: Répéter le mot de passe
-        role: Rôle
+    title:
+        list: Liste des utilisateurs
+        new: Créer un nouvel utilisateur
+        edit: Modifier un utilisateur
+    action:
+        new: Créer un nouvel utilisateur
+    message:
+        success:
+            new: L'utilisateur a été ajouté avec succès
+            edit: L'utilisateur a été modifié avec succès
+            remove: L'utilisateur a été supprimé avec succès
+            enable: L'utilisateur a été activé avec succès
+            disable: L'utilisateur a été désactivé avec succès
 
 delegation:
-    list:
-        title: Liste des délégations
+    field:
         name: Libellé
         code: Code
+    title:
+        list: Liste des délégations
+        new: Créer une nouvelle délégation
+        edit: Modifier une délégation
+        import: Importer les délégations
+    action:
         new: Créer une nouvelle délégation
         import: Importer les délégations
-    new:
-        title: Créer une nouvelle délégation
-    edit:
-        title: Modifier une délégation
-    import:
-        title: Importer des délégations
+    message:
+        success:
+            new: L'utilisateur a été ajouté avec succès
+            edit: L'utilisateur a été modifié avec succès
+            remove: L'utilisateur a été supprimé avec succès
+            enable: L'utilisateur a été activé avec succès
+            disable: L'utilisateur a été désactivé avec succès
         up_to_date: Aucune modification n'a été trouvée.
-    form:
-        name: Libellé
-        code: Code
 
 generic:
-    batch-actions:
-        go: Valider
-        action: Actions
-    list:
-        action: Actions
+    field:
+        actions: Actions
+        file: Fichier
+    choice:
+        resolve_add: Ajouter
+        resolve_overwrite: Remplacer
+        resolve_skip: Passer
+    action:
         edit: Modifier
         choose: Choisissez
         disable: Désactiver
         enable: Activer
         delete: Supprimer
-        check_all: Tout
-        uncheck_all: Aucun
-        count: "{1} %count% enregistrement|]1,Inf[ %count% enregistrements"
-        no_result: Aucun résulat
-    form:
         back: Retour au listing
         save: Enregistrer
         import: Importer
-        file: Fichier
-        resolve_add: Ajouter
-        resolve_overwrite: Remplacer
-        resolve_skip: Passer
+        filter: Filtrer
+        reset: Réinitialiser
+    checkboxes:
+        check_all: Tout
+        uncheck_all: Aucun
+    pagination:
+        previous: Précédent
+        next: Suivant
+        count: "{1} %count% enregistrement|]1,Inf[ %count% enregistrements"
+        no_result: Aucun résulat
     filters:
         title: Filtres
-        reset: Réinitialiser
-        submit: Filtrer
-        count-active-filters: "{0} Aucun filtre activé|{1} %count% filtre activé|]1,Inf[ %count% filtres activés"
+        count_active_filters: "{0} Aucun filtre activé|{1} %count% filtre activé|]1,Inf[ %count% filtres activés"
     diag-confirm:
         title: Confirmation
         message: Êtes vous sur ?
         confirm: Oui
         cancel: Non
-    pagination:
-        previous: Précédent
-        next: Suivant
+    message:
+        violation:
+            file_headers: L'entête doit contenir les champs file_headers_required
 
 role_admin: Administrateur
 role_user: Utilisateur

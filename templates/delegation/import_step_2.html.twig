@@ -1,11 +1,11 @@
 {% extends 'layout_small.html.twig' %}
 
 {% block title %}
-    {{ 'delegation.import.title'|trans }}
+    {{ 'delegation.title.import'|trans }}
 {% endblock title %}
 
 {% block container %}
-    <h2>{{ 'delegation.import.title'|trans }}</h2>
+    <h2>{{ 'delegation.title.import'|trans }}</h2>
     <div class="card">
         <div class="card-body">
             {% if form.vars.data.objects|length == 0 %}
@@ -20,14 +20,14 @@
                     <tr>
                         <th colspan="3">
                             {{ form_widget(form.back, {
-                                'label': 'generic.form.back',
+                                'label': 'generic.action.back',
                                 'attr': {
                                     'class': 'btn-secondary btn-sm',
                                     'onclick': ppboxRedirect(path('delegation'))
                                 }
                             }) }}
                             {{ form_widget(form.save, {
-                                'label': 'generic.form.save',
+                                'label': 'generic.action.save',
                                 'attr': {
                                     'class': 'btn-primary btn-sm'
                                 }

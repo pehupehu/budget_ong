@@ -25,11 +25,11 @@ class GenericImportResolveType extends AbstractType
 
                 $choices = [];
                 if ($object->getResolve() === self::RESOLVE_ADD) {
-                    $choices['generic.form.resolve_add'] = self::RESOLVE_ADD;
+                    $choices['generic.choice.resolve_add'] = self::RESOLVE_ADD;
                 } elseif ($object->getResolve() === self::RESOLVE_OVERWRITE) {
-                    $choices['generic.form.resolve_overwrite'] = self::RESOLVE_OVERWRITE;
+                    $choices['generic.choice.resolve_overwrite'] = self::RESOLVE_OVERWRITE;
                 }
-                $choices['generic.form.resolve_skip'] = self::RESOLVE_SKIP;
+                $choices['generic.choice.resolve_skip'] = self::RESOLVE_SKIP;
 
                 $form
                     ->add('resolve', ChoiceType::class, [

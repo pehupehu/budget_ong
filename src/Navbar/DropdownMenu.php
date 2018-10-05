@@ -71,6 +71,11 @@ class DropdownMenu extends GenericItem implements \Iterator
     
     public function hasChildren()
     {
+        return count($this->array) > 0;
+    }
+    
+    public function isDropdown()
+    {
         return true;
     }
 }

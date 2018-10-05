@@ -8,7 +8,7 @@ namespace App\Navbar;
  */
 class NavbarItem extends GenericItem
 {
-    public function hasChildren()
+    public function isDropdown()
     {
         return false;
     }

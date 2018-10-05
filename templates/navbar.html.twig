@@ -34,7 +34,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
             {% for item in navbar %}
-                {% if (item.hasChildren) %}
+                {% if (item.isDropdown) %}
                     {% set inc = inc + 1 %}
                     <li class="nav-item {% if item.isActive %}active{% endif %} dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown{{ inc }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -83,7 +83,7 @@
                         {#</li>#}
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-outline-primary">Profile</a>
+                                <a href="{{ path('profile') }}" class="btn btn-sm btn-outline-primary">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <a href="{{ path('logout') }}" class="btn btn-sm btn-outline-secondary">Sign out</a>

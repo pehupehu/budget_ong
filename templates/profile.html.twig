@@ -1,0 +1,30 @@
+{% extends 'layout_small.html.twig' %}
+
+{% block title %}
+    {{ 'profile.title'|trans }}
+{% endblock title %}
+
+{% block container %}
+
+    {% include 'flashbag.html.twig' %}
+
+    <h2>{{ 'profile.title'|trans }}</h2>
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                {{ form_row(form.firstname, {
+                    'label': 'profile.field.firstname'
+                }) }}
+                {{ form_row(form.lastname, {
+                    'label': 'profile.field.lastname'
+                }) }}
+                {{ form_widget(form.save, {
+                    'label': 'generic.action.save',
+                    'attr': {
+                        'class': 'btn-primary btn-sm'
+                    }
+                }) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock container %}

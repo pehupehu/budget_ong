@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\ProfileType;
+use App\Tools\FlashBagTranslator;
 use App\Twig\AppExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class ProfileController
@@ -16,11 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends Controller
 {
     /**
-     * @Route("/profile", name="profile_index")
+     * @Route("/profile", name="profile")
      */
-    public function index()
+    public function index(Request $request, FlashBagTranslator $flashBagTranslator, UserPasswordEncoderInterface $encoder)
     {
-        return $this->render('profile.html.twig');
+        $user = $this->getUser();
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $flashBagTranslator->add('success', 'profile.message.success');
+        }
+
+        return $this->render('profile.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

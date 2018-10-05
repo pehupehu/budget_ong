@@ -94,6 +94,10 @@
     font-size: small;
 }
 
+.card-listing .card-header .dropdown-menu .dropdown-item, .card-listing .card-actions .dropdown-menu .dropdown-item {
+    padding: 10px;
+}
+
 .navbar-pagination .count-pagination {
     float: left;
     position: relative;

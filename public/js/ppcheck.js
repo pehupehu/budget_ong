@@ -28,6 +28,11 @@ check_uncheck_action.on('click', function() {
         }
     });
     if (ids.length && uri !== undefined) {
-        window.location.href = uri + '?ids=' + JSON.stringify(ids);
+        let url = uri + '?ids=' + JSON.stringify(ids);
+        if ($(this).data('confirm') !== undefined) {
+            // TODO
+        } else {
+            PPbox.redirect(url);
+        }
     }
-})
+});

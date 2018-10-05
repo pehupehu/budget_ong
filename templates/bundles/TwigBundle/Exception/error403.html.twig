@@ -1,0 +1,18 @@
+{% extends 'layout_small.html.twig' %}
+
+{% block title %}
+    {{ 'error.403.title'|trans }}
+{% endblock title %}
+
+{% block container %}
+    <h2 class="text-danger">{{ 'error.403.name'|trans }}</h2>
+    <div class="card">
+        <div class="card-body">
+            
+
+            <p>
+                {{ 'error.403.description'|trans }}
+            </p>
+        </div>
+    </div>
+{% endblock container %}

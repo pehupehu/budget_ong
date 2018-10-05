@@ -71,8 +71,7 @@ body {
 
 .navbar-custom-menu .dropdown-menu .dropdown-item {
     font-size: small;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 10px;
 }
 .navbar-custom-menu .dropdown-item.active {
     background-color: #000;
@@ -103,17 +102,15 @@ li.user-header {
 
 .navbar-nav>.user-menu>.dropdown-menu>li.user-header {
     height: 90px;
+    margin: 2px;
     padding: 10px;
     text-align: center;
     color: #FFF;
 }
 .navbar-nav>.user-menu>.dropdown-menu>.user-body {
     padding: 15px;
-    /*border-bottom: 1px solid #f4f4f4;*/
-    /*border-top: 1px solid #dddddd;*/
 }
 .navbar-nav>.user-menu>.dropdown-menu>.user-footer {
-    background-color: #f9f9f9;
     height: 50px;
     padding: 10px;
 }

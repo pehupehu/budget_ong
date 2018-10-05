@@ -90,6 +90,12 @@ final class NavbarBuilder
                             if (!$this->authorizationChecker->isGranted($conf_children['role'])) {
                                 continue;
                             }
+                        } elseif (isset($conf['role'])) {
+                            if (!$this->authorizationChecker->isGranted($conf['role'])) {
+                                continue;
+                            }
+                        } else {
+                            continue;
                         }
 
                         if (isset($conf_children['icon'])) {
@@ -111,10 +117,12 @@ final class NavbarBuilder
                         }
                     }
 
-                    $dropdownMenu->setIsActive($menu_is_active);
-                    $this->logger->debug('Dropdown menu end : ' . $dropdownMenu);
+                    if ($dropdownMenu->hasChildren()) {
+                        $dropdownMenu->setIsActive($menu_is_active);
+                        $this->logger->debug('Dropdown menu end : ' . $dropdownMenu);
 
-                    $navbar->add($dropdownMenu);
+                        $navbar->add($dropdownMenu);
+                    }
                 } else {
                     $navbarItem = new NavbarItem($translation_key_prefix . '.' . $translation_key, $conf['route']);
 

@@ -126,6 +126,7 @@ class UserController extends AbstractController
         $user->setPassword('');
         $user->setFirstname('');
         $user->setLastname('');
+        $user->setCreatedAt(new \DateTime());
         $user->setRole('');
 
         $form = $this->createForm(UserType::class, $user);
@@ -157,11 +158,10 @@ class UserController extends AbstractController
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
      * @param User $user
-     * @param UserPasswordEncoderInterface $encoder
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, User $user, UserPasswordEncoderInterface $encoder)
+    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, User $user)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

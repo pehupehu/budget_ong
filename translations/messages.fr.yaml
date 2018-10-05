@@ -35,6 +35,15 @@ admin_user:
         count_disable: "{1} %count% utilisateur a été désactivé|]1,Inf[ %count% utilisateurs ont été désactivés"
         count_remove: "{1} %count% utilisateur a été supprimé|]1,Inf[ %count% utilisateurs ont été supprimés"
 
+profile:
+    field:
+        firstname: Prénom
+        lastname: Nom
+    title: Mon profil
+    message:
+        success: Votre profil a été mis à jour
+
+
 delegation:
     field:
         name: Libellé
@@ -96,6 +105,20 @@ generic:
     message:
         violation:
             file_headers: L'entête doit contenir les champs file_headers_required
+
+error:
+    standard:
+        title: Erreur
+        name: Une erreur est survenue
+        description: Une erreur est survenue, contacter le support technique en lui précisant l'action qui a engendrée l'erreur.
+    403:
+        title: Erreur
+        name: Vous n'avez pas les droits suffisant
+        description: La page demandée n'a pas pu être chargée. Vous n'avez pas les droits suffisant pour afficher cette page, cliquez sur le lient suivant pour retourner à la page principale
+    404:
+        title: Erreur
+        name: Page non trouvée
+        description: La page demandée n'a pas pu être trouvée. Vérifier que l'URL est juste, cliquez sur le lien suivant pour retourner sur la page principale
 
 role_admin: Administrateur
 role_user: Utilisateur

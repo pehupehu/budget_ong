@@ -14,7 +14,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarLocaleDropdown">
                         {% for locale, locale_name in locales %}
                             <a class="dropdown-item" href="{{ path('profile_switch_locale', {'_locale': locale}) }}">
-                                <span class="flag flag-{{ locale }}"></span> {{ locale_name }}
+                                <span class="flag flag-{{ locale }}"></span> {{ locale_name|trans }}
                             </a>
                         {% endfor %}
                     </div>

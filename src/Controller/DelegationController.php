@@ -75,6 +75,9 @@ class DelegationController extends Controller
     public function action(Request $request, FlashBagTranslator $flashBagTranslator)
     {
         $params = ['ids' => json_decode($request->get('ids'), true)];
+        if (empty($params['ids'])) {
+            return $this->redirectToRoute('delegation');
+        }
         $action = $request->get('action');
 
         /** @var DelegationRepository $delegationRepo */

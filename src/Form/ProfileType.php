@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Twig\AppExtension;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -29,6 +31,10 @@ class ProfileType extends AbstractType
             ])
             ->add('lastname', null, [
                 'required' => true,
+            ])
+            ->add('locale', ChoiceType::class, [
+                'required' => true,
+                'choices' => AppExtension::getSupportedLocales(),
             ])
             ->add('save', SubmitType::class);
     }

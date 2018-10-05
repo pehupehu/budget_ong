@@ -67,8 +67,8 @@
             {% endfor %}
     
             {% if user %}
-                <li class="nav-item dropdown user user-menu">
-                    <a href="#" class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown user user-menu {% if is_granted('ROLE_PREVIOUS_ADMIN') %}bg-warning{% endif %}">
+                    <a href="#" class="nav-link {% if is_granted('ROLE_PREVIOUS_ADMIN') %}text-dark{% endif %} dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="" class="user-image" alt="">
                         <span class="hidden-xs">{{ user.getFirstname }} {{ user.getLastname }}</span>
                     </a>
@@ -91,6 +91,11 @@
                         </li>
                     </ul>
                 </li>
+                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                <li class="nav-item bg-warning">
+                    <a class="nav-link text-dark" href="{{ path('index', {'_are_you_strong_to_be_someone_else': '_exit'}) }}"><span class="oi oi-account-logout"></span></a>
+                </li>
+                {% endif %}
             {% endif %}
             </ul>
         </div>

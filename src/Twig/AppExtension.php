@@ -97,7 +97,8 @@ final class AppExtension extends \Twig_Extension
     public static function getSupportedLocales()
     {
         return [
-            'fr' => 'Français',
+            'fr' => 'fr',
+            'us' => 'us',
         ];
     }
 }

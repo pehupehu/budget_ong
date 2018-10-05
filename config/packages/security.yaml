@@ -22,6 +22,7 @@ security:
                 path:   /logout
                 target: /
                 invalidate_session: true
+            switch_user: { role: ROLE_ADMIN, parameter: '_are_you_strong_to_be_someone_else' }
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

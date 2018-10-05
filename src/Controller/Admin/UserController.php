@@ -11,6 +11,7 @@ use App\Tools\FlashBagTranslator;
 use App\Tools\Pager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -25,9 +26,9 @@ class UserController extends AbstractController
      * 
      * @param Request $request
      * 
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $filters = $routeParams = [];
 
@@ -46,6 +47,7 @@ class UserController extends AbstractController
         $pager->setRouteParams($routeParams);
         
         return $this->render('admin/user/list.html.twig', [
+            'loggedUser' => $this->getUser(),
             'pager' => $pager,
             'errorFilters' => $formFilters->isSubmitted() && !$formFilters->isValid(),
             'formFilters' => $formFilters->createView(),
@@ -59,9 +61,9 @@ class UserController extends AbstractController
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function action(Request $request, FlashBagTranslator $flashBagTranslator)
+    public function action(Request $request, FlashBagTranslator $flashBagTranslator): Response
     {
         $params = ['ids' => json_decode($request->get('ids'), true)];
         if (empty($params['ids'])) {
@@ -116,9 +118,9 @@ class UserController extends AbstractController
      * @param FlashBagTranslator $flashBagTranslator
      * @param UserPasswordEncoderInterface $encoder
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function new(Request $request, FlashBagTranslator $flashBagTranslator, UserPasswordEncoderInterface $encoder)
+    public function new(Request $request, FlashBagTranslator $flashBagTranslator, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $user->setId(0);
@@ -159,10 +161,14 @@ class UserController extends AbstractController
      * @param FlashBagTranslator $flashBagTranslator
      * @param User $user
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, User $user)
+    public function edit(Request $request, FlashBagTranslator $flashBagTranslator, User $user): Response
     {
+        if (!$user->canBeEditBy($this->getUser())) {
+            $this->redirectToRoute('error_403');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -189,16 +195,20 @@ class UserController extends AbstractController
      * @param FlashBagTranslator $flashBagTranslator
      * @param User $user
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function remove(FlashBagTranslator $flashBagTranslator, User $user)
+    public function remove(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($user);
-        $entityManager->flush();
+        if ($user->remove()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
 
-        $flashBagTranslator->add('success', 'admin_user.message.success.remove');
-
+            $flashBagTranslator->add('success', 'admin_user.message.success.remove');
+        } else {
+            $flashBagTranslator->add('success', 'admin_user.message.warning.remove');
+        }
+        
         return $this->redirectToRoute('admin_user');
     }
 
@@ -208,17 +218,19 @@ class UserController extends AbstractController
      * @param FlashBagTranslator $flashBagTranslator
      * @param User $user
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function disable(FlashBagTranslator $flashBagTranslator, User $user)
+    public function disable(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
-        $user->disable();
+        if ($user->disable()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $flashBagTranslator->add('success', 'admin_user.message.success.disable');
+            $flashBagTranslator->add('success', 'admin_user.message.success.disable');
+        } else {
+            $flashBagTranslator->add('success', 'admin_user.message.warning.disable');
+        }
 
         return $this->redirectToRoute('admin_user');
     }
@@ -229,17 +241,19 @@ class UserController extends AbstractController
      * @param FlashBagTranslator $flashBagTranslator
      * @param User $user
      * 
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
-    public function enable(FlashBagTranslator $flashBagTranslator, User $user)
+    public function enable(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
-        $user->enable();
+        if ($user->enable()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-
-        $flashBagTranslator->add('success', 'admin_user.message.success.enable');
+            $flashBagTranslator->add('success', 'admin_user.message.success.enable');
+        } else {
+            $flashBagTranslator->add('success', 'admin_user.message.warning.enable');
+        }
 
         return $this->redirectToRoute('admin_user');
     }

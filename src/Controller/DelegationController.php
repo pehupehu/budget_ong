@@ -50,6 +50,8 @@ class DelegationController extends Controller
             $filters = $formFilters->getData() ?? [];
             $routeParams[$formFilters->getName()] = $filters;
         }
+        
+        dump($request->getSession());
 
         $sort = DelegationRepository::checkSort($request->get('sort', 'code'));
         $order = Sort::checkOrder($request->get('order', 'asc'));

@@ -15,9 +15,11 @@ admin_user:
         firstname: Prénom
         lastname: Nom
         username: Identifiant
-        role: Rôle
         password: Mot de passe
         repeatedpassword: Répéter le mot de passe
+        logged_as: Se connecter
+        role: Rôle
+        locale: Langue
     title:
         list: Liste des utilisateurs
         new: Créer un nouvel utilisateur
@@ -39,6 +41,7 @@ profile:
     field:
         firstname: Prénom
         lastname: Nom
+        locale: Langue
     title: Mon profil
     message:
         success: Votre profil a été mis à jour
@@ -122,3 +125,6 @@ error:
 
 role_admin: Administrateur
 role_user: Utilisateur
+
+fr: Français
+us: Anglais

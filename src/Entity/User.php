@@ -55,6 +55,12 @@ class User implements UserInterface, \Serializable
     private $role;
 
     /**
+     * @ORM\Column(type="string", length=2)
+     * @var string
+     */
+    private $locale;
+
+    /**
      * @ORM\Column(name="is_active", type="boolean")
      * @var boolean
      */
@@ -166,6 +172,24 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return User
+     */
+    public function setLocale(string $locale): User
+    {
+        $this->locale = $locale;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function isActive(): bool
@@ -269,7 +293,10 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function canBeEnable()
+    /**
+     * @return bool
+     */
+    public function canBeEnable(): bool
     {
         return !$this->isActive();
     }
@@ -279,7 +306,10 @@ class User implements UserInterface, \Serializable
         $this->setIsActive(true);
     }
 
-    public function canBeDisable()
+    /**
+     * @return bool
+     */
+    public function canBeDisable(): bool
     {
         return $this->isActive();
     }
@@ -289,13 +319,30 @@ class User implements UserInterface, \Serializable
         $this->setIsActive(false);
     }
 
-    public function canBeRemove()
+    /**
+     * @return bool
+     */
+    public function canBeRemove(): bool
     {
         return true;
     }
 
     public function remove()
     {
+        // Nothing for the moment
+    }
+
+    /**
+     * @param User $loggedUser
+     * @return bool
+     */
+    public function canBeEditBy(User $loggedUser): bool
+    {
+        if ($loggedUser->getRole() === self::ROLE_ADMIN) {
+            return true;
+        }
+
+        return $loggedUser->getId() === $this->getId();
     }
 
 }

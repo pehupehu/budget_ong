@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Twig\AppExtension;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -47,6 +48,10 @@ class UserType extends AbstractType
             ->add('role', ChoiceType::class, [
                 'required' => true,
                 'choices' => User::getRolesChoices(),
+            ])
+            ->add('locale', ChoiceType::class, [
+                'required' => true,
+                'choices' => AppExtension::getSupportedLocales(),
             ])
             ->add('back', ButtonType::class)
             ->add('save', SubmitType::class);

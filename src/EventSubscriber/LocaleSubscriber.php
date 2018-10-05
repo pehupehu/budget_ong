@@ -5,14 +5,18 @@ namespace App\EventSubscriber;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Intl\Locale;
 
 class LocaleSubscriber implements EventSubscriberInterface
 {
     private $defaultLocale;
 
-    public function __construct($defaultLocale = 'fr')
+    public function __construct($defaultLocale = null)
     {
         $this->defaultLocale = $defaultLocale;
+        if ($this->defaultLocale === null) {
+            $this->defaultLocale = Locale::getDefaultFallback();
+        }
     }
 
     public function onKernelRequest(GetResponseEvent $event)

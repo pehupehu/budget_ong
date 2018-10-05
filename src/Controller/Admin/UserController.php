@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Intl\Locale;
 
 /**
  * Class UserController
@@ -129,7 +130,8 @@ class UserController extends AbstractController
         $user->setFirstname('');
         $user->setLastname('');
         $user->setCreatedAt(new \DateTime());
-        $user->setRole('');
+        $user->setRole(User::ROLE_USER);
+        $user->setLocale(Locale::getDefaultFallback());
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);

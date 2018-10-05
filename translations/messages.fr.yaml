@@ -46,11 +46,9 @@ delegation:
         import: Importer les délégations
     message:
         success:
-            new: L'utilisateur a été ajouté avec succès
-            edit: L'utilisateur a été modifié avec succès
-            remove: L'utilisateur a été supprimé avec succès
-            enable: L'utilisateur a été activé avec succès
-            disable: L'utilisateur a été désactivé avec succès
+            new: La délégation a été ajoutée avec succès
+            edit: La délégation a été modifiée avec succès
+            remove: La délégation a été supprimée avec succès
         up_to_date: Aucune modification n'a été trouvée.
 
 generic:

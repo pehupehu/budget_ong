@@ -129,9 +129,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/admin/user/{id}/remove", name="admin_user_remove")
-     * 
-     * @param User $user
+     *
      * @param Session $session
+     * @param User $user
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -148,9 +148,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/admin/user/{id}/disable", name="admin_user_disable")
-     * 
-     * @param User $user
+     *
      * @param Session $session
+     * @param User $user
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -169,9 +169,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/admin/user/{id}/enable", name="admin_user_enable")
-     * 
-     * @param User $user
+     *
      * @param Session $session
+     * @param User $user
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

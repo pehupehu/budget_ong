@@ -191,10 +191,11 @@ class DelegationController extends Controller
      * @Route("/delegation/new", name="delegation_new")
      * 
      * @param Request $request
+     * @param Session $session
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function new(Request $request)
+    public function new(Request $request, Session $session)
     {
         $delegation = new Delegation();
         $delegation->setId(0);
@@ -212,6 +213,8 @@ class DelegationController extends Controller
             $entityManager->persist($delegation);
             $entityManager->flush();
 
+            $session->getFlashBag()->add('success', 'delegation.message.success.new');
+
             return $this->redirectToRoute('delegation');
         }
 
@@ -224,11 +227,12 @@ class DelegationController extends Controller
      * @Route("/delegation/{id}/edit", name="delegation_edit")
      * 
      * @param Request $request
+     * @param Session $session
      * @param Delegation $delegation
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, Delegation $delegation)
+    public function edit(Request $request, Session $session, Delegation $delegation)
     {
         $form = $this->createForm(DelegationType::class, $delegation);
 
@@ -242,6 +246,8 @@ class DelegationController extends Controller
             $entityManager->persist($delegation);
             $entityManager->flush();
 
+            $session->getFlashBag()->add('success', 'delegation.message.success.edit');
+
             return $this->redirectToRoute('delegation');
         }
 
@@ -253,15 +259,18 @@ class DelegationController extends Controller
     /**
      * @Route("/delegation/{id}/remove", name="delegation_remove")
      * 
+     * @param Session $session
      * @param Delegation $delegation
      * 
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function remove(Delegation $delegation)
+    public function remove(Session $session, Delegation $delegation)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($delegation);
         $entityManager->flush();
+
+        $session->getFlashBag()->add('success', 'delegation.message.success.remove');
 
         return $this->redirectToRoute('delegation');
     }

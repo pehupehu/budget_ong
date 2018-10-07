@@ -301,7 +301,7 @@ class User implements UserInterface, \Serializable
      */
     public function canBeEnable(): bool
     {
-        return $this->isActive() === self::DISABLE;
+        return $this->isActive() == self::DISABLE;
     }
 
     /**
@@ -323,7 +323,7 @@ class User implements UserInterface, \Serializable
      */
     public function canBeDisable(): bool
     {
-        return $this->isActive() === self::ACTIVE;
+        return $this->isActive() == self::ACTIVE;
     }
 
     /**
@@ -335,7 +335,7 @@ class User implements UserInterface, \Serializable
             return false;
         }
 
-        $this->setIsActive(!self::DISABLE);
+        $this->setIsActive(self::DISABLE);
 
         return true;
     }

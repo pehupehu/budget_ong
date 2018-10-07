@@ -67,7 +67,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in pager.iterator %}
+                    {% for key, user in pager.iterator %}
                     <tr class="pp-check-uncheck-row">
                         <td class="text-center">
                             <div class="form-check form-check-inline">
@@ -104,7 +104,8 @@
                             </button>
                             {% if user.canBeEnable %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
-                                    ppboxConfirm('generic.diag_confirm.title'|trans,
+                                    ppboxConfirm('dialogEnable' ~ key,
+                                        'generic.diag_confirm.title'|trans,
                                         'generic.diag_confirm.message'|trans,
                                         'info',
                                         'sm',
@@ -114,7 +115,8 @@
                                 </button>
                             {% elseif user.canBeDisable %}
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="{{
-                                ppboxConfirm('generic.diag_confirm.title'|trans,
+                                ppboxConfirm('dialogDisable' ~ key,
+                                    'generic.diag_confirm.title'|trans,
                                     'generic.diag_confirm.message'|trans,
                                     'warning',
                                     'sm',
@@ -124,7 +126,8 @@
                                 </button>
                             {% endif %}
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
-                            ppboxConfirm('generic.diag_confirm.title'|trans,
+                            ppboxConfirm('dialogRemove' ~ key,
+                                'generic.diag_confirm.title'|trans,
                                 'generic.diag_confirm.message'|trans,
                                 'danger',
                                 'sm',
@@ -144,7 +147,8 @@
                                     </a>
                                     {% if user.canBeEnable %}
                                         <a class="dropdown-item" href="#" onclick="{{
-                                        ppboxConfirm('generic.diag_confirm.title'|trans,
+                                        ppboxConfirm('dialogEnable' ~ key,
+                                            'generic.diag_confirm.title'|trans,
                                             'generic.diag_confirm.message'|trans,
                                             'info',
                                             'sm',
@@ -154,7 +158,8 @@
                                         </a>
                                     {% elseif user.canBeDisable %}
                                         <a class="dropdown-item" href="#" onclick="{{
-                                        ppboxConfirm('generic.diag_confirm.title'|trans,
+                                        ppboxConfirm('dialogDisable' ~ key,
+                                            'generic.diag_confirm.title'|trans,
                                             'generic.diag_confirm.message'|trans,
                                             'info',
                                             'sm',
@@ -164,7 +169,8 @@
                                         </a>
                                     {% endif %}
                                     <a class="dropdown-item" href="#"  onclick="{{
-                                    ppboxConfirm('generic.diag_confirm.title'|trans,
+                                    ppboxConfirm('dialogRemove' ~ key,
+                                        'generic.diag_confirm.title'|trans,
                                         'generic.diag_confirm.message'|trans,
                                         'danger',
                                         'sm',

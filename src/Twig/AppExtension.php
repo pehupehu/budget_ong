@@ -28,9 +28,6 @@ final class AppExtension extends \Twig_Extension
     /** @var User $user */
     private $user;
 
-    /** @var int */
-    private static $ppbox_dialog = 0;
-
     public function __construct(
         RequestStack $requestStack,
         Packages $packages,
@@ -62,6 +59,7 @@ final class AppExtension extends \Twig_Extension
             new \Twig_SimpleFunction('renderNavbar', array($this, 'renderNavbar'), ['is_safe' => ['html' => true]]),
             new \Twig_SimpleFunction('ppboxRedirect', array($this, 'ppboxRedirect')),
             new \Twig_SimpleFunction('ppboxConfirm', array($this, 'ppboxConfirm')),
+            new \Twig_SimpleFunction('ppboxAlert', array($this, 'ppboxAlert')),
         );
     }
 
@@ -81,9 +79,9 @@ final class AppExtension extends \Twig_Extension
         return 'PPbox.redirect(\'' . $url . '\');';
     }
 
-    public function ppboxConfirm($title, $text, $theme, $width, $buttons1, $buttons2 = [])
+    public function ppboxAlert($id, $title, $text, $theme, $width, $buttons1, $buttons2 = [])
     {
-        $id = json_encode(++self::$ppbox_dialog);
+        $id = json_encode($id);
         $title = json_encode($title);
         $text = json_encode($text);
         $theme = json_encode($theme);
@@ -93,7 +91,20 @@ final class AppExtension extends \Twig_Extension
 
         return 'PPbox.alert(' . $id . ', ' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
     }
-    
+
+    public function ppboxConfirm($id, $title, $text, $theme, $width, $buttons1, $buttons2 = [])
+    {
+        $id = json_encode($id);
+        $title = json_encode($title);
+        $text = json_encode($text);
+        $theme = json_encode($theme);
+        $width = json_encode($width);
+        $buttons1 = json_encode($buttons1);
+        $buttons2 = json_encode($buttons2);
+
+        return 'PPbox.confirm(' . $id . ', ' . $title . ', ' . $text . ', ' . $theme . ', ' . $width . ', ' . $buttons1 . ', ' . $buttons2 . ');';
+    }
+
     public static function getSupportedLocales()
     {
         return [

@@ -6,43 +6,43 @@ class PPbox {
         window.location.href = url;
     }
 
-    static confirm(num, title, text, theme, width, buttons1, buttons2, buttons3) {
-        if (this.dialog_inc === undefined) {
-            this.dialog_inc = {};
+    static confirm(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+        if (this.dialogs === undefined) {
+            this.dialogs = {};
         }
 
-        if (this.dialog_inc[num] === undefined) {
-            this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
+        if (this.dialogs[id] === undefined) {
+            this.createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3);
         } else {
-            this.openDialog(num);
+            this.openDialog(id);
         }
     }
 
-    static alert(num, title, text, theme, width, buttons1, buttons2, buttons3) {
-        if (this.dialog_inc === undefined) {
-            this.dialog_inc = {};
+    static alert(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+        if (this.dialogs === undefined) {
+            this.dialogs = {};
         }
 
-        if (this.dialog_inc[num] === undefined) {
-            this.createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3);
+        if (this.dialogs[id] === undefined) {
+            this.createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3);
         } else {
-            this.openDialog(num);
+            this.openDialog(id);
         }
     }
 
-    static openDialog(num) {
-        $('#ppboxdialog' + num).dialog('open');
+    static openDialog(id) {
+        $('#ppboxdialog' + id).dialog('open');
     }
 
-    static closeDialog(num) {
-        $('#ppboxdialog' + num).dialog('close');
+    static closeDialog(id) {
+        $('#ppboxdialog' + id).dialog('close');
     }
 
-    static createDialog(num, title, text, theme, width, buttons1, buttons2, buttons3) {
-        if (this.dialog_inc === undefined) {
-            this.dialog_inc = 0;
+    static createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+        if (this.dialogs === undefined) {
+            this.dialogs = 0;
         }
-        this.dialog_inc[num] = true;
+        this.dialogs[id] = true;
 
         let nb_buttons = 0;
         let options = {
@@ -63,7 +63,7 @@ class PPbox {
                 };
             } else {
                 button.click = function() {
-                    PPbox.closeDialog(num);
+                    PPbox.closeDialog(id);
                 }
             }
 
@@ -86,7 +86,7 @@ class PPbox {
                 };
             } else {
                 button.click = function() {
-                    PPbox.closeDialog(num);
+                    PPbox.closeDialog(id);
                 }
             }
 
@@ -100,7 +100,7 @@ class PPbox {
             nb_buttons = nb_buttons+1;
         }
 
-        $(document.body).append('<div id="ppboxdialog' + num + '" title="' + title + '">' + text + '</div>');
-        $('#ppboxdialog' + num).dialog(options);
+        $(document.body).append('<div id="' + id + '" title="' + title + '">' + text + '</div>');
+        $('#' + id).dialog(options);
     }
 }

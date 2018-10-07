@@ -301,9 +301,18 @@ class User implements UserInterface, \Serializable
         return !$this->isActive();
     }
 
+    /**
+     * @return bool
+     */
     public function enable()
     {
+        if (!$this->canBeEnable()) {
+            return false;
+        }
+
         $this->setIsActive(true);
+
+        return true;
     }
 
     /**
@@ -314,9 +323,18 @@ class User implements UserInterface, \Serializable
         return $this->isActive();
     }
 
+    /**
+     * @return bool
+     */
     public function disable()
     {
+        if (!$this->canBeDisable()) {
+            return false;
+        }
+
         $this->setIsActive(false);
+
+        return true;
     }
 
     /**
@@ -327,9 +345,16 @@ class User implements UserInterface, \Serializable
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function remove()
     {
-        // Nothing for the moment
+        if (!$this->canBeRemove()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

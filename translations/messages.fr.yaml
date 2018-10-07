@@ -33,6 +33,10 @@ admin_user:
             remove: L'utilisateur a été supprimé avec succès
             enable: L'utilisateur a été activé avec succès
             disable: L'utilisateur a été désactivé avec succès
+        warning:
+            remove: L'utilisateur n'a pas pu être supprimé
+            enable: L'utilisateur n'a pas pu être activé
+            disable: L'utilisateur n'a pas pu être désactivé
         count_enable: "{1} %count% utilisateur a été activé|]1,Inf[ %count% utilisateurs ont été activés"
         count_disable: "{1} %count% utilisateur a été désactivé|]1,Inf[ %count% utilisateurs ont été désactivés"
         count_remove: "{1} %count% utilisateur a été supprimé|]1,Inf[ %count% utilisateurs ont été supprimés"

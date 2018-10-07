@@ -12,9 +12,11 @@ use App\Tools\Pager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Intl\Locale;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class UserController
@@ -82,17 +84,17 @@ class UserController extends AbstractController
 
         /** @var User $user */
         foreach ($query->execute() as $user) {
-            if ($action === 'enable' && $user->canBeEnable()) {
-                $nb_enable++;
-                $user->enable();
-                $entityManager->persist($user);
-            } elseif ($action === 'disable' && $user->canBeDisable()) {
-                $nb_disable++;
-                $user->disable();
-                $entityManager->persist($user);
-            } elseif ($action === 'remove' && $user->canBeRemove()) {
-                $nb_remove++;
-                $entityManager->remove($user);
+            if ($user->canBeEditBy($this->getUser())) {
+                if ($action === 'enable' && $user->enable()) {
+                    $nb_enable++;
+                    $entityManager->persist($user);
+                } elseif ($action === 'disable' && $user->disable()) {
+                    $nb_disable++;
+                    $entityManager->persist($user);
+                } elseif ($action === 'remove' && $user->remove()) {
+                    $nb_remove++;
+                    $entityManager->remove($user);
+                }
             }
         }
 
@@ -168,7 +170,7 @@ class UserController extends AbstractController
     public function edit(Request $request, FlashBagTranslator $flashBagTranslator, User $user): Response
     {
         if (!$user->canBeEditBy($this->getUser())) {
-            $this->redirectToRoute('error_403');
+            throw new AccessDeniedException();
         }
 
         $form = $this->createForm(UserType::class, $user);
@@ -201,6 +203,10 @@ class UserController extends AbstractController
      */
     public function remove(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
+        if (!$user->canBeEditBy($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         if ($user->remove()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
@@ -208,7 +214,7 @@ class UserController extends AbstractController
 
             $flashBagTranslator->add('success', 'admin_user.message.success.remove');
         } else {
-            $flashBagTranslator->add('success', 'admin_user.message.warning.remove');
+            $flashBagTranslator->add('warning', 'admin_user.message.warning.remove');
         }
         
         return $this->redirectToRoute('admin_user');
@@ -224,6 +230,10 @@ class UserController extends AbstractController
      */
     public function disable(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
+        if (!$user->canBeEditBy($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         if ($user->disable()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -231,7 +241,7 @@ class UserController extends AbstractController
 
             $flashBagTranslator->add('success', 'admin_user.message.success.disable');
         } else {
-            $flashBagTranslator->add('success', 'admin_user.message.warning.disable');
+            $flashBagTranslator->add('warning', 'admin_user.message.warning.disable');
         }
 
         return $this->redirectToRoute('admin_user');
@@ -247,6 +257,10 @@ class UserController extends AbstractController
      */
     public function enable(FlashBagTranslator $flashBagTranslator, User $user): Response
     {
+        if (!$user->canBeEditBy($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         if ($user->enable()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -254,7 +268,7 @@ class UserController extends AbstractController
 
             $flashBagTranslator->add('success', 'admin_user.message.success.enable');
         } else {
-            $flashBagTranslator->add('success', 'admin_user.message.warning.enable');
+            $flashBagTranslator->add('warning', 'admin_user.message.warning.enable');
         }
 
         return $this->redirectToRoute('admin_user');

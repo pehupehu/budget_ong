@@ -103,14 +103,15 @@
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
                                 <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="{{
-                            ppboxConfirm('dialogRemove' ~ key,
-                                'generic.diag_confirm.title'|trans,
-                                'generic.diag_confirm.message'|trans,
-                                'danger',
-                                'sm',
-                                {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                {text: 'generic.diag_confirm.cancel'|trans })}}">
+                            <button type="button" class="btn btn-sm btn-outline-danger ppboxconfirm"
+                                data-ppbox-id="{{ 'dialogRemove' ~ key }}"
+                                data-ppbox-theme="danger"
+                                data-ppbox-width="sm"
+                                data-ppbox-title="{{ 'generic.diag_confirm.title'|trans }}"
+                                data-ppbox-body="{{ 'generic.diag_confirm.message'|trans }}"
+                                data-ppbox-button1="{{ {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) }|json_encode() }}"
+                                data-ppbox-button2="{{ {text: 'generic.diag_confirm.cancel'|trans }|json_encode() }}"
+                            >
                                 <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                             </button>
                         </td>
@@ -123,14 +124,15 @@
                                     <a class="dropdown-item" href="#" onclick="{{ ppboxRedirect(path('delegation_edit', {'id': delegation.id})) }}">
                                         <span class="oi oi-pencil"></span> {{ 'generic.action.edit'|trans }}
                                     </a>
-                                    <a class="dropdown-item" href="#" onclick="{{
-                                    ppboxConfirm('dialogRemove' ~ key,
-                                        'generic.diag_confirm.title'|trans,
-                                        'generic.diag_confirm.message'|trans,
-                                        'danger',
-                                        'sm',
-                                        {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) },
-                                        {text: 'generic.diag_confirm.cancel'|trans })}}">
+                                    <a class="dropdown-item ppboxconfirm" href="#"
+                                       data-ppbox-id="{{ 'dialogRemove' ~ key }}"
+                                       data-ppbox-theme="danger"
+                                       data-ppbox-width="sm"
+                                       data-ppbox-title="{{ 'generic.diag_confirm.title'|trans }}"
+                                       data-ppbox-body="{{ 'generic.diag_confirm.message'|trans }}"
+                                       data-ppbox-button1="{{ {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_remove', {'id': delegation.id}) }|json_encode() }}"
+                                       data-ppbox-button2="{{ {text: 'generic.diag_confirm.cancel'|trans }|json_encode() }}"
+                                    >
                                         <span class="oi oi-trash"></span> {{ 'generic.action.remove'|trans }}
                                     </a>
                                 </div>

@@ -6,39 +6,39 @@ class PPbox {
         window.location.href = url;
     }
 
-    static confirm(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+    static confirm(id, title, body, theme, width, button1, button2, button3) {
         if (this.dialogs === undefined) {
             this.dialogs = {};
         }
 
         if (this.dialogs[id] === undefined) {
-            this.createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3);
+            this.createDialog(id, title, body, theme, width, button1, button2, button3);
         } else {
             this.openDialog(id);
         }
     }
 
-    static alert(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+    static alert(id, title, body, theme, width, button1, button2, button3) {
         if (this.dialogs === undefined) {
             this.dialogs = {};
         }
 
         if (this.dialogs[id] === undefined) {
-            this.createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3);
+            this.createDialog(id, title, body, theme, width, button1, button2, button3);
         } else {
             this.openDialog(id);
         }
     }
 
     static openDialog(id) {
-        $('#ppboxdialog' + id).dialog('open');
+        $('#' + id).dialog('open');
     }
 
     static closeDialog(id) {
-        $('#ppboxdialog' + id).dialog('close');
+        $('#' + id).dialog('close');
     }
 
-    static createDialog(id, title, text, theme, width, buttons1, buttons2, buttons3) {
+    static createDialog(id, title, body, theme, width, button1, button2, button3) {
         if (this.dialogs === undefined) {
             this.dialogs = 0;
         }
@@ -53,13 +53,13 @@ class PPbox {
             buttons: {}
         };
 
-        if (buttons1 !== undefined) {
+        if (button1 !== undefined) {
             let button = {};
 
-            button.text = buttons1.text;
-            if (buttons1.redirect !== undefined) {
+            button.text = button1.text;
+            if (button1.redirect !== undefined) {
                 button.click = function() {
-                    PPbox.redirect(buttons1.redirect);
+                    PPbox.redirect(button1.redirect);
                 };
             } else {
                 button.click = function() {
@@ -67,8 +67,8 @@ class PPbox {
                 }
             }
 
-            if (buttons1.class !== undefined) {
-                button.class = buttons1.class;
+            if (button1.class !== undefined) {
+                button.class = button1.class;
             } else {
                 button.class = 'btn btn-sm btn-dark';
             }
@@ -76,13 +76,13 @@ class PPbox {
             options.buttons[nb_buttons] = button;
             nb_buttons = nb_buttons+1;
         }
-        if (buttons2 !== undefined) {
+        if (button2 !== undefined) {
             let button = {};
 
-            button.text = buttons2.text;
-            if (buttons2.redirect !== undefined) {
+            button.text = button2.text;
+            if (button2.redirect !== undefined) {
                 button.click = function() {
-                    PPbox.redirect(buttons2.redirect);
+                    PPbox.redirect(button2.redirect);
                 };
             } else {
                 button.click = function() {
@@ -90,8 +90,8 @@ class PPbox {
                 }
             }
 
-            if (buttons2.class !== undefined) {
-                button.class = buttons2.class;
+            if (button2.class !== undefined) {
+                button.class = button2.class;
             } else {
                 button.class = 'btn btn-sm btn-outline-dark';
             }
@@ -100,7 +100,7 @@ class PPbox {
             nb_buttons = nb_buttons+1;
         }
 
-        $(document.body).append('<div id="' + id + '" title="' + title + '">' + text + '</div>');
+        $(document.body).append('<div id="' + id + '" title="' + title + '">' + body + '</div>');
         $('#' + id).dialog(options);
     }
 }

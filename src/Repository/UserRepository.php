@@ -21,7 +21,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     {
         return $this->createQueryBuilder('u')
             ->where('u.username = :username')
+            ->andWhere('u.isActive = :isActive')
             ->setParameter('username', $username)
+            ->setParameter('isActive', User::ACTIVE)
             ->getQuery()
             ->getOneOrNullResult();
     }

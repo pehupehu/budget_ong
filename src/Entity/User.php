@@ -16,6 +16,9 @@ class User implements UserInterface, \Serializable
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
 
+    const ACTIVE = 1;
+    const DISABLE = 0;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -194,7 +197,7 @@ class User implements UserInterface, \Serializable
      */
     public function isActive(): bool
     {
-        return $this->isActive;
+        return $this->isActive == self::ACTIVE;
     }
 
     public function setIsActive(bool $isActive): self
@@ -266,7 +269,7 @@ class User implements UserInterface, \Serializable
 
     public function getIsActive(): ?bool
     {
-        return $this->isActive;
+        return $this->isActive === self::ACTIVE;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -298,7 +301,7 @@ class User implements UserInterface, \Serializable
      */
     public function canBeEnable(): bool
     {
-        return !$this->isActive();
+        return $this->isActive() === self::DISABLE;
     }
 
     /**
@@ -310,7 +313,7 @@ class User implements UserInterface, \Serializable
             return false;
         }
 
-        $this->setIsActive(true);
+        $this->setIsActive(self::ACTIVE);
 
         return true;
     }
@@ -320,7 +323,7 @@ class User implements UserInterface, \Serializable
      */
     public function canBeDisable(): bool
     {
-        return $this->isActive();
+        return $this->isActive() === self::ACTIVE;
     }
 
     /**
@@ -332,7 +335,7 @@ class User implements UserInterface, \Serializable
             return false;
         }
 
-        $this->setIsActive(false);
+        $this->setIsActive(!self::DISABLE);
 
         return true;
     }

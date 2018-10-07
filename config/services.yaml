@@ -35,3 +35,14 @@ services:
         arguments: ['%kernel.default_locale%']
         # uncomment the next line if you are not using autoconfigure
         # tags: [kernel.event_subscriber]
+
+    App\EventSubscriber\UserLocaleSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onInteractiveLogin, priority: 15 }
+
+    entity.event_listener.user_update:
+        class:  App\EventListener\Entity\UserListener
+        arguments: ["@security.token_storage"]
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }

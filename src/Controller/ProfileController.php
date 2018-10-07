@@ -8,6 +8,7 @@ use App\Tools\FlashBagTranslator;
 use App\Twig\AppExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -19,8 +20,14 @@ class ProfileController extends Controller
 {
     /**
      * @Route("/profile", name="profile")
+     *
+     * @param Request $request
+     * @param FlashBagTranslator $flashBagTranslator
+     * @param UserPasswordEncoderInterface $encoder
+     *
+     * @return Response
      */
-    public function index(Request $request, FlashBagTranslator $flashBagTranslator, UserPasswordEncoderInterface $encoder)
+    public function index(Request $request, FlashBagTranslator $flashBagTranslator, UserPasswordEncoderInterface $encoder): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user);
@@ -34,6 +41,8 @@ class ProfileController extends Controller
             $entityManager->flush();
 
             $flashBagTranslator->add('success', 'profile.message.success');
+
+            return $this->redirectToRoute('profile');
         }
 
         return $this->render('profile.html.twig', [
@@ -43,8 +52,12 @@ class ProfileController extends Controller
 
     /**
      * @Route("/profile/{_locale}/locale", name="profile_switch_locale", requirements={"_locale"="[a-z]{2}"})
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
-    public function switchLocale(Request $request)
+    public function switchLocale(Request $request): Response
     {
         $referer = $request->headers->get('referer');
         if ($referer) {
@@ -57,6 +70,6 @@ class ProfileController extends Controller
             $request->getSession()->set('_locale', $request->getDefaultLocale());
         }
 
-        return $this->redirect($this->generateUrl('index'));
+        return $this->redirectToRoute('index');
     }
 }

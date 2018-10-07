@@ -51,8 +51,8 @@ class UserListener
                     continue;
                 }
 
-                // Locale ->
-                if ($key === 'locale') {
+                // Locale -> change locale session
+                if ($key === 'locale' && $loggedUser === $entity) {
                     $this->session->set('_locale', $entity->getLocale());
                 }
 

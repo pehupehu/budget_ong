@@ -1,7 +1,8 @@
 
-let check_uncheck_all = $('.table-listing .pp-check-uncheck-all')
-    , check_uncheck_id = $('.table-listing .pp-check-uncheck-id')
-    , check_uncheck_action = $('.pp-check-uncheck-action');
+let check_uncheck_all = $('.table-listing .pp-check-uncheck-all'),
+    check_uncheck_id = $('.table-listing .pp-check-uncheck-id'),
+    check_uncheck_action = $('.pp-check-uncheck-action'),
+    check_uncheck_action_confirm = $('.pp-check-uncheck-action-confirm');
 
 check_uncheck_all.on('click', function() {
     let toogle = $(this).prop('checked');
@@ -11,7 +12,7 @@ check_uncheck_all.on('click', function() {
 
 check_uncheck_id.on('change', function() {
     let row = $(this).parents('.pp-check-uncheck-row');
-    
+
     if ($(this).prop('checked')) {
         row.addClass('bg-light');
     } else {
@@ -20,7 +21,7 @@ check_uncheck_id.on('change', function() {
 });
 
 check_uncheck_action.on('click', function() {
-    let uri = $(this).data('target');  
+    let uri = $(this).data('target');
     let ids = [];
     check_uncheck_id.each(function () {
         if ($(this).prop('checked')) {
@@ -29,10 +30,18 @@ check_uncheck_action.on('click', function() {
     });
     if (ids.length && uri !== undefined) {
         let url = uri + '?ids=' + JSON.stringify(ids);
-        if ($(this).data('confirm') !== undefined) {
-            // TODO
-        } else {
-            PPbox.redirect(url);
+        PPbox.redirect(url);
+    }
+});
+
+check_uncheck_action_confirm.on('click', function() {
+    let ids = [];
+    check_uncheck_id.each(function () {
+        if ($(this).prop('checked')) {
+            ids.push($(this).data('id'));
         }
+    });
+    if (ids.length && uri !== undefined) {
+        let url = uri + '?ids=' + JSON.stringify(ids);
     }
 });

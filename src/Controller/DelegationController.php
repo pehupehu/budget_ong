@@ -35,9 +35,9 @@ class DelegationController extends Controller
 {
     /**
      * @Route("/delegation", name="delegation")
-     * 
+     *
      * @param Request $request
-     * 
+     *
      * @return Response
      */
     public function index(Request $request): Response
@@ -116,16 +116,16 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/import/1", name="delegation_import_step_1")
-     * 
+     *
      * @param Request $request
      * @param SessionInterface $session
-     * 
+     *
      * @return Response
      */
     public function import_step_1(Request $request, SessionInterface $session): Response
     {
         $file_headers_required = ['code', 'name'];
-        
+
         $form = $this->createForm(GenericImportStep1Type::class, null, ['file_headers_required' => $file_headers_required]);
 
         $form->handleRequest($request);
@@ -136,10 +136,10 @@ class DelegationController extends Controller
 
             $serializer = new Serializer([new ObjectNormalizer()], [new CsvEncoder()]);
             $data = $serializer->decode(file_get_contents($file->getPathname()), 'csv');
-            
+
             // Mise en session de l'import
             $session->set('delegation_import', $data);
-            
+
             // Redirection vers l'assistant d'import
             return $this->redirectToRoute('delegation_import_step_2');
         }
@@ -151,12 +151,12 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/import/2", name="delegation_import_step_2")
-     * 
+     *
      * @param Request $request
      * @param SessionInterface $session
      * @param FlashBagTranslator $flashBagTranslator
      * @param LoggerInterface $logger
-     * 
+     *
      * @return Response
      */
     public function import_step_2(Request $request, SessionInterface $session, FlashBagTranslator $flashBagTranslator, LoggerInterface $logger): Response
@@ -170,14 +170,14 @@ class DelegationController extends Controller
         $delegations_by_code = $delegationRepo->getDelegationsByCode();
 
         $data = $session->get('delegation_import');
-        
+
         foreach ($data as $row) {
             $import = new Delegation();
             $import->setCode($row['code']);
             $import->setName($row['name']);
-            
+
             $match = $delegations_by_code[$import->getCode()] ?? null;
-            
+
             if ($match === null || !$import->equal($match)) {
                 $resolve = $match ? GenericImportResolveType::RESOLVE_OVERWRITE : GenericImportResolveType::RESOLVE_ADD;
 
@@ -254,10 +254,10 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/new", name="delegation_new")
-     * 
+     *
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
-     * 
+     *
      * @return Response
      */
     public function new(Request $request, FlashBagTranslator $flashBagTranslator): Response
@@ -290,11 +290,11 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/{id}/edit", name="delegation_edit")
-     * 
+     *
      * @param Request $request
      * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
-     * 
+     *
      * @return Response
      */
     public function edit(Request $request, FlashBagTranslator $flashBagTranslator, Delegation $delegation): Response
@@ -323,10 +323,10 @@ class DelegationController extends Controller
 
     /**
      * @Route("/delegation/{id}/remove", name="delegation_remove")
-     * 
+     *
      * @param FlashBagTranslator $flashBagTranslator
      * @param Delegation $delegation
-     * 
+     *
      * @return Response
      */
     public function remove(FlashBagTranslator $flashBagTranslator, Delegation $delegation): Response

@@ -54,7 +54,7 @@
                            data-ppbox-width="sm"
                            data-ppbox-title="{{ 'generic.diag_confirm.title'|trans }}"
                            data-ppbox-body="{{ 'generic.diag_confirm.message'|trans }}"
-                           data-ppbox-button1="{{ {text: 'generic.diag_confirm.confirm'|trans, redirect: path('delegation_action', {'action': 'remove'}) }|json_encode() }}"
+                           data-ppbox-button1="{{ {text: 'generic.diag_confirm.confirm'|trans, route: 'delegation_action', route_params: {'action': 'remove'} }|json_encode() }}"
                            data-ppbox-button2="{{ {text: 'generic.diag_confirm.cancel'|trans }|json_encode() }}"
                         >
                             {{ 'generic.action.remove'|trans }}

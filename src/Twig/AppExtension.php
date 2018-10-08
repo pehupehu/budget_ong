@@ -109,7 +109,7 @@ final class AppExtension extends \Twig_Extension
     {
         return [
             'fr' => 'fr',
-            'us' => 'us',
+            'en' => 'en',
         ];
     }
 }

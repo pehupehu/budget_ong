@@ -12,9 +12,9 @@ class PPbox {
         }
 
         if (this.dialogs[id] === undefined) {
-            this.createDialog(id, title, body, theme, width, button1, button2, button3);
+            this._createDialog(id, title, body, theme, width, button1, button2, button3);
         } else {
-            this.openDialog(id);
+            this._openDialog(id, title, body, theme, width, button1, button2, button3);
         }
     }
 
@@ -24,27 +24,35 @@ class PPbox {
         }
 
         if (this.dialogs[id] === undefined) {
-            this.createDialog(id, title, body, theme, width, button1, button2, button3);
+            this._createDialog(id, title, body, theme, width, button1, button2, button3);
         } else {
-            this.openDialog(id);
+            this._openDialog(id, title, body, theme, width, button1, button2, button3);
         }
     }
 
-    static openDialog(id) {
-        $('#' + id).dialog('open');
+    static _openDialog(id, title, body, theme, width, button1, button2, button3) {
+        let d = $('#' + id);
+        d.data('title', title);
+        d.html(body);
+        d.dialog(this._buildOptions(id, theme, width, button1, button2, button3));
+        d.dialog('open');
     }
 
-    static closeDialog(id) {
+    static _closeDialog(id) {
         $('#' + id).dialog('close');
     }
 
-    static createDialog(id, title, body, theme, width, button1, button2, button3) {
+    static _createDialog(id, title, body, theme, width, button1, button2, button3) {
         if (this.dialogs === undefined) {
             this.dialogs = 0;
         }
         this.dialogs[id] = true;
 
-        let nb_buttons = 0;
+        $(document.body).append('<div id="' + id + '" title="' + title + '">' + body + '</div>');
+        $('#' + id).dialog(this._buildOptions(id, theme, width, button1, button2, button3));
+    }
+
+    static _buildOptions(id, theme, width, button1, button2, button3) {
         let options = {
             classes: {
                 "ui-dialog": ("ui-corner-all ui-dialog-" + theme + " ui-dialog-" + width),
@@ -53,54 +61,103 @@ class PPbox {
             buttons: {}
         };
 
-        if (button1 !== undefined) {
-            let button = {};
+        options.buttons = this._buildButtons(id, button1, button2, button3);
 
-            button.text = button1.text;
-            if (button1.redirect !== undefined) {
-                button.click = function() {
-                    PPbox.redirect(button1.redirect);
-                };
-            } else {
-                button.click = function() {
-                    PPbox.closeDialog(id);
+        return options;
+    }
+
+    static _buildButton(id, button, params) {
+        if (button.route !== undefined) {
+            if (button.route_params === undefined) {
+                button.route_params = {};
+            }
+
+            if (params !== undefined) {
+                for (var key in params) {
+                    button.route_params[key] = params[key];
                 }
             }
 
-            if (button1.class !== undefined) {
-                button.class = button1.class;
-            } else {
-                button.class = 'btn btn-sm btn-dark';
+            button.click = function () {
+                let url = Routing.generate(button.route, button.route_params);
+                PPbox.redirect(url);
+            };
+        } else if (button.redirect !== undefined) {
+            button.click = function () {
+                PPbox.redirect(button.redirect);
+            };
+        } else {
+            button.click = function () {
+                PPbox._closeDialog(id);
             }
+        }
 
-            options.buttons[nb_buttons] = button;
+        if (button.class === undefined) {
+            button.class = 'btn btn-sm btn-dark';
+        }
+
+        return button;
+    }
+
+    static _buildButtons(id, button1, button2, button3) {
+        let nb_buttons = 0,
+            buttons = {};
+
+        if (button1 !== undefined) {
+            buttons[nb_buttons] = this._buildButton(id, button1);
             nb_buttons = nb_buttons+1;
         }
         if (button2 !== undefined) {
-            let button = {};
-
-            button.text = button2.text;
-            if (button2.redirect !== undefined) {
-                button.click = function() {
-                    PPbox.redirect(button2.redirect);
-                };
-            } else {
-                button.click = function() {
-                    PPbox.closeDialog(id);
-                }
-            }
-
-            if (button2.class !== undefined) {
-                button.class = button2.class;
-            } else {
-                button.class = 'btn btn-sm btn-outline-dark';
-            }
-
-            options.buttons[nb_buttons] = button;
+            buttons[nb_buttons] = this._buildButton(id, button2);
             nb_buttons = nb_buttons+1;
         }
+        if (button3 !== undefined) {
+            buttons[nb_buttons] = this._buildButton(id, button3);
+        }
 
-        $(document.body).append('<div id="' + id + '" title="' + title + '">' + body + '</div>');
-        $('#' + id).dialog(options);
+        return buttons;
     }
+
+    static dialog(type, config, params) {
+        let id = config.data('ppbox-id'),
+            title = config.data('ppbox-title'),
+            body = config.data('ppbox-body'),
+            theme = config.data('ppbox-theme'),
+            width = config.data('ppbox-width'),
+            button1 = config.data('ppbox-button1'),
+            button2 = config.data('ppbox-button2'),
+            button3 = config.data('ppbox-button3');
+
+        if (params !== undefined) {
+            if (button1 !== undefined) {
+                button1 = PPbox._buildButton(id, button1, params);
+            }
+            if (button2 !== undefined) {
+                button2 = PPbox._buildButton(id, button2, params);
+            }
+            if (button3 !== undefined) {
+                button3 = PPbox._buildButton(id, button3, params);
+            }
+        }
+
+        if (type === 'confirm') {
+            this.confirm(id, title, body, theme, width, button1, button2, button3);
+        } else if (type === 'alert') {
+            this.alert(id, title, body, theme, width, button1, button2, button3);
+        }
+    }
+
+    static init() {
+        let ppboxconfirm = $('.ppboxconfirm'),
+            ppboxalert = $('.ppboxalert');
+
+        ppboxconfirm.on('click', function () {
+            PPbox.dialog('confirm', $(this));
+        });
+
+        ppboxalert.on('click', function () {
+            PPbox.dialog('alert', $(this));
+        });
+    }
+
 }

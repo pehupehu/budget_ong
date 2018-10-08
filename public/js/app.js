@@ -1,0 +1,2 @@
+PPbox.init();
+PPcheck.init();

@@ -113,6 +113,15 @@ generic:
         violation:
             file_headers: L'entête doit contenir les champs file_headers_required
 
+login:
+    title: Identifiez-vous
+    field:
+        username: Utilisateur
+        password: Mot de passe
+        remember_me: Se souvenir
+    action:
+        login: Se connecter
+
 error:
     standard:
         title: Erreur
